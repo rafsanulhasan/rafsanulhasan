@@ -6,7 +6,7 @@ Me name is Rafsanul Hasan and here is a little information about me:
 - 🌱 I’m currently learning ... Kubernetes, Microservices and Enterprise Architecture
 - 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on
 - 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture
-- 💬 Ask me about ... 
+- 💬 Let's discuss about ... 
   ### Web Technologies: Markup/Scripting Languages, StyleSheets
     ![](https://img.shields.io/badge/HTML5-Markup_Language-blue?style=for-the-badge&logo=html5) ![](https://img.shields.io/badge/CSS-StyleSheets-blue?style=for-the-badge&logo=css3) ![](https://img.shields.io/badge/SASS-StyleSheets-blue?style=for-the-badge&logo=sass) ![](https://img.shields.io/badge/JavaScript-Scripting_Language-blue?style=for-the-badge&logo=javascript) ![](https://img.shields.io/badge/TypeScript-Scripting_Language-blue?style=for-the-badge&logo=typescript) ![](https://img.shields.io/badge/Angular-JS_SPA_Framework-blue?style=for-the-badge&logo=angular) ![](https://img.shields.io/badge/React-JS_SPA_Library-blue?style=for-the-badge&logo=react)  
   ### Microsoft Ecosystem
@@ -40,7 +40,28 @@ Me name is Rafsanul Hasan and here is a little information about me:
       "Command Query Responsibility Segragation (CQRS)", 
       "Domain Driven Design (DDD)"
     ],      
-    "Design": ["Builder", "Factory", "Abstract Factory", "Strategy"]
+    "Design": ["Builder", "Factory", "Abstract Factory", "Strategy", "Mediator", "Decorator", "Facade", "Adapter", "Singleton", "Template Method", "Observer", "State", "Composite"]
+  },
+  "Database": {
+    "Relational": ["MSSQL", "MySQL"],
+    "No-SQL": ["Mongo DB", "DocumentDB" , "Azure Cosmos DB", "AWS DynamoDB, "Firebase Real-time DB"],    
+    "ORMs": {
+      "Entity Framework": ["DB-First", "Code-First"]
+      "The Sharp Factory": "DB-First"
+    },
+    "Misc": {
+      "Common DB concetps": ["Normalizing DB", "Stored Procedures", "Functions", "Triggers", "Views"],
+      "Non-Functional requirement concepts": [
+        {
+          "name": "Load-Balancing and Fail-over",
+          "concepts": [ "Master-Slave", "Backup & Retention", "Multi-Region", "Storage" ]
+        },
+        {
+          "name": "Backup",
+          "concepts": [ "Backup", "Restore", "Retention" ]
+        }
+      ]
+    }
   },
   "Programming": {
     "Paradigms": ["Reactive Programming", "Asynchronous Programming", "Multi-threading", "Parallel Programming"],
@@ -49,7 +70,13 @@ Me name is Rafsanul Hasan and here is a little information about me:
       "Styling": ["CSS", "SASS"],
       "Scripting": ["Javascript", "TypeScript", "VB Script"]
       "Object Oriented": ["Java", "C#", "C++"]
-    }
+    },
+    "Core": ["Problem Solving", "Memory Optimization", "Working with Memory, Garbage Collectors & GC", "Memory Leaks"]
+  },
+  "App Development": {
+    "Web": ["Multi-Page Applications (ASP.NET MVC, Vanilla JS)", "Single Page Applications (React, Angular, Blazor)"],
+    "Cross Platform": ["Linux", "Android", "Tizen", "iOS", "macOS", "Windows (WPF+UWP)"], // using Xamarin and/or Blazor
+    "Hybrid": ["Apache Cordova", "Electron", "Blazor", "Angular Hybrid"]
   }
 }
 ```
