@@ -3,16 +3,22 @@
 Me name is Rafsanul Hasan and here is a little information about me:
 
 - 🔭 I’m currently working on ... [The Sharp Factory Samples](https://www.github.com/thesharpfactory/samples)
-- 🌱 I’m currently learning ... Kubernetes, Microservices and Enterprise Architecture, Data Science and analytics Python
-- 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on
-- 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture
+- 🌱 I’m currently learning ... 
+    - Kubernetes (CKA) 
+    - Microservices and Enterprise Architecture
+    - Data Science and analytics Python 
+    - Azure Solution Architect Certification Path
+- 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on for my small startup
+- 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture, Design Patterns - Gang of Four
 - 💬 Let's discuss about ... 
   ### Web Technologies: Markup/Scripting Languages, StyleSheets
-    ![](https://img.shields.io/badge/HTML5-Markup_Language-blue?style=for-the-badge&logo=html5) ![](https://img.shields.io/badge/CSS-StyleSheets-blue?style=for-the-badge&logo=css3) ![](https://img.shields.io/badge/SASS-StyleSheets-blue?style=for-the-badge&logo=sass) ![](https://img.shields.io/badge/JavaScript-Scripting_Language-blue?style=for-the-badge&logo=javascript) ![](https://img.shields.io/badge/TypeScript-Scripting_Language-blue?style=for-the-badge&logo=typescript) ![](https://img.shields.io/badge/Angular-JS_SPA_Framework-blue?style=for-the-badge&logo=angular) ![](https://img.shields.io/badge/React-JS_SPA_Library-blue?style=for-the-badge&logo=react)  
+    ![](https://img.shields.io/badge/HTML5-Markup_Language-blue?style=flat-square&logo=html5) ![](https://img.shields.io/badge/CSS-StyleSheets-blue?style=flat-square&logo=css3) ![](https://img.shields.io/badge/SASS-StyleSheets-blue?style=flat-square&logo=sass) ![](https://img.shields.io/badge/JavaScript-Scripting_Language-blue?style=flat-square&logo=javascript) ![](https://img.shields.io/badge/TypeScript-Scripting_Language-blue?style=flat-square&logo=typescript) ![](https://img.shields.io/badge/Angular-JS_SPA_Framework-blue?style=flat-square&logo=angular) ![](https://img.shields.io/badge/React-JS_SPA_Library-blue?style=flat-square&logo=react)  
   ### Microsoft Ecosystem
-    ![](https://img.shields.io/badge/C%23-Programming_Language-blue?style=for-the-badge&logo=c-sharp) ![](https://img.shields.io/badge/Net_Core-Framework-blue?style=for-the-badge&logo=.net), ![](https://img.shields.io/badge/Xamarin-Cross_Platform_App_Development-blue?style=for-the-badge&logo=Xamarin) ![](https://img.shields.io/badge/Visual_Studio-IDE-blue?style=for-the-badge&logo=visual-studio) ![](https://img.shields.io/badge/Visual_Studio_Code-Code_Editor-blue?style=for-the-badge&logo=visual-studio-code)
+    ![](https://img.shields.io/badge/C%23-Programming_Language-blue?style=flat-square&logo=c-sharp) ![](https://img.shields.io/badge/Net_Core-Framework-blue?style=flat-square&logo=.net), ![](https://img.shields.io/badge/Xamarin-Cross_Platform_App_Development-blue?style=flat-square&logo=Xamarin) ![](https://img.shields.io/badge/Visual_Studio-IDE-blue?style=flat-square&logo=visual-studio) ![](https://img.shields.io/badge/Visual_Studio_Code-Code_Editor-blue?style=flat-square&logo=visual-studio-code)
   ### Application Life-cycle Management (ALM), Process Management, Source Control & Change Management (SCCM) and DevOps
-    ![](https://img.shields.io/badge/Git-SCCM-blue?style=for-the-badge&logo=git) ![](https://img.shields.io/badge/GitHub-SCCM-blue?style=for-the-badge&logo=github) ![](https://img.shields.io/badge/Bit_Bucket-SCCM-blue?style=for-the-badge&logo=bitbucket) ![](https://img.shields.io/badge/GitHub-SCCM-blue?style=for-the-badge&logo=github) ![](https://img.shields.io/badge/Azure_DevOps-DevOps-blue?style=for-the-badge&logo=azure-devops) ![](https://img.shields.io/badge/Azure_Pipelines-CI%2FCD-blue?style=for-the-badge&logo=azure-pipelines) ![](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-blue?style=for-the-badge&logo=github-actions) ![](https://img.shields.io/badge/AppVeyor-CI%2FCD-blue?style=for-the-badge&logo=appveyor) 
+    ![](https://img.shields.io/badge/Git-SCCM-blue?style=flat-square&logo=git) ![](https://img.shields.io/badge/GitHub-SCCM-blue?style=flat-square&logo=github) ![](https://img.shields.io/badge/Bit_Bucket-SCCM-blue?style=flat-square&logo=bitbucket) ![](https://img.shields.io/badge/GitHub-SCCM-blue?style=flat-square&logo=github) ![](https://img.shields.io/badge/Azure_DevOps-DevOps-blue?style=flat-square&logo=azure-devops) ![](https://img.shields.io/badge/Azure_Pipelines-CI%2FCD-blue?style=flat-square&logo=azure-pipelines) ![](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-blue?style=flat-square&logo=github-actions) ![](https://img.shields.io/badge/AppVeyor-CI%2FCD-blue?style=flat-square&logo=appveyor) 
+  ###  Cross Platform App Development ![](https://img.shields.io/badge/-Xamarin-blue?style=flat&logo=xamarin) ![](https://img.shields.io/badge/-React_Native-blue?style=flat&logo=react)
+    ![](https://img.shields.io/badge/Linux-Xamarin_and_GTK%23-blue?style=flat-square&logo=linux) ![](https://img.shields.io/badge/Android-Xamarin_and_React_Native-blue?style=flat-square&logo=android) ![](https://img.shields.io/badge/iOS-Xamarin_and_React_Native-blue?style=flat-square&logo=ios) ![](https://img.shields.io/badge/macOS-Xamarin-blue?style=flat-square&logo=apple) ![](https://img.shields.io/badge/Tizen-Xamarin_and_GTK%23-blue?style=flat-square&logo=samsung) ![](https://img.shields.io/badge/Windows-UWP_(Xamarin)-blue?style=flat-square&logo=windows) ![](https://img.shields.io/badge/Windows-WPF_(Xamarin)-blue?style=flat-square&logo=windows) 
 - 📫 How to reach me: ... ![](https://img.shields.io/badge/Email-rafsanulhasan%40outlook.com-blue?style=social&logo=microsoft-outlook) ![Connect_LinkedIn](https://img.shields.io/badge/Connect-rafsanulhasan-blue?style=social&logo=LinkedIn) ![Twitter Follow](https://img.shields.io/twitter/follow/rafsanulhasan?style=social)
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ... I'm half finish
@@ -89,7 +95,7 @@ Me name is Rafsanul Hasan and here is a little information about me:
   },
   "App Development": {
     "Web": ["Multi-Page Applications (ASP.NET MVC, Vanilla JS)", "Single Page Applications (React, Angular, Blazor)"],
-    "Cross Platform": ["Linux", "Android", "Tizen", "iOS", "macOS", "Windows (WPF+UWP)"], // using Xamarin and/or Blazor
+    "Cross Platform": ["Linux", "Android", "Tizen", "iOS", "macOS", "Windows (WPF+UWP)"], // using Xamarin and/or Blazor, React Nartive (iOS & Android only)
     "Hybrid": ["Apache Cordova", "Electron", "Blazor", "Angular Hybrid"]
   }
 }
