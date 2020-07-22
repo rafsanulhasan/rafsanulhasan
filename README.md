@@ -40,7 +40,21 @@ Me name is Rafsanul Hasan and here is a little information about me:
       "Command Query Responsibility Segragation (CQRS)", 
       "Domain Driven Design (DDD)"
     ],      
-    "Design": ["Builder", "Factory", "Abstract Factory", "Strategy", "Mediator", "Decorator", "Facade", "Adapter", "Singleton", "Template Method", "Observer", "State", "Composite"]
+    "Design": [
+        "Builder", 
+        "Factory", 
+        "Abstract Factory",         
+        "Template Method", 
+        "Singleton", 
+        "Facade", 
+        "Strategy", 
+        "Mediator", 
+        "Observer", 
+        "Decorator", 
+        "Adapter", 
+        "State", 
+        "Composite"
+      ]
   },
   "Database": {
     "Relational": ["MSSQL", "MySQL"],
