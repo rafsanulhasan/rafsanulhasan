@@ -3,7 +3,7 @@
 Me name is Rafsanul Hasan and here is a little information about me:
 
 - 🔭 I’m currently working on ... [The Sharp Factory Samples](https://www.github.com/thesharpfactory/samples)
-- 🌱 I’m currently learning ... Kubernetes, Microservices and Enterprise Architecture
+- 🌱 I’m currently learning ... Kubernetes, Microservices and Enterprise Architecture, Data Science and analytics Python
 - 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on
 - 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture
 - 💬 Let's discuss about ... 
