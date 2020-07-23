@@ -69,7 +69,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
         "Composite"
       ]
   },
-  "Process Management":{
+  "Process Management": {
     "Methodologies": [ "SDLC", "Agile" ],
     "Frameworks": [ 
         "Scrum", 
