@@ -79,7 +79,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     ],
     "Misc": [
         "DevOps", 
-        "Automating Build, Static Code Analysis, Test, Code Coverage in CI/CD", 
+        "Automating Build, Static Code Analysis, Test,  Checking Code Coverage process in CI/CD", 
         "Managing Artifacts", 
         "Managing Sprints & Backlogs"
     ],
@@ -105,7 +105,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     "Relational": [ "MSSQL", "MySQL" ],
     "No-SQL": [ "Mongo DB", "DocumentDB" ],    
     "ORMs": {
-      "Entity Framework": [ "DB-First", "Code-First" ],
+      "Entity Framework": [ "DB-First", "Code-First", "Migration", "Seed Data" ],
       "The Sharp Factory": "DB-First"
     },
     "Misc": {
@@ -122,7 +122,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
           "concepts": [            
             "Master-Slave", 
             "Backup & Retention", 
-            "Avauilability (Multi-Region)", 
+            "Availability (Multi-Region)", 
             "Storage",
             "Scaling/Hyper Scaling (Azure)"
         ]
@@ -137,7 +137,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
   "Programming": {
     "Core": [
         "Problem Solving", 
-        "Object oriented Programming/Principles (OOP)", 
+        "Object Oriented Programming/Principles (OOP)", 
         "Memory Optimization", 
         "Working with Memory, Garbage Collection (GC)"
     ]
@@ -148,14 +148,14 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
         "Parallel Programming"
     ],
     "Languages": {
-      "MarkUp/MarkDown": [ "HTML", "GitHub MarkDown", "XML", "XAML", "AXML" ]
+      "MarkUp/MarkDown": [ "HTML", "XML", "XAML", "AXML", "GitHub MarkDown" ]
       "Styling": [ "CSS", "SASS" ],
       "Scripting": [ "Javascript", "TypeScript", "VB Script", "JSON" ]
       "Object Oriented": [ "Java", "C#", "C++" ]
     },
   },
-  "App/Library Development": {
-    "Core": [ "State Management", "Caching"]
+  "App/API/SDK/Library Development": {
+    "Core": [ "State Management", "Caching" ]
     "Web": [
         "Multi-Page Applications (ASP.NET MVC, Vanilla JS)", 
         "Single Page Applications (React, Angular, Blazor)"
