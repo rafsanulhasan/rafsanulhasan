@@ -90,21 +90,43 @@ Me name is Rafsanul Hasan and here is a little information about me:
   "Containerization & Container Orchestration": {
     "Containerization": ["Docker"],
     "Orchestration": ["docker-compose", "Kubernetes (Beginner)"],
-    "Tools": ["Docker Desktop", "Microsoft Tye", "WSL2 (Windows Update 2004) for K8s master node in Wimdows"]
+    "Tools": [
+        "Docker Desktop", 
+        "Microsoft Tye", 
+        "WSL2 (Windows Update 2004) for K8s master node in Wimdows"
+    ]
   },
   "Database Development": {
     "Relational": ["MSSQL", "MySQL"],
-    "No-SQL": ["Mongo DB", "DocumentDB" , "Azure Cosmos DB", "AWS DynamoDB, "Firebase Real-time DB"],    
+    "No-SQL": [
+        "Mongo DB", 
+        "DocumentDB" , 
+        "Azure Cosmos DB", 
+        "AWS DynamoDB, 
+        "Firebase Real-time DB"
+    ],    
     "ORMs": {
       "Entity Framework": ["DB-First", "Code-First"]
       "The Sharp Factory": "DB-First"
     },
     "Misc": {
-      "Common DB concetps": ["Normalizing DB", "Stored Procedures", "Functions", "Triggers", "Views"],
+      "Core DB concetps": [
+        "Normalizing DB", 
+        "Stored Procedures", 
+        "Functions", 
+        "Triggers", 
+        "Views"
+      ],
       "Non-Functional requirement concepts": [
         {
           "name": "Load-Balancing and Fail-over",
-          "concepts": [ "Master-Slave", "Backup & Retention", "Multi-Region", "Storage" ]
+          "concepts": [            
+            "Master-Slave", 
+            "Backup & Retention", 
+            "Avauilability (Multi-Region)", 
+            "Storage",
+            "Scaling/Hyper Scaling (Azure)"
+        ]
         },
         {
           "name": "Backup",
@@ -114,18 +136,31 @@ Me name is Rafsanul Hasan and here is a little information about me:
     }
   },
   "Programming": {
-    "Paradigms": ["Reactive Programming", "Asynchronous Programming", "Multi-threading", "Parallel Programming"],
+    "Core": [
+        "Problem Solving", 
+        "Object oriented Programming/Principles (OOP)", 
+        "Memory Optimization", 
+        "Working with Memory, Garbage Collectors & GC"
+    ]
+    "Paradigms": [
+        "Reactive Programming", 
+        "Asynchronous Programming", 
+        "Multi-threading", 
+        "Parallel Programming"
+    ],
     "Languages": {
       "MarkUp/MarkDown": ["HTML", "GitHub MarkDown", "XML", "XAML", "AXML"]
       "Styling": ["CSS", "SASS"],
       "Scripting": ["Javascript", "TypeScript", "VB Script", "JSON"]
       "Object Oriented": ["Java", "C#", "C++"]
     },
-    "Core": ["Problem Solving", "Memory Optimization", "Working with Memory, Garbage Collectors & GC", "Memory Leaks"]
   },
   "Development": {
-    "Core": ["OOP", "State Management", "Caching"]
-    "Web": ["Multi-Page Applications (ASP.NET MVC, Vanilla JS)", "Single Page Applications (React, Angular, Blazor)"],
+    "Core": ["State Management", "Caching"]
+    "Web": [
+        "Multi-Page Applications (ASP.NET MVC, Vanilla JS)", 
+        "Single Page Applications (React, Angular, Blazor)"
+    ],
     "Cross Platform": [
         "Linux", 
         "Android", 
