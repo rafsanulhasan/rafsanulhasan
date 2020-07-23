@@ -93,8 +93,8 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     ]
   },
   "Containerization & Container Orchestration": {
-    "Containerization": ["Docker"],
-    "Orchestration": ["docker-compose", "Kubernetes (Beginner)"],
+    "Containerization": [ "Docker", "Microsoft Tye" ],
+    "Orchestration": [ "docker-compose", "Kubernetes (Beginner)" ],
     "Tools": [
         "Docker Desktop", 
         "Microsoft Tye", 
@@ -103,13 +103,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
   },
   "Database Development": {
     "Relational": [ "MSSQL", "MySQL" ],
-    "No-SQL": [
-        "Mongo DB", 
-        "DocumentDB" , 
-        "Azure Cosmos DB", 
-        "AWS DynamoDB, 
-        "Firebase Real-time DB"
-    ],    
+    "No-SQL": [ "Mongo DB", "DocumentDB" ],    
     "ORMs": {
       "Entity Framework": [ "DB-First", "Code-First" ],
       "The Sharp Factory": "DB-First"
