@@ -1,6 +1,6 @@
 ### Hi there 👋
 
-Me name is Rafsanul Hasan and here is a little information about me:
+My name is Rafsanul Hasan and here is a little information about my technical skills and expertise:
 
 - 🔭 I’m currently working on ... [The Sharp Factory Samples](https://www.github.com/thesharpfactory/samples)
 - 🌱 I’m currently learning ... 
@@ -70,8 +70,13 @@ Me name is Rafsanul Hasan and here is a little information about me:
       ]
   },
   "Process Management":{
-    "Methodologies": ["SDLC", "Agile"],
-    "Frameworks": ["Scrum", "Kanban", "CMMI (Azure DevOps)", "Agile (Azure DevOps)"],
+    "Methodologies": [ "SDLC", "Agile" ],
+    "Frameworks": [ 
+        "Scrum", 
+        "Kanban", 
+        "CMMI (Azure DevOps)", 
+        "Agile (Azure DevOps)"
+    ],
     "Misc": [
         "DevOps", 
         "Automating Build, Static Code Analysis, Test, Code Coverage in CI/CD", 
@@ -97,7 +102,7 @@ Me name is Rafsanul Hasan and here is a little information about me:
     ]
   },
   "Database Development": {
-    "Relational": ["MSSQL", "MySQL"],
+    "Relational": [ "MSSQL", "MySQL" ],
     "No-SQL": [
         "Mongo DB", 
         "DocumentDB" , 
@@ -106,7 +111,7 @@ Me name is Rafsanul Hasan and here is a little information about me:
         "Firebase Real-time DB"
     ],    
     "ORMs": {
-      "Entity Framework": ["DB-First", "Code-First"]
+      "Entity Framework": [ "DB-First", "Code-First" ],
       "The Sharp Factory": "DB-First"
     },
     "Misc": {
@@ -149,13 +154,13 @@ Me name is Rafsanul Hasan and here is a little information about me:
         "Parallel Programming"
     ],
     "Languages": {
-      "MarkUp/MarkDown": ["HTML", "GitHub MarkDown", "XML", "XAML", "AXML"]
-      "Styling": ["CSS", "SASS"],
-      "Scripting": ["Javascript", "TypeScript", "VB Script", "JSON"]
-      "Object Oriented": ["Java", "C#", "C++"]
+      "MarkUp/MarkDown": [ "HTML", "GitHub MarkDown", "XML", "XAML", "AXML" ]
+      "Styling": [ "CSS", "SASS" ],
+      "Scripting": [ "Javascript", "TypeScript", "VB Script", "JSON" ]
+      "Object Oriented": [ "Java", "C#", "C++" ]
     },
   },
-  "Development": {
+  "App/Library Development": {
     "Core": ["State Management", "Caching"]
     "Web": [
         "Multi-Page Applications (ASP.NET MVC, Vanilla JS)", 
@@ -184,7 +189,12 @@ Me name is Rafsanul Hasan and here is a little information about me:
         "JSON specification: jsonschema.org, ION", 
         "HATEOAS: API Self-Documentation. Data Manipulation: Filtering, Sorting, Paging for RESTful APIs"
     ]
-    "SDK: [".NET", "Java", "JavaScript", "TypeScript"]
+    "SDK: [ ".NET", "Java", "JavaScript", "TypeScript" ]
+  },
+  "Testing": {
+    "Unit & Integration Testing": [ "xUnit", "NUnit" ],    
+    "UI Testing": [ "Xamarin", "Blazor" ],
+    "Load/Performance Testing": [ "JMeter" ]
   },
   "Cloud Technologies": {
     "Providers": [
