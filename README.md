@@ -139,7 +139,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
         "Problem Solving", 
         "Object oriented Programming/Principles (OOP)", 
         "Memory Optimization", 
-        "Working with Memory, Garbage Collectors & GC"
+        "Working with Memory, Garbage Collection (GC)"
     ]
     "Paradigms": [
         "Reactive Programming", 
@@ -155,7 +155,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     },
   },
   "App/Library Development": {
-    "Core": ["State Management", "Caching"]
+    "Core": [ "State Management", "Caching"]
     "Web": [
         "Multi-Page Applications (ASP.NET MVC, Vanilla JS)", 
         "Single Page Applications (React, Angular, Blazor)"
