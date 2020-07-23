@@ -45,8 +45,8 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
   ],  
   "Patterns": {
     "Architectural": [
-      "Model View Controller (MVC)", 
-      "Model View View Model (MVVM)", 
+      "Model-View-Controller (MVC)", 
+      "Model-View-ViewModel (MVVM)", 
       "Redux", 
       "Repository", 
       "Unit of Work (UoW)", 
