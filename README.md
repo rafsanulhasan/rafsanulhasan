@@ -126,8 +126,20 @@ Me name is Rafsanul Hasan and here is a little information about me:
   "Development": {
     "Core": ["OOP", "State Management", "Caching"]
     "Web": ["Multi-Page Applications (ASP.NET MVC, Vanilla JS)", "Single Page Applications (React, Angular, Blazor)"],
-    "Cross Platform": ["Linux", "Android", "Tizen", "iOS", "macOS", "Windows (WPF+UWP)"], 
-    "Hybrid": ["Apache Cordova", "Electron", "Blazor Hybrid (Electron & WebWindow)", "Angular Hybrid"],
+    "Cross Platform": [
+        "Linux", 
+        "Android", 
+        "Tizen", 
+        "iOS", 
+        "macOS", 
+        "Windows (WPF+UWP)"
+    ], 
+    "Hybrid": [
+        "Apache Cordova", 
+        "Electron", 
+        "Blazor Hybrid (Electron & WebWindow)", 
+        "Angular Hybrid"
+    ],
     "API": [
         "REST", 
         "gRPC", 
