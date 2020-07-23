@@ -185,6 +185,103 @@ Me name is Rafsanul Hasan and here is a little information about me:
         "HATEOAS: API Self-Documentation. Data Manipulation: Filtering, Sorting, Paging for RESTful APIs"
     ]
     "SDK: [".NET", "Java", "JavaScript", "TypeScript"]
+  },
+  "Cloud Technologies": {
+    "Providers": [
+        {
+            "name": "Azure"
+            "services": {
+                "Compute": [
+                    "VMs", 
+                    "Web Sites", 
+                    "App Services", 
+                    "Static Web Apps", 
+                    "Azure Kubernetes Service (AKS)",
+                    "Functions"
+                ], 
+                "Storage": [
+                    "File Storage",
+                    "Queue Storage",
+                    "Blob Storage",
+                    "Disk Storage",
+                    "Backup",
+                    "Archive",
+                    "Data Share"
+                ], 
+                "Network": [
+                    "Virtual Network (VNET)", 
+                    "Virtual Private Network (VPN)", 
+                    "Content Delivery Nework (CDN)", 
+                    "Azure Front Door (AFD)", 
+                    "Traffic Manager",
+                    "Domain Name System (DNS)",
+                    "Application Gateway",
+                    "DDoS Protection",
+                    "Firewall",
+                    "Web Application Firewall",
+                    "Private Link",
+                    "Load Balancer"
+                ], 
+                "Databases: [
+                    "Azure SQL",
+                    "MySQL",
+                    "PostgresSQL",
+                    "Table Storage",
+                    "NoSQL (DocumentDB, CosmosDB)",
+                    "Redis Cache"
+                ], 
+                "Containerization & Orchestration": [
+                    "Containerization: ACR, ACI, Web Apps for Containers", 
+                    "Orchestration - AKS, Services Fabric",
+                    "Microservices Development: DevSpaces"
+                ],                 
+                "Security & Identity": [
+                    "Azure Active Direcotry (AAD)",
+                    "Azure Active Direcotry Domain Services (ADDS)",
+                    "AAD Business to Cunsumers (B2C)",
+                    "KeyVault"
+                ],
+                "Integration": {
+                    "API Gateway": "API Management",
+                    "Serverless Integration", "Logic Apps",
+                    "Event Grid",
+                    "Message Brokers": "Service Bus"
+                },
+                "Development Tools": [
+                    "Visual Studio",
+                    "Visual Studio Code",
+                    "Visual Studio CodeSpaces",
+                    "App Configuration"
+                ],
+                "AI+ML": [
+                    "Bot Service",
+                    "Cognitive Service",
+                    "Text to Speech",
+                    "Speech To Text",
+                    "Translation"
+                ]
+            }
+        },
+        {
+            "name": "AWS"
+            "services": [
+                "Compute (VMs)", 
+                "Storage (S3 Bucket)", 
+                "Databases: NoSQL (DynamoDB)", 
+                "Containers & Orchestration: 
+                    Containerization - ECR, ECS, Fargate 
+                    Orchestration - EKS", 
+                "Messgage Brokers (Service Bus)", 
+                
+            ]
+        },
+        {
+            "name": "GCP"
+            "services": [
+                "Databases: NoSQL (Firebase realtime database)"                
+            ]
+        }
+    ]
   }
 }
 ```
