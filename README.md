@@ -1,8 +1,8 @@
-### Hi there 👋
+### Hi there 👋                                                                                                                        [<img align="left" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
 
 My name is Rafsanul Hasan and here is a little information about my technical skills and expertise:                                     [<img align="right" width="400" src="https://github-readme-stats.vercel.app/api?username=rafsanulhasan&&show_icons=true&theme=tokyonight&count_private=true" alt="Rafsan's Github Stats"/>](https://github.com/rafsanulhasan)
 
-- 🔭 I’m currently working on ... [The Sharp Factory Samples](https://www.github.com/thesharpfactory/samples)   <img align="left" src="https://github-readme-stats.vercel.app/api/top-langs/?username=IEvangelist&layout=compact&hide=html" alt="IEvangelist" />
+- 🔭 I’m currently working on ... [The Sharp Factory Samples](https://www.github.com/thesharpfactory/samples)   
 - 🌱 I’m currently learning ... 
     - Kubernetes (CKA) 
     - Microservices and Enterprise Architecture
