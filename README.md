@@ -1,4 +1,4 @@
-### Hi there 👋                                                                                                                        [<img align="left" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
+### Hi there 👋                                                                                                                        
 
 My name is Rafsanul Hasan and here is a little information about my technical skills and expertise:                                     [<img align="right" width="400" src="https://github-readme-stats.vercel.app/api?username=rafsanulhasan&&show_icons=true&theme=tokyonight&count_private=true" alt="Rafsan's Github Stats"/>](https://github.com/rafsanulhasan)
 
@@ -9,7 +9,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     - Data Science and analytics Python 
     - Azure Solution Architect Certification Path
 - 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on for my small startup
-- 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture, Design Patterns - Gang of Four
+- 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture, Design Patterns - Gang of Four  [<img align="left" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
 - 💬 Let's discuss about ... 
   ### Design, Architecture, Principles & Best Practices 
     ![](https://img.shields.io/badge/Architectures-Cloud_Native,_Mobile--First-blue?style=flat-square) ![](https://img.shields.io/badge/Containerization_and_Orchetration-Docker,_Kubernetes,_docker--compose,_swarm,_ACS,_AKS,_ACR,_ECS,_EKS-blue?style=flat-square) ![](https://img.shields.io/badge/Patterns_and_Practices-Design_and_Architectural_Patterns_and_Practices-blue?style=flat-square) ![](https://img.shields.io/badge/Coding_Conventions-C%23,_JavaScript,_TypeScript-blue?style=flat-square) ![](https://img.shields.io/badge/Coupling_and_Cohesion-Loosely_vs_Tightly_Coupling_vs_Decoupling_and_High_Cohesion-blue?style=flat-square) ![](https://img.shields.io/badge/Redunduncy-Load--Balancing,_Fail--Over,_Resiliency_and_Health--Checks-blue?style=flat-square) ![](https://img.shields.io/badge/Observability-Monitoring,_Logging,_and_Tracing-blue?style=flat-square) ![](https://img.shields.io/badge/Handling_Failures-Exception_Handling_and_Graceful_Failures-blue?style=flat-square) ![](https://img.shields.io/badge/Testing-Unit,_Integration,_UI,_Proformance_or_Load_Test-blue?style=flat-square) ![](https://img.shields.io/badge/Static_Code_Analysis--blue?style=flat-square&color=white) ![](https://img.shields.io/badge/OOP--blue?style=flat-square&color=white)
