@@ -3,11 +3,11 @@
 My name is Rafsanul Hasan and here is a little information about my technical skills and expertise:                                     [<img align="right" width="400" src="https://github-readme-stats.vercel.app/api?username=rafsanulhasan&&show_icons=true&theme=tokyonight&count_private=true" alt="Rafsan's Github Stats"/>](https://github.com/rafsanulhasan) 
 
 - 🔭 I’m currently working on ... [The Sharp Factory Samples](https://www.github.com/thesharpfactory/samples)   
-- 🌱 I’m currently learning ...                                                       [<img align="right" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
+- 🌱 I’m currently learning ...                                                       
     - Kubernetes (CKA) 
     - Microservices and Enterprise Architecture
     - Data Science and analytics Python 
-    - Azure Solution Architect Certification Path
+    - Azure Solution Architect Certification Path                     [<img align="right" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
 - 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on for my small startup
 - 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture, Design Patterns - Gang of Four  
 - 💬 Let's discuss about ... 
