@@ -1,18 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>RH.Apps.Web.SPA.Server-997C1D39-9AAC-419E-A3C3-71073E797AF7</UserSecretsId>
+    <UserSecretsId>RH.Apps.Web.SPA.Server-63B48275-7D82-4651-9DF8-12095E0C9320</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.0.0" />
-    <PackageReference Include="Azure.Identity" Version="1.2.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\RH.Apps.Web.SPA.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

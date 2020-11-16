@@ -19,7 +19,6 @@ namespace RH.Apps.Web.SPA.Server.Controllers
 		[HttpGet("_configuration/{clientId}")]
 		public IActionResult GetClientRequestParameters([FromRoute] string clientId)
 		{
-			_logger.Log(LogLevel.Information, "");
 			var parameters = ClientRequestParametersProvider.GetClientParameters(HttpContext, clientId);
 			return Ok(parameters);
 		}
