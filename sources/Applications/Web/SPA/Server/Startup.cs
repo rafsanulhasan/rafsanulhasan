@@ -29,8 +29,10 @@ namespace RH.Apps.Web.SPA.Server
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<ApplicationDbContext>(options =>
-			    options.UseSqlServer(
-				   Configuration.GetConnectionString("DefaultConnection")));
+				options.UseSqlServer(
+					Configuration.GetConnectionString("DefaultConnection")
+				)
+			);
 
 			services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -40,8 +42,9 @@ namespace RH.Apps.Web.SPA.Server
 			services.AddIdentityServer()
 			    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-			services.AddAuthentication()
-			    .AddIdentityServerJwt();
+			services
+				.AddAuthentication()
+				.AddIdentityServerJwt();
 
 			services.AddControllersWithViews();
 			services.AddRazorPages();

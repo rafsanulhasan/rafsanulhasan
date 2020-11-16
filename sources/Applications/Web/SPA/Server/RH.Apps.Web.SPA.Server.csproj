@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\RH.Apps.Web.SPA.Client.csproj" />
+    <ProjectReference Include="..\Shared\RH.Apps.Web.SPA.Shared.csproj" />
   </ItemGroup>
 
 </Project>
