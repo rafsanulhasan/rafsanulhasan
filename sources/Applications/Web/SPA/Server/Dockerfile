@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
-COPY ["Applications/Web/SPA/RH.Apps.Web.SPA.Lite/RH.Apps.Web.SPA.Lite.csproj", "Applications/Web/SPA/RH.Apps.Web.SPA.Lite/"]
-RUN dotnet restore "Applications/Web/SPA/RH.Apps.Web.SPA.Lite/RH.Apps.Web.SPA.Lite.csproj"
+COPY ["Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj", "Applications/Web/SPA/Server/"]
+RUN dotnet restore "Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj"
 COPY . .
-WORKDIR "/src/Applications/Web/SPA/RH.Apps.Web.SPA.Lite"
+WORKDIR "/src/Applications/Web/SPA/Server"
 RUN dotnet build "RH.Apps.Web.SPA.Lite.csproj" -c Release -o /app/build
 
 FROM build AS publish

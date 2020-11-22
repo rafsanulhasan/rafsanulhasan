@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
+using RH.Apps.Web.SPA.Lite.Extensions;
+
 namespace RH.Apps.Web.SPA.Lite
 {
 	public static class Program
@@ -16,15 +18,21 @@ namespace RH.Apps.Web.SPA.Lite
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host
 				.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((_, config) =>
+				.ConfigureAppConfiguration((context, config) =>
 				{
-					var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-					config.AddAzureKeyVault(
-					keyVaultEndpoint,
-					new DefaultAzureCredential());
+					if (!context.HostingEnvironment.IsDevelopment())
+					{
+						var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+						config.AddAzureKeyVault(
+							keyVaultEndpoint,
+							new DefaultAzureCredential()
+						);
+					}
 				})
 				.ConfigureWebHostDefaults(webBuilder
-					=> webBuilder.UseStartup<Startup>()
+					=> webBuilder
+						.UseStartup<Startup>()
+						//.UseKestrel(options => options.ConfigureEndpoints())
 				);
 	}
 }

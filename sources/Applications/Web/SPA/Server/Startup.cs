@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
+using Microsoft.AspNetCore.Server.Kestrel;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,10 +14,17 @@ namespace RH.Apps.Web.SPA.Lite
 {
 	public class Startup
 	{
-		public Startup(IConfiguration configuration)
-			=> Configuration = configuration;
-
+		private readonly IHostEnvironment _hostEnvironment;
 		public IConfiguration Configuration { get; }
+
+		public Startup(
+			IConfiguration configuration,
+			IHostEnvironment hostEnvironment
+		)
+		{
+			Configuration = configuration;
+			_hostEnvironment = hostEnvironment;
+		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -28,7 +32,14 @@ namespace RH.Apps.Web.SPA.Lite
 		{
 			services.AddRazorPages();
 			services.AddServerSideBlazor();
-			services.AddSignalR().AddAzureSignalR();
+			if (!_hostEnvironment.IsDevelopment())
+			{
+				services
+					.AddSignalR()
+					.AddAzureSignalR(
+						opt => Configuration.Bind("Azure:SignalR", opt)
+					);
+			}
 			services.AddSingleton<WeatherForecastService>();
 		}
 
@@ -46,7 +57,23 @@ namespace RH.Apps.Web.SPA.Lite
 				app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			var httpsSection = Configuration.GetSection("HttpServer:Endpoints:Https");
+			if (httpsSection.Exists())
+			{
+				var httpsEndpoint = new Extensions.EndpointConfiguration();
+				httpsSection.Bind(httpsEndpoint);
+				app.UseRewriter(
+					new RewriteOptions()
+						.AddRedirectToHttps(
+							statusCode: env.IsDevelopment()
+							          ? StatusCodes.Status302Found
+									: StatusCodes.Status301MovedPermanently,
+							sslPort: httpsEndpoint.Port
+						)
+				);
+			}
+
+			//app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
 			app.UseRouting();
