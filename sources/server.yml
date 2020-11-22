@@ -6,21 +6,22 @@
 trigger:
   batch: "true"
   branches:
-    include:    
-      - azure*    
-      - feature/*   
-      - feature/*/*
+    include:   
+      - dev
       - staging
-      - master
+      - release
+    exclude: 
+      - feature/*
           
 pr:
   autoCancel: "false"
   branches:
     include:
-      - azure*
       - staging
       - master
       - dev
+    exclude:
+      - feature/*
 
 pool:
   vmImage: 'windows-2019'
@@ -31,7 +32,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
-  isMerge: $[eq(variables.Build.Reason, 'merge')]
+  isMerge: $[eq(variables.Build.Reason, 'Merge')]
   isTargetDev: $[eq(variables.system.pullRequest.targetBranch, 'dev')]
   isTargetStaging: $[eq(variables.system.pullRequest.targetBranch, 'staging')]
   isTargetProd: $[eq(variables.system.pullRequest.targetBranch, 'master')]
@@ -104,58 +105,33 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish project using dotnet cli'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'refs/head/master'))
+  condition: and(eq(variables['isPR'], 'true'), eq(variables['targetBranch'], 'refs/head/master'))
   inputs:
-    command: 'publish'
-    projects: '$(projects)'
-    arguments: '--configuration $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
-    feedsToUse: 'select'
-    versioningScheme: 'off'
-    
-- task: CopyFiles@2
-  displayName: 'Copy packages for alpha'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/dev'))
-  inputs:
-    Contents: '**/*.*preview*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
-    
-- task: CopyFiles@2
-  displayName: 'Copy packages for staging'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/staging'))
-  inputs:
-    Contents: '**/*.*preview*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
-    
-- task: CopyFiles@2
-  displayName: 'Copy packages for release'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/master'))
-  inputs:
-    Contents: '**/*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
+    command: publish
+    publishWebProjects: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'refs/head/master'))
+  condition: and(eq(variables['isPR'], 'true'), eq(variables['targetBranch'], 'refs/head/master'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-prod'
-    publishLocation: 'AppService'
+    publishLocation: 'Container'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/staging'))
+  condition: and(eq(variables['isPR'], 'true'), eq(variables['targetBranch'], 'ref/head/staging'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-beta'
-    publishLocation: 'AppService'
+    publishLocation: 'Container'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/dev'))
+  condition: and(eq(variables['isPR'], 'true'), eq(variables['targetBranch'], 'ref/head/dev'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-alpha'
-    publishLocation: 'AppService'
+    publishLocation: 'Container'
