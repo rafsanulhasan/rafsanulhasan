@@ -33,60 +33,58 @@ variables:
   buildConfiguration: 'Release'
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
   isMerge: $[eq(variables.Build.Reason, 'IndividualCI')]
-  isTargetDev: $[eq(variables.system.pullRequest.targetBranch, 'dev')]
+  isTargetDev: $[eq(variables.system.PullRequest.targetBranch, 'dev')]
   isTargetStaging: $[eq(variables.system.pullRequest.targetBranch, 'staging')]
   isTargetProd: $[eq(variables.system.pullRequest.targetBranch, 'master')]
   Version.Revision.Alpha: $[counter(variables.Version.Revision.Alpha)]
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
-  srcBranch: '$(variables.Build.SourceBranch)'
-  targetBranch: '$(variables.Build.TargetBranch)'
 
 steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/pull/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'refs/pull/*/merge')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     script: 'npm i -g dotnettools'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet Tools'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     checkLatest: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for release'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
     failOnStderr: true
     
 - task: DotNetCoreCLI@2
   displayName: 'Build solution using dotnet cli'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     command: 'build'
     projects: '$(projects)'
@@ -105,7 +103,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish project using dotnet cli'
-  condition: and(eq(variables['isPR'], 'true'), eq(variables['srcBranch'], 'refs/head/master'))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     command: publish
     publishWebProjects: true
@@ -114,7 +112,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isPR'], 'true'), eq(variables['srcBranch'], 'refs/head/master'))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-prod'
@@ -122,7 +120,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isPR'], 'true'), eq(variables['srcBranch'], 'ref/head/staging'))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-beta'
@@ -130,7 +128,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isPR'], 'true'), eq(variables['srcBranch'], 'ref/head/dev'))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['isTargetDev'], 'True'), eq(variables['isTargetStaging'], 'true'), eq(variables['isTargetProd'], 'true')))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-alpha'
