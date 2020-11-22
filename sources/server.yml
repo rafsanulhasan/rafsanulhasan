@@ -81,7 +81,7 @@ steps:
     
 - task: DotNetCoreCLI@2
   displayName: 'Build solution using dotnet cli'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     command: 'build'
     projects: '$(projects)'
