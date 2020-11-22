@@ -27,7 +27,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  projects: 'Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
+  projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
