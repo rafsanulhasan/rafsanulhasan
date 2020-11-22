@@ -44,37 +44,40 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     script: 'npm i -g dotnettools'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet Tools'
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     checkLatest: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: and(succeeded(),eq(variables['srcBranch'], 'refs/head/dev'))
+  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: and(succeeded(),eq(variables['srcBranch'], 'refs/head/staging'))
+  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for release'
-  condition: and(succeeded(),eq(variables['srcBranch'], 'refs/head/master'))
+  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
   inputs:
     script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
     failOnStderr: true
@@ -97,6 +100,16 @@ steps:
     #platform: 'Any CPU'
     #restoreNugetPackages: true # Optional
     #configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish project using dotnet cli'
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'refs/head/master'))
+  inputs:
+    command: 'publish'
+    projects: '$(projects)'
+    arguments: '--configuration $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
+    feedsToUse: 'select'
+    versioningScheme: 'off'
     
 - task: CopyFiles@2
   displayName: 'Copy packages for alpha'
@@ -124,8 +137,24 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'refs/head/master'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+    ArtifactName: 'server-prod'
+    publishLocation: 'AppService'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'ref/head/staging'))
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'server-beta'
+    publishLocation: 'AppService'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'ref/head/dev'))
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'server-alpha'
+    publishLocation: 'AppService'
