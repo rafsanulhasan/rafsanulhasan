@@ -26,7 +26,7 @@ pr:
 pool:
   vmImage: 'windows-2019'
 
-variables.system:
+variables:
   solution: '**/*.sln'
   projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
