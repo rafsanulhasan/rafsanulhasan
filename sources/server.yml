@@ -32,7 +32,7 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
-  isMerge: $[eq(variables.Build.Reason, 'Merge')]
+  isMerge: $[eq(variables.Build.Reason, 'IndividualCI')]
   isTargetDev: $[eq(variables.system.pullRequest.targetBranch, 'dev')]
   isTargetStaging: $[eq(variables.system.pullRequest.targetBranch, 'staging')]
   isTargetProd: $[eq(variables.system.pullRequest.targetBranch, 'master')]
@@ -46,7 +46,7 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['srcBranch'], 'refs/pull/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'refs/pull/*/merge')))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
