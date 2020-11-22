@@ -1,0 +1,130 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  batch: "true"
+  branches:
+    include:    
+      - azure*    
+      - feature/*   
+      - feature/*/*
+      - staging
+      - master
+          
+pr:
+  autoCancel: "false"
+  branches:
+    include:
+      - azure*
+      - staging
+      - master
+      - dev
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  solution: '**/*.sln'
+  projects: 'Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  isPR: $[eq(variables.Build.Reason, 'PullRequest')]
+  isMerge: $[eq(variables.Build.Reason, 'merge')]
+  isTargetDev: $[eq(variables.system.pullRequest.targetBranch, 'dev')]
+  isTargetStaging: $[eq(variables.system.pullRequest.targetBranch, 'staging')]
+  isTargetProd: $[eq(variables.system.pullRequest.targetBranch, 'master')]
+  Version.Revision.Alpha: $[counter(variables.Version.Revision.Alpha)]
+  Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
+  Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
+  srcBranch: '$(variables.Build.SourceBranch)'
+
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK 5.0'
+  inputs:
+    packageType: 'sdk'
+    version: '5.0.100'
+
+- task: CmdLine@2
+  displayName: 'Install DNT'
+  inputs:
+    script: 'npm i -g dotnettools'
+
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet Tools'
+  inputs:
+    checkLatest: true
+    
+- task: CmdLine@2
+  displayName: 'Update project version revesion for preview'
+  condition: and(succeeded(),eq(variables['srcBranch'], 'refs/head/dev'))
+  inputs:
+    script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+    failOnStderr: true
+    
+- task: CmdLine@2
+  displayName: 'Update project version revesion for preview'
+  condition: and(succeeded(),eq(variables['srcBranch'], 'refs/head/staging'))
+  inputs:
+    script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
+    failOnStderr: true
+    
+- task: CmdLine@2
+  displayName: 'Update project version revesion for release'
+  condition: and(succeeded(),eq(variables['srcBranch'], 'refs/head/master'))
+  inputs:
+    script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
+    failOnStderr: true
+    
+- task: DotNetCoreCLI@2
+  displayName: 'Build solution using dotnet cli'
+  inputs:
+    command: 'build'
+    projects: '$(projects)'
+    arguments: '--configuration $(BuildConfiguration)'
+    feedsToUse: 'select'
+    versioningScheme: 'off'
+
+#- task: MSBuild@1
+  #displayName: 'Build solution using msbuild'
+  #inputs:
+    #solution: '$(solution)'  
+    #msbuildArchitecture: 'x64'
+    #platform: 'Any CPU'
+    #restoreNugetPackages: true # Optional
+    #configuration: '$(buildConfiguration)'
+    
+- task: CopyFiles@2
+  displayName: 'Copy packages for alpha'
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'ref/head/dev'))
+  inputs:
+    Contents: '**/*.*preview*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+    
+- task: CopyFiles@2
+  displayName: 'Copy packages for staging'
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'ref/head/staging'))
+  inputs:
+    Contents: '**/*.*preview*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+    
+- task: CopyFiles@2
+  displayName: 'Copy packages for release'
+  condition: and(eq(variables['isMerge'], 'true'), eq(variables['srcBranch'], 'ref/head/master'))
+  inputs:
+    Contents: '**/*.nupkg'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['srcBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
