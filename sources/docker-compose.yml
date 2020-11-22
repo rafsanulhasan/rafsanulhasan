@@ -1,0 +1,16 @@
+  version: '3.4'
+  services:
+    #rafsandb:
+      #image: mcr.microsoft.com/mssql/server:2017-latest
+      #container_name: rafsanulhasan-mssql-db-server
+    rafsanwebapp-client:
+      image: rafsanulhasan/rafsanulhasanapp/clientwebapp:latest
+      container_name: rafsanulhasan-clientwebapp-server
+      depends_on:
+        #- rafsandb
+        - rafsanwebapp-server
+    rafsanwebapp-server:
+      image: rafsanulhasan/rafsanulhasanapp/serverwebappandapi:latest
+      container_name: rafsanulhasan-serverwebappandapi-server
+      #depends_on:
+        #- rafsandb

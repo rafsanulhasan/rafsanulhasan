@@ -1,0 +1,58 @@
+    version: '3.4'
+
+    services:
+      #rafsandb:
+        #image: mcr.microsoft.com/mssql/server:2017-latest 
+      rafsanwebapp-client:
+        image: rafsanulhasan-clientwebapp:vs
+        environment:
+          - NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
+          - VaultUri=https://sslforfree.vault.azure.net
+          - SSLPassword=rafsanssl2020
+        build:
+          context: .
+          dockerfile: Applications/Web/SPA/Client/Dockerfile.debug
+        extra_hosts:
+          - "RHWASM:10.0.75.1"
+        ports:
+          - "5400:80"
+          - "5500:443"
+        volumes:
+          - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
+          #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
+          - ${APPDATA}/Roaming/mkcert:/root/.local/share/mkcert/:rw
+          - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages:ro
+          - ${ProgramFiles}/dotnet/sdk/NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
+
+      rafsanwebapp-server:
+        image: rafsanulhasan-serverwebappandapi:vs
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          #- ASPNETCORE_Kestrel__Certificates__Default__Password="Dragon404"
+          #- ASPNETCORE_Kestrel__Certificates__Default__Path=/app/DevSkill.Services.Membership.pfx
+          - ASPNETCORE_URLS=http://+:80;https://+:443;
+          - ASPNETCORE_HTTPS_PORT=443
+          #- ASPNETCORE_ConnectionStrings__DefaultConnection=${DefaultConnection:-Server=120.50.14.60;Database=DevSkillV2;User Id=sa;Password=Dragon404; Persist Security Info=true; MultipleActiveResultSet=true}
+          - NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
+          - ASPNETCORE_HTTPServer__EndPoints__Http__Host=localhost
+          - ASPNETCORE_HTTPServer__EndPoints__Http__Port=80
+          - ASPNETCORE_HTTPServer__EndPoints__Http__Scheme=http
+          - ASPNETCORE_HTTPServer__EndPoints__Https__Host=localhost
+          - ASPNETCORE_HTTPServer__EndPoints__Https__Port=443
+          - ASPNETCORE_HTTPServer__EndPoints__Https__Scheme=http
+          - ASPNETCORE_HTTPServer__EndPoints__Https__FilePath=/root/.aspnet/https/RH.Apps.Web.SPA.Lite.pfx
+          - SSLPassword=rafsanssl2020
+        build:
+          context: .
+          dockerfile: Applications/Web/SPA/Server/Dockerfile.debug
+        extra_hosts:
+          - "RHBlazorServer:10.0.75.1"
+        ports:
+          - "5401:80"
+          - "5501:443"
+        volumes:
+          - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
+          #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
+          - ${APPDATA}/Roaming/mkcert:/root/.local/share/mkcert/:rw
+          - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages:ro
+          - ${ProgramFiles}/dotnet/sdk/NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
