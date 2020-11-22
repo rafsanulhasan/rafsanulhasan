@@ -33,9 +33,9 @@ variables:
   buildConfiguration: 'Release'
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
   isMerge: $[eq(variables.Build.Reason, 'IndividualCI')]
-  isTargetDev: $[eq(variables.system.PullRequest.targetBranch, 'dev')]
-  isTargetStaging: $[eq(variables.system.pullRequest.targetBranch, 'staging')]
-  isTargetProd: $[eq(variables.system.pullRequest.targetBranch, 'master')]
+  isTargetDev: $[eq(variables.System.PullRequest.TargetBranch, 'dev')]
+  isTargetStaging: $[eq(variables.System.PullRequest.TargetBranch, 'staging')]
+  isTargetProd: $[eq(variables.System.PullRequest.TargetBranch, 'master')]
   Version.Revision.Alpha: $[counter(variables.Version.Revision.Alpha)]
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
