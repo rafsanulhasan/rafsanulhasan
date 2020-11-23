@@ -31,8 +31,8 @@ variables:
   projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  isPR: $[eq(variables.system.Build.Reason, 'PullRequest')]
-  isMerge: $[eq(variables.system.Build.Reason, 'IndividualCI')]
+  isPR: $[eq(system.Build.Reason, 'PullRequest')]
+  isMerge: $[eq(system.Build.Reason, 'IndividualCI')]
   targetBranch: $(system.pullRequest.targetBranch)
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
@@ -45,47 +45,47 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     script: 'npm i -g dotnettools'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet Tools'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     checkLatest: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for release'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
     failOnStderr: true
     
 - task: DotNetCoreCLI@2
   displayName: 'Build solution using dotnet cli'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     command: 'build'
     projects: '$(projects)'
@@ -104,7 +104,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish project using dotnet cli'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     command: publish
     publishWebProjects: true
@@ -113,7 +113,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-prod'
@@ -121,7 +121,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-beta'
@@ -129,7 +129,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: or(eq(variables['system']['pullRequest']['targetBranch'], 'dev'), eq(variables['system']['pullRequest']['targetBranch'], 'staging'), eq(variables['system']['pullRequest']['targetBranch'], 'master'))
+  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'server-alpha'
