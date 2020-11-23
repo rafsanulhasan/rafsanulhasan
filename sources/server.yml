@@ -130,8 +130,8 @@ steps:
 
 - task: DownloadBuildArtifacts@0
   inputs:
-    artifactName: drop
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    artifactName: drop    
+    downloadPath: '$(System.DefaultWorkingDirectory)'
 
 - task: AzureWebApp@1
   displayName: 'Deploy to Azure Web App'
