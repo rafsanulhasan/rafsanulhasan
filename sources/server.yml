@@ -54,7 +54,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build and Test'
-    condition: and(succeeded(), eq(variables['isPR'], 'true'))
+    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -132,7 +132,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build and Test'
-    condition: and(succeeded(), eq(variables['isPR'], 'true'))
+    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -210,7 +210,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build and Test'
-    condition: and(succeeded(), eq(variables['isPR'], 'true'))
+    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
