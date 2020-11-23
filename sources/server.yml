@@ -33,8 +33,8 @@ variables:
   buildConfiguration: 'Release'
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
   isCI: $[eq(variables.Build.Reason, 'IndividualCI')]
-  targetBranch: $(system.pullRequest.targetBranch)
-  sourceBranch: $(Build.SourceBranchName)
+  targetBranch: $[system.pullRequest.targetBranch]
+  sourceBranch: $[Build.SourceBranchName]
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
   #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
