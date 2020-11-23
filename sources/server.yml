@@ -97,8 +97,8 @@ stages:
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-        script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
-        failOnStderr: true
+          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          failOnStderr: true
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
@@ -179,8 +179,8 @@ stages:
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-        script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
-        failOnStderr: true
+          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          failOnStderr: true
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
@@ -261,8 +261,8 @@ stages:
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-        script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
-        failOnStderr: true
+          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          failOnStderr: true
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
