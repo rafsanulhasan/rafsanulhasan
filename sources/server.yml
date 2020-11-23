@@ -52,7 +52,7 @@ stages:
   displayName: Development  
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
-  - job: Build and Test
+  - job: BuildAndTest
     displayName: 'Build and Test'
     condition: and(succeeded(), eq(variables['isPR'], 'true'))
     pool:
@@ -84,7 +84,7 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
 
-  - job: Publish and Deploy
+  - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
     condition: and(succeeded(), eq(variables['isCI'], 'true'))
     pool:
@@ -130,7 +130,7 @@ stages:
   displayName: Staging  
   condition: or(eq(variables['targetBranch'], 'staging'), eq(variables['sourceBranch'], 'staging'))
   jobs:
-  - job: Build and Test
+  - job: BuildAndTest
     displayName: 'Build and Test'
     condition: and(succeeded(), eq(variables['isPR'], 'true'))
     pool:
@@ -162,7 +162,7 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
 
-  - job: Publish and Deploy
+  - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
     condition: and(succeeded(), eq(variables['isCI'], 'true'))
     pool:
@@ -208,7 +208,7 @@ stages:
   displayName: Production
   condition: or(eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'master'))
   jobs:
-  - job: Build and Test
+  - job: BuildAndTest
     displayName: 'Build and Test'
     condition: and(succeeded(), eq(variables['isPR'], 'true'))
     pool:
@@ -240,7 +240,7 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
 
-  - job: Publish and Deploy
+  - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
     condition: and(succeeded(), eq(variables['isCI'], 'true'))
     pool:
