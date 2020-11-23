@@ -84,7 +84,7 @@ steps:
     failOnStderr: true
     
 - task: DotNetCoreCLI@2
-  displayName: 'Build solution using dotnet cli'
+  displayName: 'Build project using dotnet cli'
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     command: 'build'
@@ -116,21 +116,5 @@ steps:
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'server-prod'
-    publishLocation: 'Container'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'server-beta'
-    publishLocation: 'Container'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'server-alpha'
+    ArtifactName: 'Drop'
     publishLocation: 'Container'
