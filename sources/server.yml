@@ -34,6 +34,7 @@ variables:
   isPR: $[eq(variables.system.Build.Reason, 'PullRequest')]
   isCI: $[eq(variables.system.Build.Reason, 'IndividualCI')]
   targetBranch: $(system.pullRequest.targetBranch)
+  sourceBranch: $(system.Build.SourceBranch)
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
   #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
@@ -121,7 +122,7 @@ steps:
 
 - task: AzureWebApp@1
   displayName: 'Azure Web App'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
     appType: webAppLinux
