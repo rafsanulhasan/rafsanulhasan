@@ -45,7 +45,7 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: or(eq($(variables.system.pullRequest.targetBranch), 'dev'), eq($(variables.system.pullRequest.targetBranch), 'staging'), eq($(variables.system.pullRequest.targetBranch), 'master'))
+  condition: or(eq($[variables.system.pullRequest.targetBranch], 'dev'), eq($[variables.system.pullRequest.targetBranch], 'staging'), eq($[variables.system.pullRequest.targetBranch], 'master'))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
