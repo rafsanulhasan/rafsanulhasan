@@ -31,10 +31,10 @@ variables:
   projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  isPR: $[eq(variables.Build.Reason, 'PullRequest')]
-  isCI: $[eq(variables.Build.Reason, 'IndividualCI')]
-  targetBranch: $(variables.system.pullRequest.targetBranch)
-  sourceBranch: $(Build.SourceBranchName)
+  isPR: $[eq(variables['Build.Reason'], 'PullRequest')]
+  isCI: $[eq(variables['Build.Reason'], 'IndividualCI')]
+  targetBranch: $(variables['system.pullRequest.targetBranch')
+  sourceBranch: $(variables['Build.SourceBranchName'])
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
   #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
@@ -119,6 +119,10 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'Drop'
     publishLocation: 'Container'
+
+- task: DownloadBuildArtifacts@0
+  inputs:
+    artifactName: drop
 
 - task: AzureWebApp@1
   displayName: 'Daploy to Azure Web App'
