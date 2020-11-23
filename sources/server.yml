@@ -87,6 +87,7 @@ stages:
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
+    dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -129,6 +130,7 @@ stages:
 
 - stage: staging
   displayName: Staging  
+  dependsOn: dev
   condition: or(eq(variables['targetBranch'], 'staging'), eq(variables['sourceBranch'], 'staging'))
   jobs:
   - job: BuildAndTest
@@ -165,6 +167,7 @@ stages:
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
+    dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -207,6 +210,7 @@ stages:
 
 - stage: prod
   displayName: Production
+  dependsOn: staging
   condition: or(eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'master'))
   jobs:
   - job: BuildAndTest
@@ -243,6 +247,7 @@ stages:
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
+    dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
