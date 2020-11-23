@@ -31,7 +31,7 @@ variables:
   projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  isPR: $[eq(variables.Build.Reason), 'PullRequest')]
+  isPR: $[eq(variables.Build.Reason, 'PullRequest')]
   isMerge: $[eq(variables.Build.Reason, 'IndividualCI')]
   targetBranch: $(system.pullRequest.targetBranch)
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
