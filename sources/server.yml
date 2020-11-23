@@ -63,10 +63,6 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '5.0.100'
-      - task: CmdLine@2
-        displayName: 'Install DNT'
-        inputs:
-          script: 'npm i -g dotnettools'
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tools'
         inputs:
@@ -94,6 +90,10 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
@@ -145,10 +145,6 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '5.0.100'
-      - task: CmdLine@2
-        displayName: 'Install DNT'
-        inputs:
-          script: 'npm i -g dotnettools'
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tools'
         inputs:
@@ -176,6 +172,10 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
@@ -227,10 +227,6 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '5.0.100'
-      - task: CmdLine@2
-        displayName: 'Install DNT'
-        inputs:
-          script: 'npm i -g dotnettools'
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tools'
         inputs:
@@ -258,6 +254,10 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
