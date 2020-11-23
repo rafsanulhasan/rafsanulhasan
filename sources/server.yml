@@ -14,7 +14,7 @@ trigger:
       - feature/*
           
 pr:
-  autoCancel: "false"
+  autoCancel: false
   branches:
     include:
       - staging
@@ -22,9 +22,6 @@ pr:
       - dev
     exclude:
       - feature/*
-
-pool:
-  vmImage: 'windows-2019'
 
 variables:
   solution: '**/*.sln'
@@ -48,96 +45,251 @@ variables:
   Version.Revision.Alpha: $[counter(variables.Version.Revision.Alpha)]
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
+  vmImageName: 'windows-latest'
 
-steps:
+stages:
+- stage: dev
+  displayName: Development  
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
+  jobs:
+  - job: Build and Test
+    displayName: 'CI: Build and Test'
+    condition: $[eq(variables['isPR'], 'true')]
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK 5.0'
+        inputs:
+          packageType: 'sdk'
+          version: '5.0.100'
+      - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet Tools'
+        inputs:
+          checkLatest: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Build project'
+        inputs:
+          command: 'build'
+          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(BuildConfiguration)'
+          feedsToUse: 'select'
+          versioningScheme: 'off'
+      #- task: MSBuild@1
+         #displayName: 'Build solution using msbuild'
+         #inputs:
+         #solution: '$(solution)'  
+         #msbuildArchitecture: 'x64'
+         #platform: 'Any CPU'
+         #restoreNugetPackages: true # Optional
+         #configuration: '$(buildConfiguration)'
 
-- task: UseDotNet@2
-  displayName: 'Install .NET Core SDK 5.0'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    packageType: 'sdk'
-    version: '5.0.100'
+  - job: Publish and Deploy
+    displayName: 'CD: Publish and Deploy'
+    condition: $[eq(variables['isCI'], 'true')]
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: CmdLine@2
+        displayName: 'Update project version revesion for preview'
+        inputs:
+        script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+        failOnStderr: true
 
-- task: CmdLine@2
-  displayName: 'Install DNT'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    script: 'npm i -g dotnettools'
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          #modifyOutputPath: false
+          zipAfterPublish: true  
 
-- task: NuGetToolInstaller@1
-  displayName: 'Install NuGet Tools'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    checkLatest: true
-    
-- task: CmdLine@2
-  displayName: 'Update project version revesion for preview'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
-    failOnStderr: true
-    
-- task: CmdLine@2
-  displayName: 'Update project version revesion for preview'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
-    failOnStderr: true
-    
-- task: CmdLine@2
-  displayName: 'Update project version revesion for release'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
-    failOnStderr: true
-    
-- task: DotNetCoreCLI@2
-  displayName: 'Build project using dotnet cli'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    command: 'build'
-    projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-    arguments: '--configuration $(BuildConfiguration)'
-    feedsToUse: 'select'
-    versioningScheme: 'off'
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish artifact'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'Drop'
+          publishLocation: 'Container'
 
-#- task: MSBuild@1
-  #displayName: 'Build solution using msbuild'
-  #inputs:
-    #solution: '$(solution)'  
-    #msbuildArchitecture: 'x64'
-    #platform: 'Any CPU'
-    #restoreNugetPackages: true # Optional
-    #configuration: '$(buildConfiguration)'
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download artifact'
+        inputs:
+          artifactName: drop    
+          downloadPath: '$(System.DefaultWorkingDirectory)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Publish project using dotnet cli'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    command: publish
-    publishWebProjects: false
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
-    #modifyOutputPath: false
-    zipAfterPublish: true  
+      - task: AzureWebApp@1
+        displayName: 'Deploy to Azure Web App'
+        inputs:
+          azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
+          appType: webAppLinux
+          appName: 'rafsanulhasan-xyz'
+          package: '$(System.DefaultWorkingDirectory)\**\*.zip'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'Drop'
-    publishLocation: 'Container'
+- stage: staging
+  displayName: Staging  
+  condition: or(eq(variables['targetBranch'], 'staging'), eq(variables['sourceBranch'], 'staging'))
+  jobs:
+  - job: Build and Test
+    displayName: 'CI: Build and Test'
+    condition: $[eq(variables['isPR'], 'true')]
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK 5.0'
+        inputs:
+          packageType: 'sdk'
+          version: '5.0.100'
+      - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet Tools'
+        inputs:
+          checkLatest: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Build project'
+        inputs:
+          command: 'build'
+          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(BuildConfiguration)'
+          feedsToUse: 'select'
+          versioningScheme: 'off'
+      #- task: MSBuild@1
+         #displayName: 'Build solution using msbuild'
+         #inputs:
+         #solution: '$(solution)'  
+         #msbuildArchitecture: 'x64'
+         #platform: 'Any CPU'
+         #restoreNugetPackages: true # Optional
+         #configuration: '$(buildConfiguration)'
 
-- task: DownloadBuildArtifacts@0
-  inputs:
-    artifactName: drop    
-    downloadPath: '$(System.DefaultWorkingDirectory)'
+  - job: Publish and Deploy
+    displayName: 'CD: Publish and Deploy'
+    condition: $[eq(variables['isCI'], 'true')]
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: CmdLine@2
+        displayName: 'Update project version revesion for preview'
+        inputs:
+        script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+        failOnStderr: true
 
-- task: AzureWebApp@1
-  displayName: 'Deploy to Azure Web App'
-  condition: or(eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
-  inputs:
-    azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
-    appType: webAppLinux
-    appName: 'rafsanulhasan-xyz'
-    package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          #modifyOutputPath: false
+          zipAfterPublish: true  
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish artifact'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'Drop'
+          publishLocation: 'Container'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download artifact'
+        inputs:
+          artifactName: drop    
+          downloadPath: '$(System.DefaultWorkingDirectory)'
+
+      - task: AzureWebApp@1
+        displayName: 'Deploy to Azure Web App'
+        inputs:
+          azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
+          appType: webAppLinux
+          appName: 'rafsanulhasan-xyz'
+          package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+
+- stage: prod
+  displayName: Production
+  condition: or(eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'master'))
+  jobs:
+  - job: Build and Test
+    displayName: 'CI: Build and Test'
+    condition: $[eq(variables['isPR'], 'true')]
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: UseDotNet@2
+        displayName: 'Install .NET Core SDK 5.0'
+        inputs:
+          packageType: 'sdk'
+          version: '5.0.100'
+      - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet Tools'
+        inputs:
+          checkLatest: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Build project'
+        inputs:
+          command: 'build'
+          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(BuildConfiguration)'
+          feedsToUse: 'select'
+          versioningScheme: 'off'
+      #- task: MSBuild@1
+         #displayName: 'Build solution using msbuild'
+         #inputs:
+         #solution: '$(solution)'  
+         #msbuildArchitecture: 'x64'
+         #platform: 'Any CPU'
+         #restoreNugetPackages: true # Optional
+         #configuration: '$(buildConfiguration)'
+
+  - job: Publish and Deploy
+    displayName: 'CD: Publish and Deploy'
+    condition: $[eq(variables['isCI'], 'true')]
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: CmdLine@2
+        displayName: 'Update project version revesion for preview'
+        inputs:
+        script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+        failOnStderr: true
+
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish'
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          #modifyOutputPath: false
+          zipAfterPublish: true  
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish artifact'
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'Drop'
+          publishLocation: 'Container'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download artifact'
+        inputs:
+          artifactName: drop    
+          downloadPath: '$(System.DefaultWorkingDirectory)'
+
+      - task: AzureWebApp@1
+        displayName: 'Deploy to Azure Web App'
+        inputs:
+          azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
+          appType: webAppLinux
+          appName: 'rafsanulhasan-xyz'
+          package: '$(System.DefaultWorkingDirectory)\**\*.zip'
