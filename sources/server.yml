@@ -31,8 +31,8 @@ variables:
   projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  isPR: $[eq(variables.Build.Reason, 'PullRequest')]
-  isMerge: $[eq(variables.Build.Reason, 'IndividualCI')]
+  isPR: $[eq(variables.system.Build.Reason, 'PullRequest')]
+  isCI: $[eq(variables.system.Build.Reason, 'IndividualCI')]
   targetBranch: $(system.pullRequest.targetBranch)
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
@@ -45,7 +45,7 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: and(eq(variables['isPR'], 'True'), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
+  condition: and(or(eq(variables['isPR'], 'True'), eq(variables['isCI'], 'True')), or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master')))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
