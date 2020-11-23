@@ -35,9 +35,12 @@ variables:
   isCI: $[eq(variables['Build.Reason'], 'IndividualCI')]
   targetBranch: $[variables['system.pullRequest.targetBranch']]
   sourceBranch: $[variables['Build.SourceBranchName']]
-  #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
-  #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
-  #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
+  isTargetDev: $[eq(variables['targetBranch'], 'dev')]
+  isTargetStaging: $[eq(variables['targetBranch'], 'staging')]
+  isTargetProd: $[eq(variables['targetBranch'], 'master')]
+  isSourceDev: $[eq(variables['sourceBranch'], 'dev')]
+  isSourceStaging: $[eq(variables['sourceBranch'], 'staging')]
+  isSourceProd: $[eq(variables['sourceBranch'], 'master')]
   Version.Revision.Alpha: $[counter(variables.Version.Revision.Alpha)]
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
@@ -125,7 +128,7 @@ steps:
     artifactName: drop
 
 - task: AzureWebApp@1
-  displayName: 'Daploy to Azure Web App'
+  displayName: 'Deploy to Azure Web App'
   condition: or(eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
