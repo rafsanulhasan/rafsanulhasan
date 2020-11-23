@@ -97,9 +97,8 @@ stages:
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          script: 'dnt bump-versions preview "alpha(Version.Revision.Alpha)"'
           failOnStderr: true
-
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
         inputs:
@@ -108,20 +107,17 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish artifact'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
@@ -179,9 +175,8 @@ stages:
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          script: 'dnt bump-versions preview "beta(Version.Revision.Preview)"'
           failOnStderr: true
-
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
         inputs:
@@ -190,20 +185,17 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish artifact'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
@@ -261,9 +253,8 @@ stages:
       - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          script: 'dnt bump-versions preview "$(Version.Revision.Prod)"'
           failOnStderr: true
-
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
         inputs:
@@ -272,20 +263,17 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish artifact'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
