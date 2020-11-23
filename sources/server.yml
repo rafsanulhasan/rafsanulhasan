@@ -4,23 +4,24 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-  batch: "true"
+  batch: true
   branches:
-    include:    
-      - azure*    
-      - feature/*   
-      - feature/*/*
+    include:   
+      - dev
       - staging
-      - master
+      - release
+    exclude: 
+      - feature/*
           
 pr:
   autoCancel: "false"
   branches:
     include:
-      - azure*
       - staging
       - master
       - dev
+    exclude:
+      - feature/*
 
 pool:
   vmImage: 'windows-2019'
@@ -30,62 +31,61 @@ variables:
   projects: 'sources/Applications/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  isPR: $[eq(variables.Build.Reason, 'PullRequest')]
-  isMerge: $[eq(variables.Build.Reason, 'merge')]
-  isTargetDev: $[eq(variables.system.pullRequest.targetBranch, 'dev')]
-  isTargetStaging: $[eq(variables.system.pullRequest.targetBranch, 'staging')]
-  isTargetProd: $[eq(variables.system.pullRequest.targetBranch, 'master')]
+  isPR: $[eq(variables.system.Build.Reason, 'PullRequest')]
+  isCI: $[eq(variables.system.Build.Reason, 'IndividualCI')]
+  targetBranch: $(system.pullRequest.targetBranch)
+  #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
+  #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
+  #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
   Version.Revision.Alpha: $[counter(variables.Version.Revision.Alpha)]
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
-  srcBranch: '$(variables.Build.SourceBranch)'
-  targetBranch: '$(variables.Build.TargetBranch)'
 
 steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     script: 'npm i -g dotnettools'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet Tools'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     checkLatest: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for release'
-  condition: and(eq(variables['isMerge'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
     failOnStderr: true
     
 - task: DotNetCoreCLI@2
-  displayName: 'Build solution using dotnet cli'
-  condition: and(eq(variables['isPR'], 'true'), or(eq(variables['targetBranch'], 'refs/head/master'), eq(variables['srcBranch'], 'ref/head/staging'), eq(variables['srcBranch'], 'ref/head/dev')))
+  displayName: 'Build project using dotnet cli'
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     command: 'build'
     projects: '$(projects)'
@@ -104,58 +104,17 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish project using dotnet cli'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'refs/head/master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
-    command: 'publish'
-    projects: '$(projects)'
-    arguments: '--configuration $(BuildConfiguration) -o $(Build.ArtifactStagingDirectory)'
-    feedsToUse: 'select'
-    versioningScheme: 'off'
-    
-- task: CopyFiles@2
-  displayName: 'Copy packages for alpha'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/dev'))
-  inputs:
-    Contents: '**/*.*preview*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
-    
-- task: CopyFiles@2
-  displayName: 'Copy packages for staging'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/staging'))
-  inputs:
-    Contents: '**/*.*preview*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
-    
-- task: CopyFiles@2
-  displayName: 'Copy packages for release'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/master'))
-  inputs:
-    Contents: '**/*.nupkg'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    flattenFolders: true
+    command: publish
+    publishWebProjects: true
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'refs/head/master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'server-prod'
-    publishLocation: 'AppService'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/staging'))
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'server-beta'
-    publishLocation: 'AppService'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish artifacts'
-  condition: and(eq(variables['isMerge'], 'true'), eq(variables['targetBranch'], 'ref/head/dev'))
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'server-alpha'
-    publishLocation: 'AppService'
+    ArtifactName: 'Drop'
+    publishLocation: 'Container'
