@@ -96,7 +96,7 @@ steps:
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     command: 'build'
-    projects: '$(serverProjectDir)/$(serverProjectName)'
+    projects: '$(serverProjectDir)/$(serverProjectName).cssproj'
     arguments: '--configuration $(BuildConfiguration)'
     feedsToUse: 'select'
     versioningScheme: 'off'
@@ -116,7 +116,7 @@ steps:
   inputs:
     command: publish
     publishWebProjects: false
-    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName)'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
     #modifyOutputPath: false
     zipAfterPublish: true  
 
