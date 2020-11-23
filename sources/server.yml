@@ -34,7 +34,7 @@ variables:
   isPR: $[eq(variables.Build.Reason, 'PullRequest')]
   isCI: $[eq(variables.Build.Reason, 'IndividualCI')]
   targetBranch: $(system.pullRequest.targetBranch)
-  sourceBranch: $(system.Build.SourceBranch)
+  sourceBranch: $(variables.Build.SourceBranch)
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
   #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
@@ -46,47 +46,47 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
 
 - task: CmdLine@2
   displayName: 'Install DNT'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     script: 'npm i -g dotnettools'
 
 - task: NuGetToolInstaller@1
   displayName: 'Install NuGet Tools'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     checkLatest: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for preview'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     script: 'dnt bump-versions preview "preview$(Version.Revision.Preview)"'
     failOnStderr: true
     
 - task: CmdLine@2
   displayName: 'Update project version revesion for release'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     script: 'dnt bump-versions revision "$(Version.Revision.Prod)"'
     failOnStderr: true
     
 - task: DotNetCoreCLI@2
   displayName: 'Build project using dotnet cli'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     command: 'build'
     projects: '$(projects)'
@@ -105,7 +105,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Publish project using dotnet cli'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     command: publish
     publishWebProjects: false
@@ -114,14 +114,14 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish artifacts'
-  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'Drop'
     publishLocation: 'Container'
 
 - task: AzureWebApp@1
-  displayName: 'Azure Web App'
+  displayName: 'Daploy to Azure Web App'
   condition: or(eq(variables['sourceBranch'], 'dev'), eq(variables['sourceBranch'], 'staging'), eq(variables['sourceBranch'], 'master'))
   inputs:
     azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
