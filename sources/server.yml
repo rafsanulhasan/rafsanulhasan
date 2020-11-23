@@ -33,7 +33,7 @@ variables:
   buildConfiguration: 'Release'
   isPR: $[eq(variables.system.Build.Reason, 'PullRequest')]
   isMerge: $[eq(variables.system.Build.Reason, 'IndividualCI')]
-  targetBranch: '$(variables.system.pullRequest.argetBranch)'
+  targetBranch: $[variables.system.pullRequest.argetBranch]
   #isTargetDev: $[eq(variables['system']['pullRequest']['targetBranch'], 'dev')]
   #isTargetStaging: $[eq(variables['system']['pullRequest']['targetBranch'], 'staging')]
   #isTargetProd: $[eq(variables['system']['pullRequest']['targetBranch'], 'master')]
@@ -45,7 +45,7 @@ steps:
 
 - task: UseDotNet@2
   displayName: 'Install .NET Core SDK 5.0'
-  condition: or(eq('$[variables.system.pullRequest.targetBranch]', 'dev'), eq('$[variables.system.pullRequest.targetBranch]', 'staging'), eq('$[variables.system.pullRequest.targetBranch]', 'master'))
+  condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['targetBranch'], 'staging'), eq(variables['targetBranch'], 'master'))
   inputs:
     packageType: 'sdk'
     version: '5.0.100'
