@@ -52,9 +52,9 @@ stages:
   displayName: Development  
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
-  - job: Build and Test
-    displayName: 'CI: Build and Test'
-    condition: $[eq(variables['isPR'], 'true')]
+  - job: BuildAndTest
+    displayName: 'Build and Test'
+    condition: and(succeeded(), eq(variables['isPR'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -63,10 +63,6 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '5.0.100'
-      - task: CmdLine@2
-        displayName: 'Install DNT'
-        inputs:
-          script: 'npm i -g dotnettools'
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tools'
         inputs:
@@ -88,18 +84,21 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
 
-  - job: Publish and Deploy
-    displayName: 'CD: Publish and Deploy'
-    condition: $[eq(variables['isCI'], 'true')]
+  - job: PublishAndDeploy
+    displayName: 'Publish and Deploy'
+    condition: and(succeeded(), eq(variables['isCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
       - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          script: 'dnt bump-versions preview "alpha(Version.Revision.Alpha)"'
           failOnStderr: true
-
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
         inputs:
@@ -108,20 +107,17 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish artifact'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
@@ -134,9 +130,9 @@ stages:
   displayName: Staging  
   condition: or(eq(variables['targetBranch'], 'staging'), eq(variables['sourceBranch'], 'staging'))
   jobs:
-  - job: Build and Test
-    displayName: 'CI: Build and Test'
-    condition: $[eq(variables['isPR'], 'true')]
+  - job: BuildAndTest
+    displayName: 'Build and Test'
+    condition: and(succeeded(), eq(variables['isPR'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -145,10 +141,6 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '5.0.100'
-      - task: CmdLine@2
-        displayName: 'Install DNT'
-        inputs:
-          script: 'npm i -g dotnettools'
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tools'
         inputs:
@@ -170,18 +162,21 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
 
-  - job: Publish and Deploy
-    displayName: 'CD: Publish and Deploy'
-    condition: $[eq(variables['isCI'], 'true')]
+  - job: PublishAndDeploy
+    displayName: 'Publish and Deploy'
+    condition: and(succeeded(), eq(variables['isCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
       - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          script: 'dnt bump-versions preview "beta(Version.Revision.Preview)"'
           failOnStderr: true
-
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
         inputs:
@@ -190,20 +185,17 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish artifact'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
@@ -216,9 +208,9 @@ stages:
   displayName: Production
   condition: or(eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'master'))
   jobs:
-  - job: Build and Test
-    displayName: 'CI: Build and Test'
-    condition: $[eq(variables['isPR'], 'true')]
+  - job: BuildAndTest
+    displayName: 'Build and Test'
+    condition: and(succeeded(), eq(variables['isPR'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -227,10 +219,6 @@ stages:
         inputs:
           packageType: 'sdk'
           version: '5.0.100'
-      - task: CmdLine@2
-        displayName: 'Install DNT'
-        inputs:
-          script: 'npm i -g dotnettools'
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet Tools'
         inputs:
@@ -252,18 +240,21 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
 
-  - job: Publish and Deploy
-    displayName: 'CD: Publish and Deploy'
-    condition: $[eq(variables['isCI'], 'true')]
+  - job: PublishAndDeploy
+    displayName: 'Publish and Deploy'
+    condition: and(succeeded(), eq(variables['isCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
       - task: CmdLine@2
+        displayName: 'Install DNT'
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: CmdLine@2
         displayName: 'Update project version revesion for preview'
         inputs:
-          script: 'dnt bump-versions preview "preview$(Version.Revision.Alpha)"'
+          script: 'dnt bump-versions preview "$(Version.Revision.Prod)"'
           failOnStderr: true
-
       - task: DotNetCoreCLI@2
         displayName: 'Publish'
         inputs:
@@ -272,20 +263,17 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish artifact'
         inputs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
