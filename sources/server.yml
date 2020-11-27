@@ -47,14 +47,14 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
-  testDir": 'Tests'
+  testDir": 'sources/Tests'
 
 stages:
 - stage: dev
   displayName: Development  
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
-  - job: BuildAndTest
+  - job: Build
     displayName: 'Build'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
@@ -89,6 +89,7 @@ stages:
   
   - job: Test
     displayName: 'Test'
+    dependsOn: Build
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -113,7 +114,7 @@ stages:
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
-    dependsOn: BuildAndTest
+    dependsOn: Test
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
