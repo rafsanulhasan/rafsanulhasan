@@ -47,7 +47,8 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
-  testDir": 'sources/Tests'
+  testDir": '$(System.DefaultWorkingDirectory)/sources/Tests'
+  testProjectName: 'RH.Apps.Web.SPA.Lite.Tests'
 
 stages:
 - stage: dev
@@ -96,9 +97,10 @@ stages:
     steps:
       - task: DotNetCoreCLI@2
         displayName: 'Test project'
+        
         inputs:
           command: 'test'
-          projects: '$(testDir)/Lite.Tests/RH.Apps.Web.SPA.Lite.Tests.csproj'
+          projects: '$(testDir)/Lite.Tests/$(testProjectName).csproj'
           arguments: '--configuration $(BuildConfiguration)'
           feedsToUse: 'select'
           versioningScheme: 'off'
