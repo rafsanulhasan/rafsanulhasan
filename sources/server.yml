@@ -94,25 +94,13 @@ stages:
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
-    steps:
+    steps:      
       - task: DotNetCoreCLI@2
-        displayName: 'Test project'
-        
+        displayName: 'Test project'        
         inputs:
-          command: 'test'
-          projects: '$(testDir)/Lite.Tests/$(testProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
-          feedsToUse: 'select'
-          versioningScheme: 'off'
-      #- task: MSBuild@1
-         #displayName: 'Build solution using msbuild'
-         #inputs:
-         #solution: '$(solution)'  
-         #msbuildArchitecture: 'x64'
-         #platform: 'Any CPU'
-         #restoreNugetPackages: true # Optional
-         #configuration: '$(buildConfiguration)'
-
+          command: test
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
