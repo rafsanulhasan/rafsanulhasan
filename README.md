@@ -1,3 +1,11 @@
+# Blazor Server App
+| **dev** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=dev)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=dev)	| 
+|-	|-	|
+| **staging** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging)	|
+| **master**  	|[![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
+
+-------------------
+
 ### Hi there 👋                                                                                                                        
 
 My name is Rafsanul Hasan and here is a little information about my technical skills and expertise:                                     [<img align="right" width="400" src="https://github-readme-stats.vercel.app/api?username=rafsanulhasan&&show_icons=true&theme=tokyonight&count_private=true" alt="Rafsan's Github Stats"/>](https://github.com/rafsanulhasan) 
