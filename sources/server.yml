@@ -98,7 +98,7 @@ stages:
         displayName: 'Test project'
         inputs:
           command: 'test'
-          projects: '$(testDir)/**/*.Tests.csproj'
+          projects: '$(testDir)/Lite.Tests/RH.Apps.Web.SPA.Lite.Tests.csproj'
           arguments: '--configuration $(BuildConfiguration)'
           feedsToUse: 'select'
           versioningScheme: 'off'
