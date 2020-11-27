@@ -55,7 +55,7 @@ stages:
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build and Test'
+    displayName: 'Build'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -88,13 +88,13 @@ stages:
 
   
   - job: Test
-    displayName: 'Build and Test'
+    displayName: 'Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
       - task: DotNetCoreCLI@2
-        displayName: 'Build project'
+        displayName: 'Test project'
         inputs:
           command: 'test'
           projects: '$(testDir)/**/*.Tests.csproj'
