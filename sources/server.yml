@@ -101,7 +101,7 @@ stages:
            !**\*TestAdapter.dll
            !**\obj\** 
          #tcmTestRun: '$(test.RunId)' # Optional
-         searchFolder: 'sources/Tests/*.Tests/*' 
+         #searchFolder: 'sources/Tests/*.Tests/*' 
          #testFiltercriteria: # Optional
          #runOnlyImpactedTests: False # Optional
          #runAllTestsAfterXBuilds: '50' # Optional
