@@ -56,7 +56,7 @@ stages:
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
   - job: Build
-    displayName: 'Build'
+    displayName: 'Build And Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -86,17 +86,8 @@ stages:
          #platform: 'Any CPU'
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
-
-  
-  - job: Test
-    displayName: 'Test'
-    dependsOn: Build
-    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
-    pool:
-      vmImage: $(vmImageName)
-    steps:      
       - task: DotNetCoreCLI@2
-        displayName: 'Test project'        
+        displayName: 'Test'        
         inputs:
           command: test
           projects: '**/*Tests/*Tests.csproj'
