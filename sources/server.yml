@@ -61,15 +61,15 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-      - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK 5.0'
-        inputs:
-          packageType: 'sdk'
-          version: '5.0.100'
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet Tools'
-        inputs:
-          checkLatest: true
+      #- task: UseDotNet@2
+        #displayName: 'Install .NET Core SDK 5.0'
+        #inputs:
+          #packageType: 'sdk'
+          #version: '5.0.100'
+      #- task: NuGetToolInstaller@1
+        #displayName: 'Install NuGet Tools'
+        #inputs:
+          #checkLatest: true
       - task: DotNetCoreCLI@2
         displayName: 'Build project'
         inputs:
