@@ -47,6 +47,7 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
+  testDir": 'Tests'
 
 stages:
 - stage: dev
@@ -84,6 +85,31 @@ stages:
          #platform: 'Any CPU'
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
+
+  
+  - job: Test
+    displayName: 'Build and Test'
+    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+      - task: DotNetCoreCLI@2
+        displayName: 'Build project'
+        inputs:
+          command: 'test'
+          projects: '$(testDir)/**/*.Tests.csproj'
+          arguments: '--configuration $(BuildConfiguration)'
+          feedsToUse: 'select'
+          versioningScheme: 'off'
+      #- task: MSBuild@1
+         #displayName: 'Build solution using msbuild'
+         #inputs:
+         #solution: '$(solution)'  
+         #msbuildArchitecture: 'x64'
+         #platform: 'Any CPU'
+         #restoreNugetPackages: true # Optional
+         #configuration: '$(buildConfiguration)'
+
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
