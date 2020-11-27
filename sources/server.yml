@@ -55,7 +55,7 @@ stages:
   displayName: Development  
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
-  - job: Build
+  - job: BuildAndTest
     displayName: 'Build And Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
@@ -95,7 +95,7 @@ stages:
 
   - job: PublishAndDeploy
     displayName: 'Publish and Deploy'
-    dependsOn: Test
+    dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
