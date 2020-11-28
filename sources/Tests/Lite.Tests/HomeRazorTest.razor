@@ -1,4 +1,7 @@
 ﻿@inherits TestComponentBase
+
+@attribute [ExcludeFromCodeCoverage]
+
 @*
 	This is a special Blazor component, which contains razor tests.
 
@@ -73,7 +76,7 @@
 </Fixture>
 
 @code
-{ 	
+{
 	public void HelloWorldTest(Fixture fixture)
 	{
 		// Arrange

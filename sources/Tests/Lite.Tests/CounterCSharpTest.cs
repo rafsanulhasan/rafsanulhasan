@@ -3,9 +3,11 @@ using Bunit;
 using RH.Apps.Web.SPA.Lite.Pages;
 
 using Xunit;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RH.Apps.Web.SPA.Lite.Tests
 {
+	[ExcludeFromCodeCoverage]
 	/// <summary>
 	/// These tests are written entirely in C#.
 	/// Learn more at https://bunit.egilhansen.com/docs/
