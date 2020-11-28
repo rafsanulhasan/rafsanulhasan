@@ -75,7 +75,7 @@ stages:
         inputs:
           command: 'build'
           projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'
           feedsToUse: 'select'
           versioningScheme: 'off'
       #- task: MSBuild@1
@@ -91,7 +91,7 @@ stages:
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(BuildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'
       #- task: DotNetCoreCLI@2
         #displayName: 'Test'        
         #inputs:
@@ -213,7 +213,7 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
       - task: PublishBuildArtifacts@1
@@ -260,7 +260,7 @@ stages:
         inputs:
           command: 'build'
           projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'
           feedsToUse: 'select'
           versioningScheme: 'off'
       #- task: MSBuild@1
@@ -293,7 +293,7 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
       - task: PublishBuildArtifacts@1
@@ -340,7 +340,7 @@ stages:
         inputs:
           command: 'build'
           projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'
           feedsToUse: 'select'
           versioningScheme: 'off'
       #- task: MSBuild@1
@@ -373,7 +373,7 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
       - task: PublishBuildArtifacts@1
