@@ -87,7 +87,7 @@ stages:
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
       - task: DotNetCoreCLI@2
-        displayName: 'Test'        
+        displayName: 'Build Test Project'
         inputs:
           command: test
           projects: '**/*Tests/*Tests.csproj'
