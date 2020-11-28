@@ -158,7 +158,7 @@ stages:
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: lines # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
-          treat0of0as100: true # Optional
+          treat0of0as100: false # Optional
           coverageThreshold: '1' # Optional
           forceCoverageImprovement: false # Optional
           coverageUpperThreshold: '2' # Optional
