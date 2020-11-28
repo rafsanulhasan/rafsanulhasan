@@ -157,12 +157,12 @@ stages:
           #warningFilesArtifact: # Required if evaluateFileWarnings = true and (warningFailOption = build or showStatistics = true)
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
-          coverageFailOption: build # Optional; Valid values: build, fixed
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: lines # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
           #treat0of0as100: false # Optional
           coverageThreshold: '1' # Optional
-          #forceCoverageImprovement: false # Optional
+          forceCoverageImprovement: false # Optional
           coverageUpperThreshold: '2' # Optional
           ignoreDecreaseAboveUpperThreshold: true # Optional
           #useUncoveredElements: false # Optional
