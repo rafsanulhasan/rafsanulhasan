@@ -121,7 +121,7 @@ stages:
          #customBatchSizeValue: '10' # Required when distributionBatchType == BasedOnTestCases && BatchingBasedOnAgentsOption == CustomBatchSize
          #batchingBasedOnExecutionTimeOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customTimeBatchSize
          #customRunTimePerBatchValue: '60' # Required when distributionBatchType == BasedOnExecutionTime && BatchingBasedOnExecutionTimeOption == CustomTimeBatchSize
-         dontDistribute: True # Optional
+         dontDistribute: False # Optional
          testRunTitle: ServerAppTest # Optional
          #platform: # Optional
          configuration: '$(buildConfuguration)' # Optional
