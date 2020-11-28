@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-  batch: true
+  batch: false
   branches:
     include:   
       - dev
@@ -14,7 +14,7 @@ trigger:
       - feature/*
           
 pr:
-  autoCancel: false
+  autoCancel: true
   branches:
     include:
       - staging
