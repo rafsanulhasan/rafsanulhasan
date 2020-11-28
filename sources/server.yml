@@ -78,18 +78,18 @@ stages:
           arguments: '--configuration $(buildConfiguration)'
           feedsToUse: 'select'
           versioningScheme: 'off'
-      - task: DotNetCoreCLI@2
-        displayName: 'Build Test Project'
-        inputs:
-          command: build
-          projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'
       #- task: DotNetCoreCLI@2
-        #displayName: 'Test'        
+        #displayName: 'Build Test Project'
         #inputs:
-          #command: test
+          #command: build
           #projects: '**/*Tests/*Tests.csproj'
-          #arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+          #arguments: '--configuration $(buildConfiguration)'
+      - task: DotNetCoreCLI@2
+        displayName: 'Test'        
+        inputs:
+          command: test
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
       - task: VSTest@2
         displayName: 'Test with VS'    
         inputs:
@@ -123,9 +123,9 @@ stages:
          testRunTitle: ServerAppTest # Optional
          #platform: # Optional
          configuration: '$(buildConfuguration)' # Optional
-         #publishRunAttachments: true # Optional
-         #failOnMinTestsNotRun: false # Optional
-         #minimumExpectedTests: '1' # Optional
+         publishRunAttachments: true # Optional
+         failOnMinTestsNotRun: true # Optional
+         minimumExpectedTests: '1' # Optional
          #diagnosticsEnabled: false # Optional
          #collectDumpOn: 'onAbortOnly' # Optional. Options: onAbortOnly, always, never
          #rerunFailedTests: False # Optional
