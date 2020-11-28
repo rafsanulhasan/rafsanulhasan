@@ -160,16 +160,16 @@ stages:
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: lines # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
-          #treat0of0as100: false # Optional
+          treat0of0as100: true # Optional
           coverageThreshold: '1' # Optional
           forceCoverageImprovement: false # Optional
           coverageUpperThreshold: '2' # Optional
           ignoreDecreaseAboveUpperThreshold: true # Optional
-          #useUncoveredElements: false # Optional
-          #allowCoverageVariance: false # Optional
-          #coverageVariance: # Required if allowCoverageVariance = true
-          #coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
-          #coveragePrecision: '4' # Optional
+          useUncoveredElements: false # Optional
+          allowCoverageVariance: true # Optional
+          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '4' # Optional
           buildConfiguration: $(buildConfiguration) # Optional
           buildPlatform: $(buildPlatform) # Optional
           #explicitFilter: false # Optional
