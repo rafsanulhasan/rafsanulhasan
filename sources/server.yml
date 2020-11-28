@@ -163,7 +163,7 @@ stages:
           #treat0of0as100: false # Optional
           coverageThreshold: '1' # Optional
           #forceCoverageImprovement: false # Optional
-          coverageUpperThreshold: '5' # Optional
+          coverageUpperThreshold: '2' # Optional
           ignoreDecreaseAboveUpperThreshold: true # Optional
           #useUncoveredElements: false # Optional
           #allowCoverageVariance: false # Optional
