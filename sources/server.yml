@@ -168,8 +168,8 @@ stages:
           coverageVariance: '2' # Required if allowCoverageVariance = true
           coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
           coveragePrecision: '4' # Optional
-          buildConfiguration: $(buildConfiguration) # Optional
-          buildPlatform: $(buildPlatform) # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          buildPlatform: '$(buildPlatform)' # Optional
           #explicitFilter: false # Optional
           # ===== Baseline Inputs =====
           includePartiallySucceeded: true # Optional
