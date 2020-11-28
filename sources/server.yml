@@ -86,12 +86,12 @@ stages:
          #platform: 'Any CPU'
          #restoreNugetPackages: true # Optional
          #configuration: '$(buildConfiguration)'
-      #- task: DotNetCoreCLI@2
-        #displayName: 'Test'        
-        #inputs:
-          #command: test
-          #projects: '**/*Tests/*Tests.csproj'
-          #arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+      - task: DotNetCoreCLI@2
+        displayName: 'Test'        
+        inputs:
+          command: test
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
       - task: VSTest@2
         displayName: 'Test with VS'    
         inputs:
