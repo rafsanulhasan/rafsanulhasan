@@ -133,6 +133,11 @@ stages:
          #rerunFailedThreshold: '30' # Optional
          #rerunFailedTestCasesMaxLimit: '5' # Optional
          #rerunMaxAttempts: '3' # Optional
+      - task: CmdLine@2
+        displayName: 'Copy json files'
+        inputs:
+          script: 'copy sources\*.Tests\bin\Release\net5.0\*.json sources\*.Tests\bin\Release\net5.0\ref'
+          failOnStderr: true
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
