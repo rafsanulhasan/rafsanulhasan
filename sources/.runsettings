@@ -40,7 +40,7 @@ Included items must then not match any entries in the exclude list to remain inc
             <!-- Match assembly file paths: -->
             <ModulePaths>
               <Include>
-                <ModulePath>.*\Tests\.*\.Tests\bin\Release\net5.0\.dll$</ModulePath>
+                <ModulePath>.*\\Tests\\.*\.Tests\\bin\\Release\\net5.0\\.*\.dll$</ModulePath>
               </Include>
 
               <Exclude>
