@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8E9F7C7D-C059-470C-B7A9-7D2493D545A3}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.runsettings = .runsettings
 		..\azurepipelines-coverage.yml = ..\azurepipelines-coverage.yml
 		..\README.md = ..\README.md
 		server.yml = server.yml
