@@ -94,9 +94,9 @@ stages:
         displayName: 'Copy json files'
         inputs:
           script: | 
-            'copy sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).json sources\*.Tests\bin\Release\net5.0\ref'
-            'copy sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).runtimeconfig.json sources\*.Tests\bin\Release\net5.0\ref'
-            'copy sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).runtimeconfig.dev.json sources\*.Tests\bin\Release\net5.0\ref'
+            'cp sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).json sources\*.Tests\bin\Release\net5.0\ref'
+            'cp sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).runtimeconfig.json sources\*.Tests\bin\Release\net5.0\ref'
+            'cp sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).runtimeconfig.dev.json sources\*.Tests\bin\Release\net5.0\ref'
           failOnStderr: true
       - task: VSTest@2
         displayName: 'Test with VS'    
