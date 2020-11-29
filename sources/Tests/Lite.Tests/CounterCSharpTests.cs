@@ -1,22 +1,24 @@
+using System.Diagnostics.CodeAnalysis;
+
 using Bunit;
 
 using RH.Apps.Web.SPA.Lite.Pages;
 
 using Xunit;
-using System.Diagnostics.CodeAnalysis;
 
 namespace RH.Apps.Web.SPA.Lite.Tests
 {
+	[Collection("CounterTests")]
 	[ExcludeFromCodeCoverage]
 	/// <summary>
 	/// These tests are written entirely in C#.
 	/// Learn more at https://bunit.egilhansen.com/docs/
 	/// </summary>
-	public class CounterCSharpTests
+	public class CounterShould
 		: TestContext
 	{
-		[Fact]
-		public void CounterStartsAtZero()
+		[Fact(DisplayName = "Starts at 0")]
+		public void StartAtZero()
 		{
 			// Arrange
 			var cut = RenderComponent<Counter>();
@@ -25,7 +27,7 @@ namespace RH.Apps.Web.SPA.Lite.Tests
 			cut.Find("p").MarkupMatches("<p>Current count: 0</p>");
 		}
 
-		[Fact]
+		[Fact(DisplayName = "Clicking button increments counter")]
 		public void ClickingButtonIncrementsCounter()
 		{
 			// Arrange
