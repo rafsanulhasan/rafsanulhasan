@@ -47,7 +47,7 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
-  testDir": '$(System.DefaultWorkingDirectory)/sources/Tests'
+  testDir: '$(System.DefaultWorkingDirectory)/sources/Tests'
   testProjectName: 'RH.Apps.Web.SPA.Lite.Tests'
 
 stages:
@@ -90,14 +90,16 @@ stages:
           #command: test
           #projects: '**/*Tests/*Tests.csproj'
           #arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
-      - task: CmdLine@2
+      - task: CopyFiles@2
         displayName: 'Copy json files'
         inputs:
-          script: | 
-            'xcopy sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).deps.json sources\*.Tests\bin\Release\net5.0\ref'
-            'xcopy sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).runtimeconfig.json sources\*.Tests\bin\Release\net5.0\ref'
-            'xcopy sources\$(testProjectName)\bin\Release\net5.0\$(testProjectName).runtimeconfig.dev.json sources\*.Tests\bin\Release\net5.0\ref'
-          failOnStderr: true
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.json' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
       - task: VSTest@2
         displayName: 'Test with VS'    
         inputs:
