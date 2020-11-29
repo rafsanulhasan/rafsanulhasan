@@ -70,14 +70,14 @@ stages:
         #displayName: 'Install NuGet Tools'
         #inputs:
           #checkLatest: true
-      - task: DotNetCoreCLI@2
-        displayName: 'Build project'
-        inputs:
-          command: 'build'
-          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(buildConfiguration)'
-          feedsToUse: 'select'
-          versioningScheme: 'off'
+      #- task: DotNetCoreCLI@2
+        #displayName: 'Build project'
+        #inputs:
+          #command: 'build'
+          #projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          #arguments: '--configuration $(buildConfiguration)'
+          #feedsToUse: 'select'
+          #versioningScheme: 'off'
       - task: DotNetCoreCLI@2
         displayName: 'Build Test Project'
         inputs:
