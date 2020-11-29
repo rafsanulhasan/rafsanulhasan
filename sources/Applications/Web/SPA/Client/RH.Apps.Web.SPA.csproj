@@ -5,6 +5,7 @@
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		<UserSecretsId>4482f749-2c60-472d-9d39-20f1ef8c44a9</UserSecretsId>
 		<LangVersion>9.0</LangVersion>
+		<Company>SICS</Company>
 	</PropertyGroup>
 
 	<ItemGroup>
