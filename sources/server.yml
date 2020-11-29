@@ -148,7 +148,7 @@ stages:
           buildPlatform: '$(buildPlatform)' # Optional
           #explicitFilter: false # Optional
           # ===== Baseline Inputs =====
-          includePartiallySucceeded: true # Optional
+          includePartiallySucceeded: false # Optional
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
