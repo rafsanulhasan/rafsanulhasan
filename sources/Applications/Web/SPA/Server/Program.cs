@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-using RH.Apps.Web.SPA.Lite.Extensions;
-
 namespace RH.Apps.Web.SPA.Lite
 {
 	public static class Program

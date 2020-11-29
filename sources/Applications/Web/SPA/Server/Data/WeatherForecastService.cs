@@ -6,10 +6,10 @@ namespace RH.Apps.Web.SPA.Lite.Data
 {
 	public class WeatherForecastService
 	{
-		private static readonly string[] Summaries = new[]
+		private static readonly string[] SUMMARIES = new[]
 		{
-		  "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-	   };
+			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+		};
 
 		public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
 		{
@@ -18,7 +18,7 @@ namespace RH.Apps.Web.SPA.Lite.Data
 			{
 				Date = startDate.AddDays(index),
 				TemperatureC = rng.Next(-20, 55),
-				Summary = Summaries[rng.Next(Summaries.Length)]
+				Summary = SUMMARIES[rng.Next(SUMMARIES.Length)]
 			}).ToArray());
 		}
 	}
