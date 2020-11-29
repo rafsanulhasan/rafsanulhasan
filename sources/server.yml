@@ -61,6 +61,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      ## needed if running on linux ##
       #- task: UseDotNet@2
         #displayName: 'Install .NET Core SDK 5.0'
         #inputs:
@@ -78,18 +79,13 @@ stages:
           #arguments: '--configuration $(buildConfiguration)'
           #feedsToUse: 'select'
           #versioningScheme: 'off'
+      ## needed if running on linux ##
       - task: DotNetCoreCLI@2
-        displayName: 'Build Test Project'
+        displayName: 'Build'
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
-      #- task: DotNetCoreCLI@2
-        #displayName: 'Test'        
-        #inputs:
-          #command: test
-          #projects: '**/*Tests/*Tests.csproj'
-          #arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -120,27 +116,9 @@ stages:
            **\*tests.dll
            !**\*TestAdapter.dll
            !**\obj\** 
-         #tcmTestRun: '$(test.RunId)' # Optional
-         #searchFolder: 'sources/Tests/*.Tests/*' 
-         #testFiltercriteria: # Optional
-         #runOnlyImpactedTests: False # Optional
-         #runAllTestsAfterXBuilds: '50' # Optional
-         #uiTests: false # Optional
-         #vstestLocationMethod: 'version' # Optional. Options: version, location
          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-         #vstestLocation: # Optional
          runSettingsFile: 'sources\.runsettings' # Optional
-         #overrideTestrunParameters: # Optional
-         #pathtoCustomTestAdapters: # Optional
-         #runInParallel: False # Optional
-         #runTestsInIsolation: False # Optional
          codeCoverageEnabled: true # Optional
-         #otherConsoleOptions: # Optional
-         #distributionBatchType: 'basedOnTestCases' # Optional. Options: basedOnTestCases, basedOnExecutionTime, basedOnAssembly
-         #batchingBasedOnAgentsOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customBatchSize
-         #customBatchSizeValue: '10' # Required when distributionBatchType == BasedOnTestCases && BatchingBasedOnAgentsOption == CustomBatchSize
-         #batchingBasedOnExecutionTimeOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customTimeBatchSize
-         #customRunTimePerBatchValue: '60' # Required when distributionBatchType == BasedOnExecutionTime && BatchingBasedOnExecutionTimeOption == CustomTimeBatchSize
          dontDistribute: False # Optional
          testRunTitle: ServerAppTest # Optional
          platform: '$(buildPlatform)' # Optional
@@ -148,33 +126,9 @@ stages:
          publishRunAttachments: true # Optional
          failOnMinTestsNotRun: false # Optional
          minimumExpectedTests: '1' # Optional
-         #diagnosticsEnabled: false # Optional
-         #collectDumpOn: 'onAbortOnly' # Optional. Options: onAbortOnly, always, never
-         #rerunFailedTests: False # Optional
-         #rerunType: 'basedOnTestFailurePercentage' # Optional. Options: basedOnTestFailurePercentage, basedOnTestFailureCount
-         #rerunFailedThreshold: '30' # Optional
-         #rerunFailedTestCasesMaxLimit: '5' # Optional
-         #rerunMaxAttempts: '3' # Optional
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
-          # ===== Warnings Policy Inputs =====
-          #checkWarnings: false # Optional
-          #warningFailOption: build # Optional; Valid values: build, fixed
-          #warningThreshold: '0' # Optional
-          #forceFewerWarnings: false # Optional
-          #allowWarningVariance: false # Optional
-          #warningVariance: # Required if allowWarningVariance = true
-          #showStatistics: false # Optional
-          #evaluateTaskWarnings: true # Optional
-          #warningTaskFilters: '/^((vs|ms)build|ant(\\s+.+)?|gradle(w)?(\\s+.+)?|grunt|gulp|maven(\\s+.+)?|xamarin(android|ios)|xcode(\\s+.+)?|cmake|build\\s+.+)$/i' # Optional
-          #warningFilters: # Optional
-          #inclusiveFiltering: false # Optional
-          #evaluateFileWarnings: false # Optional
-          #warningFilesFolder: # Optional
-          #warningFiles: # Required if evaluateFileWarnings = true
-          #warningFileFilters: # Required if evaluateFileWarnings = true
-          #warningFilesArtifact: # Required if evaluateFileWarnings = true and (warningFailOption = build or showStatistics = true)
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
@@ -195,15 +149,9 @@ stages:
           #explicitFilter: false # Optional
           # ===== Baseline Inputs =====
           includePartiallySucceeded: true # Optional
-          #baseDefinitionFilter: # Ignored - only used by UI editor
-          #baseDefinitionId: # Optional
-          #baseRepoId: # Ignored - only used by UI editor
-          #baseBranchRef: # Optional
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
-          #fileAnalysisTitle: # Optional
           # ===== Advanced Inputs =====
-          #disableCertCheck: false # Optional
           createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
@@ -260,6 +208,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      ## needed if running on linux ##
       #- task: UseDotNet@2
         #displayName: 'Install .NET Core SDK 5.0'
         #inputs:
@@ -269,28 +218,13 @@ stages:
         #displayName: 'Install NuGet Tools'
         #inputs:
           #checkLatest: true
-      #- task: DotNetCoreCLI@2
-        #displayName: 'Build project'
-        #inputs:
-          #command: 'build'
-          #projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          #arguments: '--configuration $(buildConfiguration)'
-          #feedsToUse: 'select'
-          #versioningScheme: 'off'
+      ## needed if running on linux ##
       - task: DotNetCoreCLI@2
-        displayName: 'Build Test Project'
+        displayName: 'Build'
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
-      #- task: MSBuild@1
-         #displayName: 'Build solution using msbuild'
-         #inputs:
-         #solution: '$(solution)'  
-         #msbuildArchitecture: 'x64'
-         #platform: 'Any CPU'
-         #restoreNugetPackages: true # Optional
-         #configuration: '$(buildConfiguration)'
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -316,75 +250,33 @@ stages:
       - task: VSTest@2
         displayName: 'Test with VS'    
         inputs:
-         testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
-         testAssemblyVer2: | # Required when testSelector == TestAssemblies
-           **\*tests.dll
-           !**\*TestAdapter.dll
-           !**\obj\** 
-         #tcmTestRun: '$(test.RunId)' # Optional
-         #searchFolder: 'sources/Tests/*.Tests/*' 
-         #testFiltercriteria: # Optional
-         #runOnlyImpactedTests: False # Optional
-         #runAllTestsAfterXBuilds: '50' # Optional
-         #uiTests: false # Optional
-         #vstestLocationMethod: 'version' # Optional. Options: version, location
-         vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-         #vstestLocation: # Optional
-         runSettingsFile: 'sources\.runsettings' # Optional
-         #overrideTestrunParameters: # Optional
-         #pathtoCustomTestAdapters: # Optional
-         #runInParallel: False # Optional
-         #runTestsInIsolation: False # Optional
-         codeCoverageEnabled: true # Optional
-         #otherConsoleOptions: # Optional
-         #distributionBatchType: 'basedOnTestCases' # Optional. Options: basedOnTestCases, basedOnExecutionTime, basedOnAssembly
-         #batchingBasedOnAgentsOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customBatchSize
-         #customBatchSizeValue: '10' # Required when distributionBatchType == BasedOnTestCases && BatchingBasedOnAgentsOption == CustomBatchSize
-         #batchingBasedOnExecutionTimeOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customTimeBatchSize
-         #customRunTimePerBatchValue: '60' # Required when distributionBatchType == BasedOnExecutionTime && BatchingBasedOnExecutionTimeOption == CustomTimeBatchSize
-         dontDistribute: False # Optional
-         testRunTitle: ServerAppTest # Optional
-         platform: '$(buildPlatform)' # Optional
-         configuration: '$(buildConfiguration)' # Optional
-         publishRunAttachments: true # Optional
-         failOnMinTestsNotRun: false # Optional
-         minimumExpectedTests: '1' # Optional
-         #diagnosticsEnabled: false # Optional
-         #collectDumpOn: 'onAbortOnly' # Optional. Options: onAbortOnly, always, never
-         #rerunFailedTests: False # Optional
-         #rerunType: 'basedOnTestFailurePercentage' # Optional. Options: basedOnTestFailurePercentage, basedOnTestFailureCount
-         #rerunFailedThreshold: '30' # Optional
-         #rerunFailedTestCasesMaxLimit: '5' # Optional
-         #rerunMaxAttempts: '3' # Optional
+          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
+          testAssemblyVer2: | # Required when testSelector == TestAssemblies
+            **\*tests.dll
+            !**\*TestAdapter.dll
+            !**\obj\** 
+          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+          runSettingsFile: 'sources\.runsettings' # Optional
+          codeCoverageEnabled: true # Optional
+          dontDistribute: False # Optional
+          testRunTitle: ServerAppTest # Optional
+          platform: '$(buildPlatform)' # Optional
+          configuration: '$(buildConfiguration)' # Optional
+          publishRunAttachments: true # Optional
+          failOnMinTestsNotRun: true # Optional
+          minimumExpectedTests: '5' # Optional
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
-          # ===== Warnings Policy Inputs =====
-          #checkWarnings: false # Optional
-          #warningFailOption: build # Optional; Valid values: build, fixed
-          #warningThreshold: '0' # Optional
-          #forceFewerWarnings: false # Optional
-          #allowWarningVariance: false # Optional
-          #warningVariance: # Required if allowWarningVariance = true
-          #showStatistics: false # Optional
-          #evaluateTaskWarnings: true # Optional
-          #warningTaskFilters: '/^((vs|ms)build|ant(\\s+.+)?|gradle(w)?(\\s+.+)?|grunt|gulp|maven(\\s+.+)?|xamarin(android|ios)|xcode(\\s+.+)?|cmake|build\\s+.+)$/i' # Optional
-          #warningFilters: # Optional
-          #inclusiveFiltering: false # Optional
-          #evaluateFileWarnings: false # Optional
-          #warningFilesFolder: # Optional
-          #warningFiles: # Required if evaluateFileWarnings = true
-          #warningFileFilters: # Required if evaluateFileWarnings = true
-          #warningFilesArtifact: # Required if evaluateFileWarnings = true and (warningFailOption = build or showStatistics = true)
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
           treat0of0as100: false # Optional
-          coverageThreshold: '1' # Optional
+          coverageThreshold: '50' # Optional
           forceCoverageImprovement: false # Optional
-          coverageUpperThreshold: '2' # Optional
+          coverageUpperThreshold: '70' # Optional
           ignoreDecreaseAboveUpperThreshold: true # Optional
           useUncoveredElements: false # Optional
           allowCoverageVariance: true # Optional
@@ -396,15 +288,9 @@ stages:
           #explicitFilter: false # Optional
           # ===== Baseline Inputs =====
           includePartiallySucceeded: true # Optional
-          #baseDefinitionFilter: # Ignored - only used by UI editor
-          #baseDefinitionId: # Optional
-          #baseRepoId: # Ignored - only used by UI editor
-          #baseBranchRef: # Optional
           # ===== Reporting Inputs =====
-          runTitle: Alpha Quality Gates # Optional
-          #fileAnalysisTitle: # Optional
+          runTitle: Beta Quality Gates # Optional
           # ===== Advanced Inputs =====
-          #disableCertCheck: false # Optional
           createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
@@ -461,6 +347,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
+      ## needed if running on linux ##
       #- task: UseDotNet@2
         #displayName: 'Install .NET Core SDK 5.0'
         #inputs:
@@ -470,22 +357,13 @@ stages:
         #displayName: 'Install NuGet Tools'
         #inputs:
           #checkLatest: true
-      #- task: DotNetCoreCLI@2
-        #displayName: 'Build project'
-        #inputs:
-          #command: 'build'
-          #projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          #arguments: '--configuration $(buildConfiguration)'
-          #feedsToUse: 'select'
-          #versioningScheme: 'off'
-      #- task: MSBuild@1
-         #displayName: 'Build solution using msbuild'
-         #inputs:
-         #solution: '$(solution)'  
-         #msbuildArchitecture: 'x64'
-         #platform: 'Any CPU'
-         #restoreNugetPackages: true # Optional
-         #configuration: '$(buildConfiguration)'
+      ## needed if running on linux ##
+      - task: DotNetCoreCLI@2
+        displayName: 'Build'
+        inputs:
+          command: build
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration)'
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -511,75 +389,33 @@ stages:
       - task: VSTest@2
         displayName: 'Test with VS'    
         inputs:
-         testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
-         testAssemblyVer2: | # Required when testSelector == TestAssemblies
-           **\*tests.dll
-           !**\*TestAdapter.dll
-           !**\obj\** 
-         #tcmTestRun: '$(test.RunId)' # Optional
-         #searchFolder: 'sources/Tests/*.Tests/*' 
-         #testFiltercriteria: # Optional
-         #runOnlyImpactedTests: False # Optional
-         #runAllTestsAfterXBuilds: '50' # Optional
-         #uiTests: false # Optional
-         #vstestLocationMethod: 'version' # Optional. Options: version, location
-         vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-         #vstestLocation: # Optional
-         runSettingsFile: 'sources\.runsettings' # Optional
-         #overrideTestrunParameters: # Optional
-         #pathtoCustomTestAdapters: # Optional
-         #runInParallel: False # Optional
-         #runTestsInIsolation: False # Optional
-         codeCoverageEnabled: true # Optional
-         #otherConsoleOptions: # Optional
-         #distributionBatchType: 'basedOnTestCases' # Optional. Options: basedOnTestCases, basedOnExecutionTime, basedOnAssembly
-         #batchingBasedOnAgentsOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customBatchSize
-         #customBatchSizeValue: '10' # Required when distributionBatchType == BasedOnTestCases && BatchingBasedOnAgentsOption == CustomBatchSize
-         #batchingBasedOnExecutionTimeOption: 'autoBatchSize' # Optional. Options: autoBatchSize, customTimeBatchSize
-         #customRunTimePerBatchValue: '60' # Required when distributionBatchType == BasedOnExecutionTime && BatchingBasedOnExecutionTimeOption == CustomTimeBatchSize
-         dontDistribute: False # Optional
-         testRunTitle: ServerAppTest # Optional
-         platform: '$(buildPlatform)' # Optional
-         configuration: '$(buildConfiguration)' # Optional
-         publishRunAttachments: true # Optional
-         failOnMinTestsNotRun: false # Optional
-         minimumExpectedTests: '1' # Optional
-         #diagnosticsEnabled: false # Optional
-         #collectDumpOn: 'onAbortOnly' # Optional. Options: onAbortOnly, always, never
-         #rerunFailedTests: False # Optional
-         #rerunType: 'basedOnTestFailurePercentage' # Optional. Options: basedOnTestFailurePercentage, basedOnTestFailureCount
-         #rerunFailedThreshold: '30' # Optional
-         #rerunFailedTestCasesMaxLimit: '5' # Optional
-         #rerunMaxAttempts: '3' # Optional
+          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
+          testAssemblyVer2: | # Required when testSelector == TestAssemblies
+            **\*tests.dll
+            !**\*TestAdapter.dll
+            !**\obj\** 
+          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+          runSettingsFile: 'sources\.runsettings' # Optional
+          codeCoverageEnabled: true # Optional
+          dontDistribute: False # Optional
+          testRunTitle: ServerAppTest # Optional
+          platform: '$(buildPlatform)' # Optional
+          configuration: '$(buildConfiguration)' # Optional
+          publishRunAttachments: true # Optional
+          failOnMinTestsNotRun: true # Optional
+          minimumExpectedTests: '10' # Optional
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
-          # ===== Warnings Policy Inputs =====
-          #checkWarnings: false # Optional
-          #warningFailOption: build # Optional; Valid values: build, fixed
-          #warningThreshold: '0' # Optional
-          #forceFewerWarnings: false # Optional
-          #allowWarningVariance: false # Optional
-          #warningVariance: # Required if allowWarningVariance = true
-          #showStatistics: false # Optional
-          #evaluateTaskWarnings: true # Optional
-          #warningTaskFilters: '/^((vs|ms)build|ant(\\s+.+)?|gradle(w)?(\\s+.+)?|grunt|gulp|maven(\\s+.+)?|xamarin(android|ios)|xcode(\\s+.+)?|cmake|build\\s+.+)$/i' # Optional
-          #warningFilters: # Optional
-          #inclusiveFiltering: false # Optional
-          #evaluateFileWarnings: false # Optional
-          #warningFilesFolder: # Optional
-          #warningFiles: # Required if evaluateFileWarnings = true
-          #warningFileFilters: # Required if evaluateFileWarnings = true
-          #warningFilesArtifact: # Required if evaluateFileWarnings = true and (warningFailOption = build or showStatistics = true)
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
           treat0of0as100: false # Optional
-          coverageThreshold: '1' # Optional
+          coverageThreshold: '70' # Optional
           forceCoverageImprovement: false # Optional
-          coverageUpperThreshold: '2' # Optional
+          coverageUpperThreshold: '90' # Optional
           ignoreDecreaseAboveUpperThreshold: true # Optional
           useUncoveredElements: false # Optional
           allowCoverageVariance: true # Optional
@@ -591,15 +427,9 @@ stages:
           #explicitFilter: false # Optional
           # ===== Baseline Inputs =====
           includePartiallySucceeded: true # Optional
-          #baseDefinitionFilter: # Ignored - only used by UI editor
-          #baseDefinitionId: # Optional
-          #baseRepoId: # Ignored - only used by UI editor
-          #baseBranchRef: # Optional
           # ===== Reporting Inputs =====
-          runTitle: Alpha Quality Gates # Optional
-          #fileAnalysisTitle: # Optional
+          runTitle: Production Quality Gates # Optional
           # ===== Advanced Inputs =====
-          #disableCertCheck: false # Optional
           createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
