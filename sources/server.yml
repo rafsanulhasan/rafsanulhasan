@@ -95,7 +95,8 @@ stages:
         inputs:
          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
          testAssemblyVer2: | # Required when testSelector == TestAssemblies
-           **\*test*.dll
+           **\*tests.dll
+           **\*tests.views.dll
            !**\*TestAdapter.dll
            !**\obj\** 
          #tcmTestRun: '$(test.RunId)' # Optional
@@ -121,8 +122,8 @@ stages:
          #customRunTimePerBatchValue: '60' # Required when distributionBatchType == BasedOnExecutionTime && BatchingBasedOnExecutionTimeOption == CustomTimeBatchSize
          dontDistribute: False # Optional
          testRunTitle: ServerAppTest # Optional
-         #platform: # Optional
-         configuration: '$(buildConfuguration)' # Optional
+         platform: '$(buildPlatform)' # Optional
+         configuration: '$(buildConfiguration)' # Optional
          publishRunAttachments: true # Optional
          failOnMinTestsNotRun: false # Optional
          minimumExpectedTests: '1' # Optional
