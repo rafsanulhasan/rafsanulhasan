@@ -13,7 +13,7 @@
     <!-- Framework35 | [Framework40] | Framework45 -->
     <!--TargetFrameworkVersion>Core50</TargetFrameworkVersion>-->
     <TargetFramework>net5.0</TargetFramework>
-    <ResultsDirectory>D:\a\_temp\TestResults</ResultsDirectory>
+    <ResultsDirectory>D:\a\_temp</ResultsDirectory>
   </RunConfiguration>
 
   <DataCollectionRunSettings>
@@ -27,9 +27,6 @@ If .pdb files are in the same folder as the .dll or .exe files, they are automat
 Note that searching for symbols increases code coverage runtime. So keep this small and local.
 -->            
             
-            <!--<SymbolSearchPaths>              
-                  <Path>.*\\*Tests\\bin\\Release\\net5.0</Path>
-            </SymbolSearchPaths>-->
 
 <!--
 About include/exclude lists:
@@ -42,8 +39,7 @@ Included items must then not match any entries in the exclude list to remain inc
             <!-- Match assembly file paths: -->
             <ModulePaths>
               <Include>
-                <ModulePath>.*\.dll$</ModulePath>
-                <ModulePath>.*\.exe$</ModulePath>
+                <ModulePath>.*Tests\.dll$</ModulePath>
               </Include>
 
               <Exclude>
