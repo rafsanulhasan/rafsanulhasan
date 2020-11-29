@@ -56,7 +56,7 @@ stages:
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build And Test'
+    displayName: 'Build & Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -155,7 +155,7 @@ stages:
           createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
-    displayName: 'Publish and Deploy'
+    displayName: 'Publish & Deploy'
     dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
@@ -203,7 +203,7 @@ stages:
   condition: or(eq(variables['targetBranch'], 'staging'), eq(variables['sourceBranch'], 'staging'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build and Test'
+    displayName: 'Build & Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -294,7 +294,7 @@ stages:
           createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
-    displayName: 'Publish and Deploy'
+    displayName: 'Publish & Deploy'
     dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
@@ -342,7 +342,7 @@ stages:
   condition: or(eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'master'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build and Test'
+    displayName: 'Build & Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
@@ -433,7 +433,7 @@ stages:
           createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
-    displayName: 'Publish and Deploy'
+    displayName: 'Publish & Deploy'
     dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
