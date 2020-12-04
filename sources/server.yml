@@ -175,10 +175,18 @@ stages:
           arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
+      - task: CopyFiles@2
+        displayName: 'Copy published files'
+        inputs:
+          sourceFolder: '$(Build.ArtifactStagingDirectory)/**' # Optional
+          contents: '*.zip' 
+          targetFolder: '$(Build.ArtifactStagingDirectory)'
+          cleanTargetFolder: true # Optional
+          failOnStderr: true
       - task: PublishPipelineArtifact@1
         displayName: 'Publish artifact'
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)/bin/Release/net5.0/publish'
+          targetPath: '$(Build.ArtifactStagingDirectory)/*.zip'
           artifactName: 'server-app'
 
   - job: PublishAndDeploy
