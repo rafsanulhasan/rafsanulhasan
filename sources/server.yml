@@ -172,21 +172,14 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(buildConfiguration) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
-      - task: CopyFiles@2
-        displayName: 'Copy published files'
-        inputs:
-          sourceFolder: '$(buildConfiguration) $(serverProjectDir)/$(serverProjectName)/bin/Release' # Optional
-          contents: '*.zip' 
-          targetFolder: '$(Build.ArtifactStagingDirectory)'
-          cleanTargetFolder: true # Optional
-          failOnStderr: true
+          modifyOutputPath: true
       - task: PublishPipelineArtifact@1
         displayName: 'Publish artifact'
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)/*.zip'
+          targetPath: '$(Build.ArtifactStagingDirectory)/$(serverProjectName).zip'
           artifactName: 'server-app'
 
   - job: PublishAndDeploy
