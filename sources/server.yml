@@ -158,14 +158,6 @@ stages:
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
           createBuildIssues: true # Optional
-
-  - job: PublishAndDeploy
-    displayName: 'Publish & Deploy'
-    dependsOn: BuildAndTest
-    condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
-    pool:
-      vmImage: $(vmImageName)
-    steps:
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
@@ -189,6 +181,14 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'Drop'
           publishLocation: 'Container'
+
+  - job: PublishAndDeploy
+    displayName: 'Publish & Deploy'
+    dependsOn: BuildAndTest
+    condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    pool:
+      vmImage: $(vmImageName)
+    steps:      
       - task: DownloadBuildArtifacts@0
         displayName: 'Download artifact'
         inputs:
