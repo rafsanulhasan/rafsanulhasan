@@ -173,13 +173,12 @@ stages:
           command: publish
           publishWebProjects: false
           arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
-          #modifyOutputPath: false
           zipAfterPublish: true  
           modifyOutputPath: true
       - task: PublishPipelineArtifact@1
         displayName: 'Publish artifact'
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)/$(serverProjectName)/**/**.zip'
+          targetPath: '$(Build.ArtifactStagingDirectory)'
           artifactName: 'server-app'
 
   - job: PublishAndDeploy
@@ -189,10 +188,11 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:      
-      - task: DownloadPipelineArtifact@0
+      - task: DownloadPipelineArtifact@2
         displayName: 'Download artifact'
         inputs:
           artifact: 'server-app'
+          patterns: '**/*.zip'
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
