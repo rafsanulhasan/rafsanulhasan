@@ -57,7 +57,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build & Test'
-    condition: eq(variables['isPR'], 'true')
+    condition: or(eq(variables['isPR'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
