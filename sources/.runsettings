@@ -26,8 +26,7 @@ Note that searching for symbols increases code coverage runtime. So keep this sm
 -->
 
 						<SymbolSearchPaths>
-							<Path>.*\\*Tests\\bin\\Debug\\net5.0</Path>
-							<Path>.*\\*Tests\\bin\\Release\\net5.0</Path>
+							<Path>.*\\*Tests\\bin\\.*\\net5.0</Path>
 						</SymbolSearchPaths>
 
 						<!--
@@ -41,9 +40,8 @@ Included items must then not match any entries in the exclude list to remain inc
 						<!-- Match assembly file paths: -->
 						<ModulePaths>
 							<Include>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.dll$</ModulePath>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.Views\.dll$</ModulePath>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Tests\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*\.Tests\\bin\\.*\\net5.0\\.*Lite\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*\.Tests\\bin\\.*\\net5.0\\.*Lite\.Views\.dll$</ModulePath>
 							</Include>
 
 							<Exclude>
