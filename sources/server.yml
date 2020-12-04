@@ -172,13 +172,13 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
       - task: CopyFiles@2
         displayName: 'Copy published files'
         inputs:
-          sourceFolder: '$(System.DefaultWorkingDirectory)' # Optional
+          sourceFolder: '$(buildConfiguration) $(serverProjectDir)/$(serverProjectName)/bin/Release' # Optional
           contents: '*.zip' 
           targetFolder: '$(Build.ArtifactStagingDirectory)'
           cleanTargetFolder: true # Optional
