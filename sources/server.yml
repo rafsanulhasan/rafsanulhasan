@@ -168,7 +168,7 @@ stages:
       - task: SonarCloudAnalyze@1
       - task: SonarCloudPublish@1
         inputs:
-        pollingTimeoutSec: '300'
+          pollingTimeoutSec: '300'
 
   - job: PublishAndDeploy
     displayName: 'Publish & Deploy'
