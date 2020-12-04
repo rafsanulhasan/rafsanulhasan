@@ -1,32 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RazorLangVersion>3.0</RazorLangVersion>
-    <Company>SICS</Company>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<RazorLangVersion>3.0</RazorLangVersion>
+		<Company>SICS</Company>
+		<Nullable>enable</Nullable>
+		<AnalysisLevel>5.0</AnalysisLevel>
+		<RunAnalyzers>true</RunAnalyzers>
+		<CodeAnalysisRuleSet>..\..\codingrules.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="TestResults\**" />
-    <Content Remove="TestResults\**" />
-    <EmbeddedResource Remove="TestResults\**" />
-    <None Remove="TestResults\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="TestResults\**" />
+		<Content Remove="TestResults\**" />
+		<EmbeddedResource Remove="TestResults\**" />
+		<None Remove="TestResults\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="bunit.core" Version="1.0.0-beta-11" />
-    <PackageReference Include="bunit.web" Version="1.0.0-beta-11" />
-    <PackageReference Include="bunit.xunit" Version="1.0.0-beta-11" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="bunit.core" Version="1.0.0-beta-11" />
+		<PackageReference Include="bunit.web" Version="1.0.0-beta-11" />
+		<PackageReference Include="bunit.xunit" Version="1.0.0-beta-11" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0" />
+		<PackageReference Include="xunit" Version="2.4.1" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Applications\Web\SPA\Server\RH.Apps.Web.SPA.Lite.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Applications\Web\SPA\Server\RH.Apps.Web.SPA.Lite.csproj" />
+	</ItemGroup>
 
 </Project>
