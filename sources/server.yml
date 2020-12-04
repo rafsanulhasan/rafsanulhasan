@@ -14,7 +14,7 @@ trigger:
       - feature/*
           
 pr:
-  autoCancel: false
+  autoCancel: true
   branches:
     include:
       - staging
@@ -47,6 +47,8 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
+  testDir: '$(System.DefaultWorkingDirectory)/sources/Tests'
+  testProjectName: 'Lite.Tests'
 
 stages:
 - stage: dev
@@ -54,44 +56,108 @@ stages:
   condition: or(eq(variables['targetBranch'], 'dev'), eq(variables['sourceBranch'], 'dev'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build and Test'
+    displayName: 'Build & Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
-      - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK 5.0'
-        inputs:
-          packageType: 'sdk'
-          version: '5.0.100'
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet Tools'
-        inputs:
-          checkLatest: true
+      ## needed if running on linux ##
+      #- task: UseDotNet@2
+        #displayName: 'Install .NET Core SDK 5.0'
+        #inputs:
+          #packageType: 'sdk'
+          #version: '5.0.100'
+      #- task: NuGetToolInstaller@1
+        #displayName: 'Install NuGet Tools'
+        #inputs:
+          #checkLatest: true
+      #- task: DotNetCoreCLI@2
+        #displayName: 'Build project'
+        #inputs:
+          #command: 'build'
+          #projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          #arguments: '--configuration $(buildConfiguration)'
+          #feedsToUse: 'select'
+          #versioningScheme: 'off'
+      ## needed if running on linux ##
       - task: DotNetCoreCLI@2
-        displayName: 'Build project'
+        displayName: 'Build'
         inputs:
-          command: 'build'
-          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
-          feedsToUse: 'select'
-          versioningScheme: 'off'
-      #- task: MSBuild@1
-         #displayName: 'Build solution using msbuild'
-         #inputs:
-         #solution: '$(solution)'  
-         #msbuildArchitecture: 'x64'
-         #platform: 'Any CPU'
-         #restoreNugetPackages: true # Optional
-         #configuration: '$(buildConfiguration)'
-
-  - job: PublishAndDeploy
-    displayName: 'Publish and Deploy'
-    dependsOn: BuildAndTest
-    condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
-    pool:
-      vmImage: $(vmImageName)
-    steps:
+          command: build
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration)'
+      - task: CopyFiles@2
+        displayName: 'Copy dll files'
+        inputs:
+          sourceFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0' # Optional
+          contents: '*.dll' 
+          targetFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0/ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          #failOnStderr: true
+      - task: CopyFiles@2
+        displayName: 'Copy json files'
+        inputs:
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.json' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          #failOnStderr: true
+      - task: VSTest@2
+        displayName: 'Test'    
+        inputs:
+         testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
+         testAssemblyVer2: | # Required when testSelector == TestAssemblies
+           **\*tests.dll
+           !**\*TestAdapter.dll
+           !**\obj\** 
+         vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+         runSettingsFile: 'sources\.runsettings' # Optional
+         codeCoverageEnabled: true # Optional
+         dontDistribute: False # Optional
+         testRunTitle: ServerAppTest # Optional
+         platform: '$(buildPlatform)' # Optional
+         configuration: '$(buildConfiguration)' # Optional
+         publishRunAttachments: true # Optional
+         failOnMinTestsNotRun: false # Optional
+         minimumExpectedTests: '1' # Optional
+      - task: BuildQualityChecks@7
+        displayName: 'Check build quality'
+        inputs:
+          # ===== Warnings Policy Inputs =====
+          checkWarnings: true # Optional
+          warningFailOption: fixed # Optional; Valid values: build, fixed
+          warningThreshold: '5' # Optional
+          showStatistics: true # Optional
+          # ===== Code Coverage Policy Inputs =====
+          checkCoverage: true # Optional
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
+          coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
+          #customCoverageType: # Required if coverageType = custom
+          treat0of0as100: false # Optional
+          coverageThreshold: '1' # Optional
+          forceCoverageImprovement: false # Optional
+          coverageUpperThreshold: '2' # Optional
+          ignoreDecreaseAboveUpperThreshold: true # Optional
+          useUncoveredElements: false # Optional
+          allowCoverageVariance: true # Optional
+          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '2' # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          buildPlatform: '$(buildPlatform)' # Optional
+          #explicitFilter: false # Optional
+          # ===== Baseline Inputs =====
+          includePartiallySucceeded: false # Optional
+          # ===== Reporting Inputs =====
+          runTitle: Alpha Quality Gates # Optional
+          # ===== Advanced Inputs =====
+          createBuildIssues: true # Optional
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
@@ -106,20 +172,27 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
-          #modifyOutputPath: false
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           zipAfterPublish: true  
-      - task: PublishBuildArtifacts@1
+          modifyOutputPath: true
+      - task: PublishPipelineArtifact@1
         displayName: 'Publish artifact'
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'Drop'
-          publishLocation: 'Container'
-      - task: DownloadBuildArtifacts@0
+          targetPath: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'server-app'
+
+  - job: PublishAndDeploy
+    displayName: 'Publish & Deploy'
+    dependsOn: BuildAndTest
+    condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    pool:
+      vmImage: $(vmImageName)
+    steps:      
+      - task: DownloadPipelineArtifact@2
         displayName: 'Download artifact'
         inputs:
-          artifactName: drop    
-          downloadPath: '$(System.DefaultWorkingDirectory)'
+          artifact: 'server-app'
+          patterns: '**/*.zip'
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
@@ -134,39 +207,103 @@ stages:
   condition: or(eq(variables['targetBranch'], 'staging'), eq(variables['sourceBranch'], 'staging'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build and Test'
+    displayName: 'Build & Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
-      - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK 5.0'
-        inputs:
-          packageType: 'sdk'
-          version: '5.0.100'
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet Tools'
-        inputs:
-          checkLatest: true
+      ## needed if running on linux ##
+      #- task: UseDotNet@2
+        #displayName: 'Install .NET Core SDK 5.0'
+        #inputs:
+          #packageType: 'sdk'
+          #version: '5.0.100'
+      #- task: NuGetToolInstaller@1
+        #displayName: 'Install NuGet Tools'
+        #inputs:
+          #checkLatest: true
+      ## needed if running on linux ##
       - task: DotNetCoreCLI@2
-        displayName: 'Build project'
+        displayName: 'Build'
         inputs:
-          command: 'build'
-          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
-          feedsToUse: 'select'
-          versioningScheme: 'off'
-      #- task: MSBuild@1
-         #displayName: 'Build solution using msbuild'
-         #inputs:
-         #solution: '$(solution)'  
-         #msbuildArchitecture: 'x64'
-         #platform: 'Any CPU'
-         #restoreNugetPackages: true # Optional
-         #configuration: '$(buildConfiguration)'
+          command: build
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration)'
+      - task: CopyFiles@2
+        displayName: 'Copy dll files'
+        inputs:
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.dll' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          #failOnStderr: true
+      - task: CopyFiles@2
+        displayName: 'Copy json files'
+        inputs:
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.json' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          #failOnStderr: true
+      - task: VSTest@2
+        displayName: 'Test with VS'    
+        inputs:
+          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
+          testAssemblyVer2: | # Required when testSelector == TestAssemblies
+            **\*tests.dll
+            !**\*TestAdapter.dll
+            !**\obj\** 
+          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+          runSettingsFile: 'sources\.runsettings' # Optional
+          codeCoverageEnabled: true # Optional
+          dontDistribute: False # Optional
+          testRunTitle: ServerAppTest # Optional
+          platform: '$(buildPlatform)' # Optional
+          configuration: '$(buildConfiguration)' # Optional
+          publishRunAttachments: true # Optional
+          failOnMinTestsNotRun: true # Optional
+          minimumExpectedTests: '5' # Optional
+      - task: BuildQualityChecks@7
+        displayName: 'Check build quality'
+        inputs:
+          # ===== Warnings Policy Inputs =====
+          checkWarnings: true # Optional
+          warningFailOption: fixed # Optional; Valid values: build, fixed
+          warningThreshold: '5' # Optional
+          showStatistics: true # Optional
+          # ===== Code Coverage Policy Inputs =====
+          checkCoverage: true # Optional
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
+          coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
+          #customCoverageType: # Required if coverageType = custom
+          treat0of0as100: false # Optional
+          coverageThreshold: '50' # Optional
+          forceCoverageImprovement: false # Optional
+          coverageUpperThreshold: '70' # Optional
+          ignoreDecreaseAboveUpperThreshold: true # Optional
+          useUncoveredElements: false # Optional
+          allowCoverageVariance: true # Optional
+          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '4' # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          buildPlatform: '$(buildPlatform)' # Optional
+          #explicitFilter: false # Optional
+          # ===== Baseline Inputs =====
+          includePartiallySucceeded: true # Optional
+          # ===== Reporting Inputs =====
+          runTitle: Beta Quality Gates # Optional
+          # ===== Advanced Inputs =====
+          createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
-    displayName: 'Publish and Deploy'
+    displayName: 'Publish & Deploy'
     dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
@@ -186,7 +323,7 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
       - task: PublishBuildArtifacts@1
@@ -214,39 +351,103 @@ stages:
   condition: or(eq(variables['targetBranch'], 'master'), eq(variables['sourceBranch'], 'master'))
   jobs:
   - job: BuildAndTest
-    displayName: 'Build and Test'
+    displayName: 'Build & Test'
     condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
-      - task: UseDotNet@2
-        displayName: 'Install .NET Core SDK 5.0'
-        inputs:
-          packageType: 'sdk'
-          version: '5.0.100'
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet Tools'
-        inputs:
-          checkLatest: true
+      ## needed if running on linux ##
+      #- task: UseDotNet@2
+        #displayName: 'Install .NET Core SDK 5.0'
+        #inputs:
+          #packageType: 'sdk'
+          #version: '5.0.100'
+      #- task: NuGetToolInstaller@1
+        #displayName: 'Install NuGet Tools'
+        #inputs:
+          #checkLatest: true
+      ## needed if running on linux ##
       - task: DotNetCoreCLI@2
-        displayName: 'Build project'
+        displayName: 'Build'
         inputs:
-          command: 'build'
-          projects: '$(serverProjectDir)/$(serverProjectName).csproj'
-          arguments: '--configuration $(BuildConfiguration)'
-          feedsToUse: 'select'
-          versioningScheme: 'off'
-      #- task: MSBuild@1
-         #displayName: 'Build solution using msbuild'
-         #inputs:
-         #solution: '$(solution)'  
-         #msbuildArchitecture: 'x64'
-         #platform: 'Any CPU'
-         #restoreNugetPackages: true # Optional
-         #configuration: '$(buildConfiguration)'
+          command: build
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration)'
+      - task: CopyFiles@2
+        displayName: 'Copy dll files'
+        inputs:
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.dll' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          #failOnStderr: true
+      - task: CopyFiles@2
+        displayName: 'Copy json files'
+        inputs:
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.json' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          #failOnStderr: true
+      - task: VSTest@2
+        displayName: 'Test with VS'    
+        inputs:
+          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
+          testAssemblyVer2: | # Required when testSelector == TestAssemblies
+            **\*tests.dll
+            !**\*TestAdapter.dll
+            !**\obj\** 
+          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+          runSettingsFile: 'sources\.runsettings' # Optional
+          codeCoverageEnabled: true # Optional
+          dontDistribute: False # Optional
+          testRunTitle: ServerAppTest # Optional
+          platform: '$(buildPlatform)' # Optional
+          configuration: '$(buildConfiguration)' # Optional
+          publishRunAttachments: true # Optional
+          failOnMinTestsNotRun: true # Optional
+          minimumExpectedTests: '10' # Optional
+      - task: BuildQualityChecks@7
+        displayName: 'Check build quality'
+        inputs:
+          # ===== Warnings Policy Inputs =====
+          checkWarnings: true # Optional
+          warningFailOption: fixed # Optional; Valid values: build, fixed
+          warningThreshold: '5' # Optional
+          showStatistics: true # Optional
+          # ===== Code Coverage Policy Inputs =====
+          checkCoverage: true # Optional
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
+          coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
+          #customCoverageType: # Required if coverageType = custom
+          treat0of0as100: false # Optional
+          coverageThreshold: '70' # Optional
+          forceCoverageImprovement: false # Optional
+          coverageUpperThreshold: '90' # Optional
+          ignoreDecreaseAboveUpperThreshold: true # Optional
+          useUncoveredElements: false # Optional
+          allowCoverageVariance: true # Optional
+          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '4' # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          buildPlatform: '$(buildPlatform)' # Optional
+          #explicitFilter: false # Optional
+          # ===== Baseline Inputs =====
+          includePartiallySucceeded: true # Optional
+          # ===== Reporting Inputs =====
+          runTitle: Production Quality Gates # Optional
+          # ===== Advanced Inputs =====
+          createBuildIssues: true # Optional
 
   - job: PublishAndDeploy
-    displayName: 'Publish and Deploy'
+    displayName: 'Publish & Deploy'
     dependsOn: BuildAndTest
     condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
@@ -266,7 +467,7 @@ stages:
         inputs:
           command: publish
           publishWebProjects: false
-          arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
           #modifyOutputPath: false
           zipAfterPublish: true  
       - task: PublishBuildArtifacts@1
