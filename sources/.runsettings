@@ -41,9 +41,9 @@ Included items must then not match any entries in the exclude list to remain inc
 						<!-- Match assembly file paths: -->
 						<ModulePaths>
 							<Include>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.dll$</ModulePath>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.Views\.dll$</ModulePath>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Tests\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*Tests\\.*\\.*Lite\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*Tests\\.*\\.*Views\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*Tests\\.*\\.*\Tests\.dll$</ModulePath>
 							</Include>
 
 							<Exclude>
