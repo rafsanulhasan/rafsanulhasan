@@ -57,7 +57,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build & Test'
-    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'))
+    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -193,13 +193,14 @@ stages:
         inputs:
           artifact: 'server-app'
           patterns: '**/*.zip'
+          path: $(Build.ArtifactStagingDirectory)
       - task: AzureWebApp@1
         displayName: 'Deploy to Azure Web App'
         inputs:
           azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
           appType: webAppLinux
           appName: 'rafsanulhasan-xyz'
-          package: '$(Build.ArtifactStagingDirectory)\**\*.zip'
+          package: '$(Build.ArtifactStagingDirectory)/*.zip'
 
 - stage: staging
   displayName: Staging  
