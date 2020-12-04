@@ -57,7 +57,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build & Test'
-    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    condition: or(eq(variables['isPR'], 'true'))
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -80,6 +80,13 @@ stages:
           #feedsToUse: 'select'
           #versioningScheme: 'off'
       ## needed if running on linux ##
+      - task: SonarCloudPrepare@1
+        inputs:
+        SonarCloud: 'SonarCloud'
+        organization: 'rafsanulhasan'
+        scannerMode: 'MSBuild'
+        projectKey: 'rafsanulhasan'
+        projectName: 'rafsanulhasan'
       - task: DotNetCoreCLI@2
         displayName: 'Build'
         inputs:
@@ -157,7 +164,19 @@ stages:
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional
+          createBuildIssues: true # Optional          
+      - task: SonarCloudAnalyze@1
+      - task: SonarCloudPublish@1
+        inputs:
+        pollingTimeoutSec: '300'
+
+  - job: PublishAndDeploy
+    displayName: 'Publish & Deploy'
+    dependsOn: BuildAndTest
+    condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    pool:
+      vmImage: $(vmImageName)
+    steps:      
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
@@ -180,14 +199,6 @@ stages:
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)'
           artifactName: 'server-app'
-
-  - job: PublishAndDeploy
-    displayName: 'Publish & Deploy'
-    dependsOn: BuildAndTest
-    condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
-    pool:
-      vmImage: $(vmImageName)
-    steps:      
       - task: DownloadPipelineArtifact@2
         displayName: 'Download artifact'
         inputs:
