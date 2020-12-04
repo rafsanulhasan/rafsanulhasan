@@ -86,30 +86,8 @@ stages:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
-      - task: CopyFiles@2
-        displayName: 'Copy dll files'
-        inputs:
-          sourceFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0' # Optional
-          contents: '*.dll' 
-          targetFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0/ref'
-          #cleanTargetFolder: false # Optional
-          #overWrite: false # Optional
-          #flattenFolders: false # Optional
-          #preserveTimestamp: false # Optional
-          #failOnStderr: true
-      - task: CopyFiles@2
-        displayName: 'Copy json files'
-        inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          contents: '*.json' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          #cleanTargetFolder: false # Optional
-          #overWrite: false # Optional
-          #flattenFolders: false # Optional
-          #preserveTimestamp: false # Optional
-          #failOnStderr: true
       - task: VSTest@2
-        displayName: 'Test with VS'    
+        displayName: 'Test'    
         inputs:
          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
          testAssemblyVer2: | # Required when testSelector == TestAssemblies
@@ -148,7 +126,7 @@ stages:
           allowCoverageVariance: true # Optional
           coverageVariance: '2' # Required if allowCoverageVariance = true
           coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
-          coveragePrecision: '4' # Optional
+          coveragePrecision: '2' # Optional
           buildConfiguration: '$(buildConfiguration)' # Optional
           buildPlatform: '$(buildPlatform)' # Optional
           #explicitFilter: false # Optional
