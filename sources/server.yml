@@ -82,11 +82,11 @@ stages:
       ## needed if running on linux ##
       - task: SonarCloudPrepare@1
         inputs:
-        SonarCloud: 'SonarCloud'
-        organization: 'rafsanulhasan'
-        scannerMode: 'MSBuild'
-        projectKey: 'rafsanulhasan'
-        projectName: 'rafsanulhasan'
+          SonarCloud: 'SonarCloud'
+          organization: 'rafsanulhasan'
+          scannerMode: 'MSBuild'
+          projectKey: 'rafsanulhasan'
+          projectName: 'rafsanulhasan'
       - task: DotNetCoreCLI@2
         displayName: 'Build'
         inputs:
