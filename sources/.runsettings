@@ -43,7 +43,7 @@ Included items must then not match any entries in the exclude list to remain inc
 							<Include>
 								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.dll$</ModulePath>
 								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.Views\.dll$</ModulePath>
-								<ModulePath>.*\\Tests\\.*Tests\\.*Lite\.Tests\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*Tests\\.*Tests\.dll$</ModulePath>
 							</Include>
 
 							<Exclude>

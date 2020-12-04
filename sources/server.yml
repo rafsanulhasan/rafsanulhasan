@@ -115,7 +115,7 @@ stages:
          testAssemblyVer2: | # Required when testSelector == TestAssemblies
            **\Tests\**\*Lite.dll
            **\Tests\**\*Lite.Views.dll
-           **\Tests\**\*tests.dll
+           **\Tests.dll
            !**\*TestAdapter.dll
            !**\obj\** 
          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
