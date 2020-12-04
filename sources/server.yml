@@ -178,7 +178,7 @@ stages:
       - task: CopyFiles@2
         displayName: 'Copy published files'
         inputs:
-          sourceFolder: '$(Build.ArtifactStagingDirectory)/**' # Optional
+          sourceFolder: '$(Build.ArtifactStagingDirectory)' # Optional
           contents: '*.zip' 
           targetFolder: '$(Build.ArtifactStagingDirectory)'
           cleanTargetFolder: true # Optional
