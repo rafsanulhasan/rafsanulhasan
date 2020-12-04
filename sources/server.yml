@@ -113,7 +113,8 @@ stages:
         inputs:
          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
          testAssemblyVer2: | # Required when testSelector == TestAssemblies
-           **\*tests.dll
+           **\*Lite.dll
+           **\*Lite.Views.dll
            !**\*TestAdapter.dll
            !**\obj\** 
          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
