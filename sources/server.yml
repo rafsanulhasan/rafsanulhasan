@@ -179,7 +179,7 @@ stages:
       - task: PublishPipelineArtifact@1
         displayName: 'Publish artifact'
         inputs:
-          targetPath: '$(Build.ArtifactStagingDirectory)/$(serverProjectName).zip'
+          targetPath: '$(Build.ArtifactStagingDirectory)/**/$(serverProjectName).zip'
           artifactName: 'server-app'
 
   - job: PublishAndDeploy
