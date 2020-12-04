@@ -65,7 +65,7 @@ namespace RH.Apps.Web.SPA.Lite
 					new RewriteOptions()
 						.AddRedirectToHttps(
 							statusCode: env.IsDevelopment()
-							          ? StatusCodes.Status302Found
+									? StatusCodes.Status302Found
 									: StatusCodes.Status301MovedPermanently,
 							sslPort: httpsEndpoint.Port
 						)

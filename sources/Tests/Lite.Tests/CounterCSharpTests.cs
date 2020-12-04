@@ -8,7 +8,6 @@ using Xunit;
 
 namespace RH.Apps.Web.SPA.Lite.Tests
 {
-	[Collection("CounterTests")]
 	[ExcludeFromCodeCoverage]
 	/// <summary>
 	/// These tests are written entirely in C#.

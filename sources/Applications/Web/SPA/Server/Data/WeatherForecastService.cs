@@ -14,12 +14,17 @@ namespace RH.Apps.Web.SPA.Lite.Data
 		public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
 		{
 			var rng = new Random();
-			return Task.FromResult(Enumerable.Range(1, 5).Select(index => new WeatherForecast
-			{
-				Date = startDate.AddDays(index),
-				TemperatureC = rng.Next(-20, 55),
-				Summary = SUMMARIES[rng.Next(SUMMARIES.Length)]
-			}).ToArray());
+			return Task.FromResult(
+				Enumerable
+					.Range(1, 5)
+					.Select(index => new WeatherForecast
+					{
+						Date = startDate.AddDays(index),
+						TemperatureC = rng.Next(-20, 55),
+						Summary = SUMMARIES[rng.Next(SUMMARIES.Length)]
+					})
+				.ToArray()
+			);
 		}
 	}
 }

@@ -13,14 +13,14 @@ namespace RH.Apps.Web.SPA.Lite
 		public static void Main(string[] args)
 			=> CreateHostBuilder(args).Build().Run();
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
-			Host
+		public static IHostBuilder CreateHostBuilder(string[] args)
+			=> Host
 				.CreateDefaultBuilder(args)
 				.ConfigureAppConfiguration((context, config) =>
 				{
 					if (!context.HostingEnvironment.IsDevelopment())
 					{
-						var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+						var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri")!);
 						config.AddAzureKeyVault(
 							keyVaultEndpoint,
 							new DefaultAzureCredential()
@@ -30,7 +30,7 @@ namespace RH.Apps.Web.SPA.Lite
 				.ConfigureWebHostDefaults(webBuilder
 					=> webBuilder
 						.UseStartup<Startup>()
-						//.UseKestrel(options => options.ConfigureEndpoints())
+				//.UseKestrel(options => options.ConfigureEndpoints())
 				);
 	}
 }
