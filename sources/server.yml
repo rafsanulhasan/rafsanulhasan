@@ -165,6 +165,17 @@ stages:
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
           createBuildIssues: true # Optional          
+      - task: CmdLine@2
+        displayName: 'Install SonarQube.NET'
+        inputs: 
+          script: 'dotnet tool install -g dotnet-sonarscanner'
+          failOnStderr: true
+      - task: DotNetCoreCLI@2
+        displayName: 'TestSQ'
+        inputs:
+          command: test
+          projects: '**/*Tests/*Tests.csproj'
+          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
       - task: SonarCloudAnalyze@1
       - task: SonarCloudPublish@1
         inputs:
