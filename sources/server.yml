@@ -57,7 +57,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build & Test'
-    condition: or(eq(variables['isPR'], 'true'))
+    condition: eq(variables['isPR'], 'true')
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -80,13 +80,6 @@ stages:
           #feedsToUse: 'select'
           #versioningScheme: 'off'
       ## needed if running on linux ##
-      - task: SonarCloudPrepare@1
-        inputs:
-          SonarCloud: 'SonarCloud'
-          organization: 'rafsanulhasan'
-          scannerMode: 'MSBuild'
-          projectKey: 'rafsanulhasan'
-          projectName: 'rafsanulhasan'
       - task: DotNetCoreCLI@2
         displayName: 'Build'
         inputs:
@@ -164,22 +157,7 @@ stages:
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional          
-      - task: CmdLine@2
-        displayName: 'Install SonarQube.NET'
-        inputs: 
-          script: 'dotnet tool install -g dotnet-sonarscanner'
-          failOnStderr: true
-      - task: DotNetCoreCLI@2
-        displayName: 'TestSQ'
-        inputs:
-          command: test
-          projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
-      - task: SonarCloudAnalyze@1
-      - task: SonarCloudPublish@1
-        inputs:
-          pollingTimeoutSec: '300'
+          createBuildIssues: true # Optional                
 
   - job: PublishAndDeploy
     displayName: 'Publish & Deploy'
@@ -231,7 +209,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build & Test'
-    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    condition: eq(variables['isPR'], 'true')
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -375,7 +353,7 @@ stages:
   jobs:
   - job: BuildAndTest
     displayName: 'Build & Test'
-    condition: or(eq(variables['isPR'], 'true'), eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+    condition: eq(variables['isPR'], 'true')
     pool:
       vmImage: $(vmImageName)
     steps:
