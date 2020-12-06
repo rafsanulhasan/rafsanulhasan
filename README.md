@@ -1,5 +1,5 @@
 # Blazor Server App
-| **dev** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=dev)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=dev) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=rafsanulhasan&metric=alert_status)](https://sonarcloud.io/dashboard?id=rafsanulhasan)	| 
+| **dev** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=dev)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=dev) [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=rafsanulhasan)	| 
 |-	|-	|
 | **staging** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging)	|
 | **master**  	|[![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
