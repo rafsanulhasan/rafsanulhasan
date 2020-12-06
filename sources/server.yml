@@ -81,6 +81,7 @@ stages:
           #versioningScheme: 'off'
       ## needed if running on linux ##
       - task: SonarCloudPrepare@1
+        displayName: 'Prepare SonarCloud Analysis'
         inputs:
           SonarCloud: 'SonarCloud'
           organization: 'rafsanulhasan'
@@ -170,9 +171,11 @@ stages:
         inputs:
           command: test
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
       - task: SonarCloudAnalyze@1
+        displayName: 'Analyze Code with OpenCover'
       - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report to SonarCloud'
         inputs:
           pollingTimeoutSec: '300'
       - task: CmdLine@2
