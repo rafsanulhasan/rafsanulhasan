@@ -172,13 +172,14 @@ stages:
         inputs:
           testRunner: VSTest
           testResultsFiles: '**/*.trx'
-      - task: DotNetCoreCLI@2
+      - task: CmdLine@2
         displayName: 'Test'
         inputs:
-          command: test
-          projects: '**/*Tests/*Tests.csproj'
-          publishTestResults: true
-          arguments: '--configuration $(buildConfiguration) --logger trx --collect "Code coverage" --results-directory $(Build.SourcesDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          script: 'dotnet test $(testDir)/$(testProject)/*.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          #command: test
+          #projects: '**/*Tests/*Tests.csproj'
+          #publishTestResults: true
+          #arguments: '--configuration $(buildConfiguration) --logger trx --collect "Code coverage" --results-directory $(Build.SourcesDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze Code'
       - task: SonarCloudPublish@1
