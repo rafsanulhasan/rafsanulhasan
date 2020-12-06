@@ -179,6 +179,18 @@ stages:
         displayName: 'Publish Analysis Report to SonarCloud'
         inputs:
           pollingTimeoutSec: '300'
+      - task: PublishTestResults@2
+        displayName: 'Publish VSTest test result'
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: VSTest
+          testResultsFiles: '**/*.trx'
+      - task: PublishTestResults@2
+        displayName: 'Publish OpenCover test result'
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: xUnit
+          testResultsFiles: '**/coverage.opencover.xml'
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
