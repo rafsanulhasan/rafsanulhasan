@@ -93,7 +93,13 @@ stages:
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'
+          arguments: '--configuration $(buildConfiguration)'          
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze Code'
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report to SonarCloud'
+        inputs:
+          pollingTimeoutSec: '300'
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -117,7 +123,7 @@ stages:
           #preserveTimestamp: false # Optional
           failOnStderr: true
       - task: VSTest@2
-        displayName: 'Test (VS)'    
+        displayName: 'Test'    
         inputs:
          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
          testAssemblyVer2: | # Required when testSelector == TestAssemblies
@@ -146,14 +152,14 @@ stages:
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
-          #customCoverageType: # Required if coverageType = custom
+          customCoverageType: # Required if coverageType = custom
           treat0of0as100: false # Optional
           coverageThreshold: '1' # Optional
           forceCoverageImprovement: false # Optional
           coverageUpperThreshold: '2' # Optional
           ignoreDecreaseAboveUpperThreshold: true # Optional
           useUncoveredElements: false # Optional
-          allowCoverageVariance: true # Optional
+          allowCoverageVariance: false # Optional
           coverageVariance: '2' # Required if allowCoverageVariance = true
           coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
           coveragePrecision: '2' # Optional
@@ -166,18 +172,6 @@ stages:
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
           createBuildIssues: true # Optional      
-      - task: PublishTestResults@2
-        displayName: 'Publish VSTest test result'
-        condition: succeededOrFailed()
-        inputs:
-          testRunner: VSTest
-          testResultsFiles: '**/*.trx'
-      - task: SonarCloudAnalyze@1
-        displayName: 'Analyze Code'
-      - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report to SonarCloud'
-        inputs:
-          pollingTimeoutSec: '300'
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:

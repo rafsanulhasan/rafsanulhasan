@@ -11,7 +11,7 @@
 		<!-- Framework35 | [Framework40] | Framework45 -->
 		<!--TargetFrameworkVersion>Core50</TargetFrameworkVersion>-->
 		<TargetFramework>net5.0</TargetFramework>
-		<ResultsDirectory>D:\a\1\s</ResultsDirectory>
+		<ResultsDirectory>D:\a\1\s\TestResults</ResultsDirectory>
 	</RunConfiguration>
 
 	<DataCollectionRunSettings>
@@ -42,6 +42,7 @@ Included items must then not match any entries in the exclude list to remain inc
 							<Include>
 								<ModulePath>.*\\Tests\\.*\.Tests\\bin\\.*\\net5.0\\.*Lite\.dll$</ModulePath>
 								<ModulePath>.*\\Tests\\.*\.Tests\\bin\\.*\\net5.0\\.*Lite\.Views\.dll$</ModulePath>
+								<ModulePath>.*\\Tests\\.*\.Tests\\bin\\.*\\net5.0\\.*Lite\.Tests\.dll$</ModulePath>
 							</Include>
 
 							<Exclude>
