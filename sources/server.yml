@@ -189,8 +189,8 @@ stages:
         displayName: 'Publish OpenCover test result'
         condition: succeededOrFailed()
         inputs:
-          testRunner: xUnit
-          testResultsFiles: '**/coverage.opencover.xml'
+          codeCoverageTool: 'opencover'
+          summaryFileLocation: '$(Build.SourcesDirectory)/Tests/*Tests/**/coverage.opencover.xml'
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
