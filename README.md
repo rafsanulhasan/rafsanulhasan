@@ -1,10 +1,10 @@
 # Blazor Server App
-| **dev** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=dev)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=dev) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=rafsanulhasan)](https://sonarcloud.io/dashboard?id=rafsanulhasan)	| 
-|-	|-	|
-| **staging** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging)	|
-| **master**  	|[![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=rafsanulhasan-dev-key) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=rafsanulhasan-dev-key)](https://sonarcloud.io/dashboard?id=rafsanulhasan-dev-key)
 
-[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=rafsanulhasan)
+| **dev** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=dev)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=dev)	|   
+|-	|-	|
+| **staging** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
+| **master**  	|[![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
 
 -------------------
 
@@ -293,7 +293,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
             "name": "GCP"
             "services": [
                 "Databases: NoSQL (Firebase realtime database)"                
-            ]
+            ]  
         }
     ]
   }
