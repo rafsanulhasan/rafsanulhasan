@@ -94,7 +94,7 @@ stages:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
-      #- task: CopyFiles@2
+      - task: CopyFiles@2
         #displayName: 'Copy dll files'
         #inputs:
           #sourceFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0' # Optional
@@ -105,74 +105,74 @@ stages:
           ##flattenFolders: false # Optional
           ##preserveTimestamp: false # Optional
           #failOnStderr: true
-      #- task: CopyFiles@2
-        #displayName: 'Copy json files'
-        #inputs:
-          #sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          #contents: '*.json' 
-          #targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          ##cleanTargetFolder: false # Optional
-          ##overWrite: false # Optional
-          ##flattenFolders: false # Optional
-          ##preserveTimestamp: false # Optional
-          #failOnStderr: true
-      #- task: VSTest@2
-        #displayName: 'Test'    
-        #inputs:
-         #testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
-         #testAssemblyVer2: | # Required when testSelector == TestAssemblies
+      - task: CopyFiles@2
+        displayName: 'Copy json files'
+        inputs:
+          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          contents: '*.json' 
+          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          #cleanTargetFolder: false # Optional
+          #overWrite: false # Optional
+          #flattenFolders: false # Optional
+          #preserveTimestamp: false # Optional
+          failOnStderr: true
+      - task: VSTest@2
+        displayName: 'Test (VS)'    
+        inputs:
+         testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
+         testAssemblyVer2: | # Required when testSelector == TestAssemblies
            #**\*tests.dll
            #!**\*TestAdapter.dll
            #!**\obj\** 
-         #vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-         #runSettingsFile: 'sources\.runsettings' # Optional
-         #codeCoverageEnabled: true # Optional
-         #dontDistribute: False # Optional
-         #testRunTitle: ServerAppTest # Optional
-         #platform: '$(buildPlatform)' # Optional
-         #configuration: '$(buildConfiguration)' # Optional
-         #publishRunAttachments: true # Optional
-         #failOnMinTestsNotRun: false # Optional
-         #minimumExpectedTests: '1' # Optional
-      #- task: BuildQualityChecks@7
-        #displayName: 'Check build quality'
-        #inputs:
+         vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+         runSettingsFile: 'sources\.runsettings' # Optional
+         codeCoverageEnabled: true # Optional
+         dontDistribute: False # Optional
+         testRunTitle: ServerAppTest # Optional
+         platform: '$(buildPlatform)' # Optional
+         configuration: '$(buildConfiguration)' # Optional
+         publishRunAttachments: true # Optional
+         failOnMinTestsNotRun: false # Optional
+         minimumExpectedTests: '1' # Optional
+      - task: BuildQualityChecks@7
+        displayName: 'Check build quality'
+        inputs:
           # ===== Warnings Policy Inputs =====
-          #checkWarnings: true # Optional
-          #warningFailOption: fixed # Optional; Valid values: build, fixed
-          #warningThreshold: '5' # Optional
-          #showStatistics: true # Optional
+          checkWarnings: true # Optional
+          warningFailOption: fixed # Optional; Valid values: build, fixed
+          warningThreshold: '5' # Optional
+          showStatistics: true # Optional
           # ===== Code Coverage Policy Inputs =====
-          #checkCoverage: true # Optional
-          #coverageFailOption: fixed # Optional; Valid values: build, fixed
-          #coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
-          ##customCoverageType: # Required if coverageType = custom
-          #treat0of0as100: false # Optional
-          #coverageThreshold: '1' # Optional
-          #forceCoverageImprovement: false # Optional
-          #coverageUpperThreshold: '2' # Optional
-          #ignoreDecreaseAboveUpperThreshold: true # Optional
-          #useUncoveredElements: false # Optional
-          #allowCoverageVariance: true # Optional
-          #coverageVariance: '2' # Required if allowCoverageVariance = true
-          #coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
-          #coveragePrecision: '2' # Optional
-          #buildConfiguration: '$(buildConfiguration)' # Optional
-          #buildPlatform: '$(buildPlatform)' # Optional
-          ##explicitFilter: false # Optional
+          checkCoverage: true # Optional
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
+          coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
+          #customCoverageType: # Required if coverageType = custom
+          treat0of0as100: false # Optional
+          coverageThreshold: '1' # Optional
+          forceCoverageImprovement: false # Optional
+          coverageUpperThreshold: '2' # Optional
+          ignoreDecreaseAboveUpperThreshold: true # Optional
+          useUncoveredElements: false # Optional
+          allowCoverageVariance: true # Optional
+          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '2' # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          buildPlatform: '$(buildPlatform)' # Optional
+          #explicitFilter: false # Optional
           # ===== Baseline Inputs =====
-          #includePartiallySucceeded: false # Optional
+          includePartiallySucceeded: false # Optional
           # ===== Reporting Inputs =====
-          #runTitle: Alpha Quality Gates # Optional
+          runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          #createBuildIssues: true # Optional
+          createBuildIssues: true # Optional
       - task: DotNetCoreCLI@2
         displayName: 'Test'
         inputs:
           command: test
           projects: '**/*Tests/*Tests.csproj'
           publishTestResults: true
-          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover'
+          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze Code with OpenCover'
       - task: SonarCloudPublish@1
