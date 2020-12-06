@@ -137,7 +137,7 @@ stages:
       - task: CmdLine@2
         displayName: Test
         inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj --logger trx --collect "Code Coverage" --results-directory $(Build.SourcesDirectory)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults'
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj --logger trx --collect "Code Coverage" --results-directory $(Build.SourcesDirectory)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\'
           failOnStderr: true
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
