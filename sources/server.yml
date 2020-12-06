@@ -173,10 +173,6 @@ stages:
           testRunner: VSTest
           testResultsFiles: '**/*.trx'
       - task: CmdLine@2
-        displayName: 'Remove from VSTests'
-        inputs:
-          script: 'rm -rf $(Build.SourcesDirectory)\TestResults\**' 
-      - task: CmdLine@2
         displayName: 'Test'
         inputs:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults\Coverage\'
