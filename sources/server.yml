@@ -190,7 +190,7 @@ stages:
         condition: succeededOrFailed()
         inputs:
           codeCoverageTool: 'opencover'
-          summaryFileLocation: '$(Build.SourcesDirectory)/Tests/*Tests/**/coverage.opencover.xml'
+          summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml'
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
