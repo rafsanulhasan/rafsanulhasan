@@ -18,7 +18,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     - Microservices and Enterprise Architecture
     - Data Science and analytics using Python 
     - Azure Solution Architect Certification Path                     [<img align="right" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html&langs_count=7" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
-- 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on for my small startup
+- 👯 I’m looking to collaborate on ... A project based on ERM and E-Commerce that I'm currently working on for my small startup
 - 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture, Design Patterns - Gang of Four  
 - 💬 Let's discuss about ... 
   ### Design, Architecture, Principles & Best Practices                                                                                 
