@@ -95,16 +95,16 @@ stages:
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
       - task: CopyFiles@2
-        #displayName: 'Copy dll files'
-        #inputs:
-          #sourceFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0' # Optional
-          #contents: '*.dll' 
-          #targetFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0/ref'
+        displayName: 'Copy dll files'
+        inputs:
+          sourceFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0' # Optional
+          contents: '*.dll' 
+          targetFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0/ref'
           ##cleanTargetFolder: false # Optional
           ##overWrite: false # Optional
           ##flattenFolders: false # Optional
           ##preserveTimestamp: false # Optional
-          #failOnStderr: true
+          failOnStderr: true
       - task: CopyFiles@2
         displayName: 'Copy json files'
         inputs:
