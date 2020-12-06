@@ -86,7 +86,7 @@ stages:
           SonarCloud: 'SonarCloud'
           organization: 'rafsanulhasan'
           scannerMode: 'MSBuild'
-          projectKey: 'rafsanulhasan'
+          projectKey: 'rafsanulhasan-dev-key'
           projectName: 'rafsanulhasan'
       - task: DotNetCoreCLI@2
         displayName: 'Build'
@@ -227,13 +227,13 @@ stages:
           artifact: 'server-app'
           patterns: '**/*.zip'
           path: $(Build.ArtifactStagingDirectory)
-      - task: AzureWebApp@1
-        displayName: 'Deploy to Azure Web App'
-        inputs:
-          azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
-          appType: webAppLinux
-          appName: 'rafsanulhasan-xyz'
-          package: '$(Build.ArtifactStagingDirectory)/*.zip'
+      #- task: AzureWebApp@1
+        #displayName: 'Deploy to Azure Web App'
+        #inputs:
+          #azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
+          #appType: webAppLinux
+          #appName: 'rafsanulhasan-xyz'
+          #package: '$(Build.ArtifactStagingDirectory)/*.zip'
 
 - stage: staging
   displayName: Staging  
@@ -371,13 +371,13 @@ stages:
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-      - task: AzureWebApp@1
-        displayName: 'Deploy to Azure Web App'
-        inputs:
-          azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
-          appType: webAppLinux
-          appName: 'rafsanulhasan-xyz'
-          package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+      #- task: AzureWebApp@1
+        #displayName: 'Deploy to Azure Web App'
+        #inputs:
+          #azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
+          #appType: webAppLinux
+          #appName: 'rafsanulhasan-xyz'
+          #package: '$(System.DefaultWorkingDirectory)\**\*.zip'
 
 - stage: prod
   displayName: Production
@@ -515,10 +515,10 @@ stages:
         inputs:
           artifactName: drop    
           downloadPath: '$(System.DefaultWorkingDirectory)'
-      - task: AzureWebApp@1
-        displayName: 'Deploy to Azure Web App'
-        inputs:
-          azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
-          appType: webAppLinux
-          appName: 'rafsanulhasan-xyz'
-          package: '$(System.DefaultWorkingDirectory)\**\*.zip'
+      #- task: AzureWebApp@1
+        #displayName: 'Deploy to Azure Web App'
+        #inputs:
+          #azureSubscription: 'Azure for Students (6a7cdb0c-dca4-447f-a508-169c5085f0f0)'
+          #appType: webAppLinux
+          #appName: 'rafsanulhasan-xyz'
+          #package: '$(System.DefaultWorkingDirectory)\**\*.zip'
