@@ -178,7 +178,7 @@ stages:
           command: test
           projects: '**/*Tests/*Tests.csproj'
           publishTestResults: true
-          arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          arguments: '--configuration $(buildConfiguration) --logger trx --collect "Code coverage" --results-directory $(Build.SourcesDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze Code'
       - task: SonarCloudPublish@1
@@ -187,10 +187,9 @@ stages:
           pollingTimeoutSec: '300'
       - task: PublishTestResults@2
         displayName: 'Publish Analysis Result'
-        condition: succeededOrFailed()
         inputs:
           codeCoverageTool: 'opencover'
-          summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/Coverage/coverage.opencover.xml'
+          summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/Coverage/*.xml'
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
