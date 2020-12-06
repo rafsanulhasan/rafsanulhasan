@@ -173,16 +173,19 @@ stages:
           # ===== Advanced Inputs =====
           createBuildIssues: true # Optional      
       - task: CmdLine@2
-        displayName: 'Install DNT'
+        displayName: 'Install DNT'        
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
         inputs:
           script: 'npm i -g dotnettools'
       - task: CmdLine@2
-        displayName: 'Update project version revesion for preview'
+        displayName: 'Update project version revesion for preview'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
         inputs:
           script: 'dnt bump-versions preview "alpha(Version.Revision.Alpha)"'
           failOnStderr: true
       - task: DotNetCoreCLI@2
-        displayName: 'Publish'
+        displayName: 'Publish'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
         inputs:
           command: publish
           publishWebProjects: false
@@ -190,7 +193,8 @@ stages:
           zipAfterPublish: true  
           modifyOutputPath: true
       - task: PublishPipelineArtifact@1
-        displayName: 'Publish artifact'
+        displayName: 'Publish artifact'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
         inputs:
           targetPath: '$(Build.ArtifactStagingDirectory)'
           artifactName: 'server-app'
