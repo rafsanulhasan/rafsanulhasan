@@ -47,7 +47,7 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
-  testDir: '$(System.DefaultWorkingDirectory)/sources/Tests'
+  testDir: '$(System.DefaultWorkingDirectory)\sources\Tests'
   testProjectName: 'Lite.Tests'
 
 stages:
@@ -175,7 +175,7 @@ stages:
       - task: CmdLine@2
         displayName: 'Test'
         inputs:
-          script: 'dotnet test $(testDir)/$(testProject)/*.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+          script: 'dotnet test $(testDir)\$(testProjectName)/$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
           #command: test
           #projects: '**/*Tests/*Tests.csproj'
           #publishTestResults: true
