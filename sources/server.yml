@@ -121,9 +121,9 @@ stages:
         inputs:
          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
          testAssemblyVer2: | # Required when testSelector == TestAssemblies
-           #**\*tests.dll
-           #!**\*TestAdapter.dll
-           #!**\obj\** 
+           **\*tests.dll
+           !**\*TestAdapter.dll
+           !**\obj\** 
          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
          runSettingsFile: 'sources\.runsettings' # Optional
          codeCoverageEnabled: true # Optional
