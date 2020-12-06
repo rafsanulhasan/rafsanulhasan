@@ -148,23 +148,23 @@ stages:
           warningThreshold: '5' # Optional
           showStatistics: true # Optional
           # ===== Code Coverage Policy Inputs =====
-          checkCoverage: true # Optional
-          coverageFailOption: fixed # Optional; Valid values: build, fixed
-          coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
+          #checkCoverage: true # Optional
+          #coverageFailOption: fixed # Optional; Valid values: build, fixed
+          #coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
-          treat0of0as100: false # Optional
-          coverageThreshold: '1' # Optional
-          forceCoverageImprovement: false # Optional
-          coverageUpperThreshold: '2' # Optional
-          ignoreDecreaseAboveUpperThreshold: true # Optional
-          useUncoveredElements: false # Optional
-          allowCoverageVariance: true # Optional
-          coverageVariance: '2' # Required if allowCoverageVariance = true
-          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
-          coveragePrecision: '2' # Optional
-          buildConfiguration: '$(buildConfiguration)' # Optional
-          buildPlatform: '$(buildPlatform)' # Optional
-          #explicitFilter: false # Optional
+          #treat0of0as100: false # Optional
+          #coverageThreshold: '1' # Optional
+          #forceCoverageImprovement: false # Optional
+          #coverageUpperThreshold: '2' # Optional
+          #ignoreDecreaseAboveUpperThreshold: true # Optional
+          #useUncoveredElements: false # Optional
+          #allowCoverageVariance: true # Optional
+          #coverageVariance: '2' # Required if allowCoverageVariance = true
+          #coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          #coveragePrecision: '2' # Optional
+          #buildConfiguration: '$(buildConfiguration)' # Optional
+          #buildPlatform: '$(buildPlatform)' # Optional
+          ##explicitFilter: false # Optional
           # ===== Baseline Inputs =====
           includePartiallySucceeded: false # Optional
           # ===== Reporting Inputs =====
