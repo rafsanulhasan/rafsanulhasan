@@ -165,7 +165,13 @@ stages:
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional
+          createBuildIssues: true # Optional      
+      - task: PublishTestResults@2
+        displayName: 'Publish VSTest test result'
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: VSTest
+          testResultsFiles: '**/*.trx'
       - task: DotNetCoreCLI@2
         displayName: 'Test'
         inputs:
@@ -179,12 +185,6 @@ stages:
         displayName: 'Publish Analysis Report to SonarCloud'
         inputs:
           pollingTimeoutSec: '300'
-      - task: PublishTestResults@2
-        displayName: 'Publish VSTest test result'
-        condition: succeededOrFailed()
-        inputs:
-          testRunner: VSTest
-          testResultsFiles: '**/*.trx'
       - task: PublishTestResults@2
         displayName: 'Publish OpenCover test result'
         condition: succeededOrFailed()
