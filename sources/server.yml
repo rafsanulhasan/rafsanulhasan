@@ -178,11 +178,6 @@ stages:
         displayName: 'Publish Analysis Report to SonarCloud'
         inputs:
           pollingTimeoutSec: '300'
-      - task: PublishTestResults@2
-        displayName: 'Publish Analysis Result'
-        inputs:
-          codeCoverageTool: 'opencover'
-          summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/Coverage/*.xml'
       - task: CmdLine@2
         displayName: 'Install DNT'
         inputs:
