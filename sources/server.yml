@@ -135,7 +135,7 @@ stages:
          #failOnMinTestsNotRun: false # Optional
          #minimumExpectedTests: '1' # Optional
       - task: CmdLine@2
-        displatName: Test
+        displayName: Test
         inputs:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj --logger trx --collect "Code Coverage" --results-directory $(Build.SourcesDirectory)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Build.SourcesDirectory)\TestResults'
           failOnStderr: true
