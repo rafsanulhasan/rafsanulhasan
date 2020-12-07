@@ -7,8 +7,12 @@
 		<Nullable>disable</Nullable>
 		<AnalysisLevel>5.0</AnalysisLevel>
 		<RunAnalyzers>true</RunAnalyzers>
-		<CodeAnalysisRuleSet>..\..\codingrules.ruleset</CodeAnalysisRuleSet>
+		<CodeAnalysisRuleSet>..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\..\..\.sonarlint\rafsanulhasan-dev-key\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Remove="TestResults\**" />

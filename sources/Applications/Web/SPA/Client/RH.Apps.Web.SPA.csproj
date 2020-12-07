@@ -6,7 +6,12 @@
 		<UserSecretsId>4482f749-2c60-472d-9d39-20f1ef8c44a9</UserSecretsId>
 		<LangVersion>9.0</LangVersion>
 		<Company>SICS</Company>
+		<CodeAnalysisRuleSet>..\..\..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <AdditionalFiles Include="..\..\..\..\.sonarlint\rafsanulhasan-dev-key\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.0" />
