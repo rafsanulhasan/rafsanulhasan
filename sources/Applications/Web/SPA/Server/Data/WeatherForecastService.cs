@@ -6,7 +6,7 @@ namespace RH.Apps.Web.SPA.Lite.Data
 {
 	public class WeatherForecastService
 	{
-		private static readonly string[] SUMMARIES = new[]
+		private readonly string[] _summeries = new[]
 		{
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
@@ -21,7 +21,7 @@ namespace RH.Apps.Web.SPA.Lite.Data
 					{
 						Date = startDate.AddDays(index),
 						TemperatureC = rng.Next(-20, 55),
-						Summary = SUMMARIES[rng.Next(SUMMARIES.Length)]
+						Summary = _summeries[rng.Next(_summeries.Length)]
 					})
 				.ToArray()
 			);
