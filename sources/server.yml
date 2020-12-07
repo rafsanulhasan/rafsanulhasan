@@ -93,7 +93,12 @@ stages:
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'          
+          arguments: '--configuration $(buildConfiguration)'
+      - task: CmdLine@2
+        displayName: 'Test'  
+        inputs:
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj --logger trx --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\'
+          failOnStderr: true
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze Code'
       - task: SonarCloudPublish@1
