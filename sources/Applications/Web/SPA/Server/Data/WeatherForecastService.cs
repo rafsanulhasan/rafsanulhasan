@@ -1,27 +1,34 @@
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace RH.Apps.Web.SPA.Lite.Data
 {
 	public class WeatherForecastService
 	{
-		private static readonly string[] SUMMARIES = new[]
+		private readonly string[] _summaries = new[]
 		{
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
 
 		public Task<WeatherForecast[]> GetForecastAsync(DateTime startDate)
 		{
-			var rng = new Random();
+			var rng = RandomNumberGenerator.Create();
 			return Task.FromResult(
 				Enumerable
 					.Range(1, 5)
-					.Select(index => new WeatherForecast
-					{
-						Date = startDate.AddDays(index),
-						TemperatureC = rng.Next(-20, 55),
-						Summary = SUMMARIES[rng.Next(SUMMARIES.Length)]
+					.Select(index => {
+						var tempData = new byte[16];
+						rng.GetBytes(tempData);
+						var temp = int.Parse(BitConverter.ToString(tempData));
+						var summaryNumber = RandomNumberGenerator.GetInt32(0, _summaries.Length);
+						return new WeatherForecast
+						{
+							Date = startDate.AddDays(index),
+							TemperatureC = temp,
+							Summary = _summaries[summaryNumber]
+						};
 					})
 				.ToArray()
 			);
