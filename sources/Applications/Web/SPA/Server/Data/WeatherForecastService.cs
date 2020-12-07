@@ -7,7 +7,7 @@ namespace RH.Apps.Web.SPA.Lite.Data
 {
 	public class WeatherForecastService
 	{
-		private readonly string[] _summeries = new[]
+		private readonly string[] _summaries = new[]
 		{
 			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
@@ -22,12 +22,12 @@ namespace RH.Apps.Web.SPA.Lite.Data
 						var tempData = new byte[16];
 						rng.GetBytes(tempData);
 						var temp = int.Parse(BitConverter.ToString(tempData));
-						var summaryNumber = RandomNumberGenerator.GetInt32(0, _summeries.Length);
+						var summaryNumber = RandomNumberGenerator.GetInt32(0, _summaries.Length);
 						return new WeatherForecast
 						{
 							Date = startDate.AddDays(index),
 							TemperatureC = temp,
-							Summary = _summeries[summaryNumber]
+							Summary = _summaries[summaryNumber]
 						};
 					})
 				.ToArray()
