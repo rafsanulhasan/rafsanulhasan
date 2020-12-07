@@ -22,7 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.globalconfig = .globalconfig
 		.runsettings = .runsettings
 		..\azurepipelines-coverage.yml = ..\azurepipelines-coverage.yml
-		codingrules.ruleset = codingrules.ruleset
+		.sonarlint\rafsanulhasan-dev-keycsharp.ruleset = .sonarlint\rafsanulhasan-dev-keycsharp.ruleset
 		..\README.md = ..\README.md
 		server.yml = server.yml
 	EndProjectSection
