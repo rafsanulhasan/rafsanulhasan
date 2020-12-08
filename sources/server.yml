@@ -101,6 +101,12 @@ stages:
         inputs:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           failOnStderr: true   
+      - task: DeleteFiles@2
+        inputs:
+          SourceFolder: '$(srcDir)\TestResults\**'
+          Content: |
+            '*.coverage'
+            '*.coveragexml'
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
       - task: SonarCloudPublish@1
