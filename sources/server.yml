@@ -130,11 +130,11 @@ stages:
          #publishRunAttachments: true # Optional
          #failOnMinTestsNotRun: false # Optional
          #minimumExpectedTests: '1' # Optional
-      - task: CmdLine@2
-        displayName: 'Test'  
-        inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Coverage"'
-          failOnStderr: true
+      #- task: CmdLine@2
+        #displayName: 'Test'  
+        #inputs:
+          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Coverage"'
+          #failOnStderr: true
       #- task: BuildQualityChecks@7
         #displayName: 'Check build quality'
         #inputs:
