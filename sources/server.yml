@@ -95,7 +95,7 @@ stages:
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
       - task: CmdLine@2
-        displayName: 'Test'  
+        displayName: 'Test (CLI)'  
         inputs:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutpu=$(testDir)\$(testProjectName)\TestResults'
           failOnStderr: true
@@ -124,7 +124,7 @@ stages:
           overWrite: true # Optional
           failOnStderr: true
       - task: VSTest@2
-        displayName: 'Test'    
+        displayName: 'Test (VS)'    
         inputs:
           testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
           testAssemblyVer2: | # Required when testSelector == TestAssemblies
