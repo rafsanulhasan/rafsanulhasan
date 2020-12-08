@@ -105,6 +105,17 @@ stages:
         displayName: 'Publish Analysis Report to SonarCloud'
         inputs:
           pollingTimeoutSec: '300'
+      - task: PublishTestResults@2
+        inputs:
+          testResultsFormat: 'xUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+          testResultsFiles: '**/*.trx' 
+          searchFolder: '$(testDir)\$(testProjectName)\TestResults' # Optional
+          mergeTestResults: false # Optional
+          failTaskOnFailedTests: true # Optional
+          testRunTitle: # Optional
+          buildPlatform: $(buildPlatform) # Optional
+          buildConfiguration: $(buildConfiguration) # Optional
+          publishRunAttachments: true # Optional
       - task: CmdLine@2
         displayName: 'Install DNT'        
         condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
