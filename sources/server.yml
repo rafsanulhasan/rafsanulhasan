@@ -131,11 +131,6 @@ stages:
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
           minimumExpectedTests: '1' # Optional
-      #- task: CmdLine@2
-        #displayName: 'Test (CLI)'  
-        #inputs:
-          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory)\TestResults\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
-          #failOnStderr: true
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
@@ -167,7 +162,12 @@ stages:
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional      
+          createBuildIssues: true # Optional  
+      - task: CmdLine@2
+        displayName: 'Test (CLI)'  
+        inputs:
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
+          failOnStderr: true    
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
       - task: SonarCloudPublish@1
