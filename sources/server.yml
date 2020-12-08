@@ -149,6 +149,7 @@ stages:
           warningFailOption: fixed # Optional; Valid values: build, fixed
           warningThreshold: '5' # Optional
           showStatistics: true # Optional
+          allowWarningVariance: false # Optional
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
