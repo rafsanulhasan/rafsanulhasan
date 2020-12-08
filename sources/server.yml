@@ -131,11 +131,11 @@ stages:
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
           minimumExpectedTests: '1' # Optional
-      - task: CmdLine@2
-        displayName: 'Test (CLI)'  
-        inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory)\TestResults\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
-          failOnStderr: true
+      #- task: CmdLine@2
+        #displayName: 'Test (CLI)'  
+        #inputs:
+          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory)\TestResults\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
+          #failOnStderr: true
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
@@ -183,7 +183,7 @@ stages:
           mergeTestResults: true # Optional
           failTaskOnFailedTests: true # Optional
           testRunTitle: 'Test Server App' # Optional
-          #buildPlatform: $(buildPlatform) # Optional
+          buildPlatform: $(buildPlatform) # Optional
           buildConfiguration: $(buildConfiguration) # Optional
           publishRunAttachments: true # Optional
       - task: CmdLine@2
