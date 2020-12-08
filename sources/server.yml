@@ -93,8 +93,18 @@ stages:
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'
-      
+          arguments: '--configuration $(buildConfiguration)'      
+      - task: CmdLine@2
+        displayName: 'Test (CLI)'  
+        inputs:
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
+          failOnStderr: true    
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze'
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
+        inputs:
+          pollingTimeoutSec: '300'
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -163,17 +173,6 @@ stages:
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
           createBuildIssues: true # Optional  
-      - task: CmdLine@2
-        displayName: 'Test (CLI)'  
-        inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
-          failOnStderr: true    
-      - task: SonarCloudAnalyze@1
-        displayName: 'Analyze'
-      - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report'
-        inputs:
-          pollingTimeoutSec: '300'
       - task: PublishTestResults@2
         displayName: 'Publish Test Report'
         inputs:
