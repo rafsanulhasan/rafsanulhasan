@@ -94,11 +94,11 @@ stages:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
-      #- task: CmdLine@2
-        #displayName: 'Test'  
-        #inputs:
-          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Coverage"'
-          #failOnStderr: true
+      - task: CmdLine@2
+        displayName: 'Test'  
+        inputs:
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Coverage"'
+          failOnStderr: true
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze Code'
       - task: SonarCloudPublish@1
