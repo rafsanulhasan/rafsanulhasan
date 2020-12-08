@@ -120,16 +120,16 @@ stages:
             **\*tests.dll
             !**\*TestAdapter.dll
             !**\obj\** 
-         vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-         runSettingsFile: 'sources\.runsettings' # Optional
-         codeCoverageEnabled: true # Optional
-         dontDistribute: False # Optional
-         testRunTitle: ServerAppTest # Optional
-         platform: '$(buildPlatform)' # Optional
-         configuration: '$(buildConfiguration)' # Optional
-         publishRunAttachments: true # Optional
-         failOnMinTestsNotRun: false # Optional
-         minimumExpectedTests: '1' # Optional
+          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
+          runSettingsFile: 'sources\.runsettings' # Optional
+          codeCoverageEnabled: true # Optional
+          dontDistribute: False # Optional
+          testRunTitle: ServerAppTest # Optional
+          platform: '$(buildPlatform)' # Optional
+          configuration: '$(buildConfiguration)' # Optional
+          publishRunAttachments: true # Optional
+          failOnMinTestsNotRun: false # Optional
+          minimumExpectedTests: '1' # Optional
       #- task: CmdLine@2
         #displayName: 'Test'  
         #inputs:
@@ -255,22 +255,20 @@ stages:
           sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
           contents: '*.dll' 
           targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          #cleanTargetFolder: false # Optional
-          #overWrite: false # Optional
-          #flattenFolders: false # Optional
-          #preserveTimestamp: false # Optional
-          #failOnStderr: true
+          cleanTargetFolder: true # Optional
+          overWrite: true # Optional
+          preserveTimestamp: true # Optional
+          failOnStderr: true
       - task: CopyFiles@2
         displayName: 'Copy json files'
         inputs:
           sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
           contents: '*.json' 
           targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          #cleanTargetFolder: false # Optional
-          #overWrite: false # Optional
-          #flattenFolders: false # Optional
-          #preserveTimestamp: false # Optional
-          #failOnStderr: true
+          cleanTargetFolder: true # Optional
+          overWrite: true # Optional
+          preserveTimestamp: true # Optional
+          failOnStderr: true
       - task: VSTest@2
         displayName: 'Test with VS'    
         inputs:
