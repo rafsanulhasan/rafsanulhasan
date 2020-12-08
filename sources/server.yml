@@ -128,7 +128,7 @@ stages:
           platform: '$(buildPlatform)' # Optional
           configuration: '$(buildConfiguration)' # Optional
           publishRunAttachments: true # Optional
-          failOnMinTestsNotRun: false # Optional
+          failOnMinTestsNotRun: true # Optional
           minimumExpectedTests: '1' # Optional
       #- task: CmdLine@2
         #displayName: 'Test'  
