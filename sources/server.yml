@@ -111,7 +111,7 @@ stages:
           testResultsFormat: 'xUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
           testResultsFiles: '**/*.trx' 
           searchFolder: '$(testDir)\$(testProjectName)\TestResults' # Optional
-          mergeTestResults: false # Optional
+          mergeTestResults: true # Optional
           failTaskOnFailedTests: true # Optional
           testRunTitle: 'Test Server App' # Optional
           #buildPlatform: $(buildPlatform) # Optional
