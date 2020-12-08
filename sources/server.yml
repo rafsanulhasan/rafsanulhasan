@@ -93,8 +93,18 @@ stages:
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'
-      
+          arguments: '--configuration $(buildConfiguration)'      
+      - task: CmdLine@2
+        displayName: 'Test (CLI)'  
+        inputs:
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx;verbosity=detailed --logger console;verbosity=detailed --results-directory $(testDir)\$(testProjectName)\TestResults\ --settings sources\.runsettings /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          failOnStderr: true   
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze'
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
+        inputs:
+          pollingTimeoutSec: '300'
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -131,11 +141,6 @@ stages:
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
           minimumExpectedTests: '1' # Optional
-      #- task: CmdLine@2
-        #displayName: 'Test (CLI)'  
-        #inputs:
-          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(Build.SourcesDirectory)\TestResults\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults'
-          #failOnStderr: true
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
@@ -144,6 +149,7 @@ stages:
           warningFailOption: fixed # Optional; Valid values: build, fixed
           warningThreshold: '5' # Optional
           showStatistics: true # Optional
+          allowWarningVariance: false # Optional
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
@@ -167,13 +173,7 @@ stages:
           # ===== Reporting Inputs =====
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional      
-      - task: SonarCloudAnalyze@1
-        displayName: 'Analyze'
-      - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report'
-        inputs:
-          pollingTimeoutSec: '300'
+          createBuildIssues: true # Optional  
       - task: PublishTestResults@2
         displayName: 'Publish Test Report'
         inputs:
