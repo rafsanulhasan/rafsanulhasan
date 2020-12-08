@@ -94,17 +94,7 @@ stages:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'
-      - task: CmdLine@2
-        displayName: 'Test (CLI)'  
-        inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutpu=$(testDir)\$(testProjectName)\TestResults'
-          failOnStderr: true
-      - task: SonarCloudAnalyze@1
-        displayName: 'Analyze'
-      - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report'
-        inputs:
-          pollingTimeoutSec: '300'
+      
       - task: CopyFiles@2
         displayName: 'Copy dll files'
         inputs:
@@ -135,12 +125,23 @@ stages:
           runSettingsFile: 'sources\.runsettings' # Optional
           codeCoverageEnabled: true # Optional
           dontDistribute: False # Optional
-          testRunTitle: 'Server App Test' # Optional
+          testRunTitle: 'Test Server App' # Optional
           platform: '$(buildPlatform)' # Optional
           configuration: '$(buildConfiguration)' # Optional
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
           minimumExpectedTests: '1' # Optional
+      - task: CmdLine@2
+        displayName: 'Test (CLI)'  
+        inputs:
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutpu=$(testDir)\$(testProjectName)\TestResults'
+          failOnStderr: true
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze'
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
+        inputs:
+          pollingTimeoutSec: '300'
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
@@ -178,7 +179,7 @@ stages:
         inputs:
           testResultsFormat: 'xUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
           testResultsFiles: '**/*.trx' 
-          searchFolder: '$(testDir)\$(testProjectName)\TestResults' # Optional
+          searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
           mergeTestResults: true # Optional
           failTaskOnFailedTests: true # Optional
           testRunTitle: 'Test Server App' # Optional
