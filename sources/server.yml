@@ -100,7 +100,7 @@ stages:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutpu=$(testDir)\$(testProjectName)\TestResults'
           failOnStderr: true
       - task: SonarCloudAnalyze@1
-        displayName: 'Analyze Code'
+        displayName: 'Analyze'
       - task: SonarCloudPublish@1
         displayName: 'Publish Analysis Report to SonarCloud'
         inputs:
