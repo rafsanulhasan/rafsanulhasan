@@ -106,6 +106,7 @@ stages:
         inputs:
           pollingTimeoutSec: '300'
       - task: PublishTestResults@2
+        displayName: 'Publish Test Report'
         inputs:
           testResultsFormat: 'xUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
           testResultsFiles: '**/*.trx' 
