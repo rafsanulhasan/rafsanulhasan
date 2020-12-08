@@ -113,8 +113,8 @@ stages:
           searchFolder: '$(testDir)\$(testProjectName)\TestResults' # Optional
           mergeTestResults: false # Optional
           failTaskOnFailedTests: true # Optional
-          testRunTitle: # Optional
-          buildPlatform: $(buildPlatform) # Optional
+          testRunTitle: 'Test Server App' # Optional
+          #buildPlatform: $(buildPlatform) # Optional
           buildConfiguration: $(buildConfiguration) # Optional
           publishRunAttachments: true # Optional
       - task: CmdLine@2
