@@ -97,7 +97,7 @@ stages:
       - task: CmdLine@2
         displayName: 'Test (CLI)'  
         inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx;verbosity=detailed --logger console;verbosity=detailed --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Codevrage" --settings sources\.runsettings'
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx;verbosity=detailed --logger console;verbosity=detailed --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Coverage" --settings sources\.runsettings'
           failOnStderr: true   
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
