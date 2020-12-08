@@ -102,7 +102,7 @@ stages:
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
       - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report to SonarCloud'
+        displayName: 'Publish Analysis Report'
         inputs:
           pollingTimeoutSec: '300'
       - task: PublishTestResults@2
