@@ -97,7 +97,7 @@ stages:
       - task: CmdLine@2
         displayName: 'Test (CLI)'  
         inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ --collect "Code Coverage"'
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           failOnStderr: true    
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
