@@ -97,7 +97,7 @@ stages:
       - task: CmdLine@2
         displayName: 'Test'  
         inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutpu=$(testDir)\$(testProjectName)\TestResults'
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) --logger trx --collect "Code Coverage" --results-directory $(testDir)\$(testProjectName)\TestResults\ /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutpu=$(testDir)\$(testProjectName)\TestResults'
           failOnStderr: true
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
@@ -105,6 +105,38 @@ stages:
         displayName: 'Publish Analysis Report'
         inputs:
           pollingTimeoutSec: '300'
+      - task: BuildQualityChecks@7
+        displayName: 'Check build quality'
+        inputs:
+          # ===== Warnings Policy Inputs =====
+          checkWarnings: true # Optional
+          warningFailOption: fixed # Optional; Valid values: build, fixed
+          warningThreshold: '5' # Optional
+          showStatistics: true # Optional
+          # ===== Code Coverage Policy Inputs =====
+          checkCoverage: true # Optional
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
+          coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
+          #customCoverageType: # Required if coverageType = custom
+          treat0of0as100: false # Optional
+          coverageThreshold: '1' # Optional
+          forceCoverageImprovement: false # Optional
+          coverageUpperThreshold: '2' # Optional
+          #ignoreDecreaseAboveUpperThreshold: true # Optional
+          #useUncoveredElements: false # Optional
+          #allowCoverageVariance: false # Optional
+          #coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '2' # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          #buildPlatform: '$(buildPlatform)' # Optional
+          ##explicitFilter: false # Optional
+          # ===== Baseline Inputs =====
+          includePartiallySucceeded: false # Optional
+          # ===== Reporting Inputs =====
+          runTitle: Alpha Quality Gates # Optional
+          # ===== Advanced Inputs =====
+          createBuildIssues: true # Optional      
       - task: PublishTestResults@2
         displayName: 'Publish Test Report'
         inputs:
