@@ -98,11 +98,11 @@ stages:
           arguments: '-c $(buildConfiguration)'
           failOnStderr: true
           projectName: 'rafsanulhasan'
-      - task: CmdLine@2
-        displayName: 'Test'  
-        inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -s $(srcDir)\.runsettings -r $(srcDir)\TestResults -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\ --no-restore --no-build'      
-          failOnStderr: true
+      #- task: CmdLine@2
+        #displayName: 'Test'  
+        #inputs:
+          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -s $(srcDir)\.runsettings -r $(srcDir)\TestResults -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\ --no-restore --no-build'      
+          #failOnStderr: true
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
