@@ -121,6 +121,13 @@ stages:
         displayName: 'Publish Analysis Report'
         inputs:
           pollingTimeoutSec: '300'
+      - task: DotNetCoreCLI@2
+        displayName: 'Install DNT tool'        
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          command: custom
+          custom: tool
+          arguments: 'install -g dnt'
       - task: CmdLine@2
         displayName: 'Install DNT'        
         condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
