@@ -90,12 +90,11 @@ stages:
           scannerMode: 'MSBuild'
           projectKey: 'rafsanulhasan-dev-key'
           projectName: 'rafsanulhasan'
-      - task: DotNetCoreCLI@2
+      - task: CmdLine@2
         displayName: 'Build & Test'  
         inputs:
-          command: build
-          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj'
-          arguments: '-c $(buildConfiguration)'      
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -s $(srcDir)\.runsettings -r $(srcDir)\TestResults -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal'      
+          failOnStderr: true
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
@@ -114,15 +113,46 @@ stages:
             !**\*TestAdapter.dll
             !**\obj\** 
           vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-          runSettingsFile: 'sources\.runsettings' # Optional
+          runSettingsFile: '$(srcDir)\.runsettings' # Optional
           codeCoverageEnabled: true # Optional
           dontDistribute: False # Optional
-          testRunTitle: ServerAppTest # Optional
-          platform: '$(buildPlatform)' # Optional
+          testRunTitle: 'Test Server App' # Optional
+          #platform: '$(buildPlatform)' # Optional
           configuration: '$(buildConfiguration)' # Optional
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
           minimumExpectedTests: '1' # Optional
+      - task: BuildQualityChecks@7
+        displayName: 'Check build quality'
+        inputs:
+          # ===== Warnings Policy Inputs =====
+          checkWarnings: true # Optional
+          warningFailOption: fixed # Optional; Valid values: build, fixed
+          warningThreshold: '5' # Optional
+          showStatistics: true # Optional
+          # ===== Code Coverage Policy Inputs =====
+          checkCoverage: true # Optional
+          coverageFailOption: fixed # Optional; Valid values: build, fixed
+          coverageType: blocks # Optional; Valid values: blocks,
+          treat0of0as100: false # Optional
+          coverageThreshold: '1' # Optional
+          forceCoverageImprovement: false # Optional
+          coverageUpperThreshold: '2' # Optional
+          ignoreDecreaseAboveUpperThreshold: true # Optional
+          useUncoveredElements: false # Optional
+          allowCoverageVariance: false # Optional
+          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
+          coveragePrecision: '2' # Optional
+          buildConfiguration: '$(buildConfiguration)' # Optional
+          buildPlatform: '$(buildPlatform)' # Optional
+          ##explicitFilter: false # Optional
+          # ===== Baseline Inputs =====
+          includePartiallySucceeded: false # Optional
+          # ===== Reporting Inputs =====
+          runTitle: Alpha Quality Gates # Optional
+          # ===== Advanced Inputs =====
+          createBuildIssues: true # Optional      
       - task: CopyFiles@2
         displayName: 'Copy reports'
         inputs:
