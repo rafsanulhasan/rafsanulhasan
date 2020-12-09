@@ -108,9 +108,7 @@ stages:
         displayName: 'Copy coverage files'
         inputs:
           sourceFolder: '$(Agent.TempDirectory)' # Optional
-          contents: | 
-            '*.coverage' 
-            '*.trx'
+          contents: '*.coverage' 
           targetFolder: '$(testDir)/$(testProjectName)/TestResults'
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
