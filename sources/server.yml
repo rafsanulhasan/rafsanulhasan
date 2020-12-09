@@ -90,12 +90,6 @@ stages:
           scannerMode: 'MSBuild'
           projectKey: 'rafsanulhasan-dev-key'
           projectName: 'rafsanulhasan'
-      - task: DotNetCoreCLI@2
-        displayName: 'Build'
-        inputs:
-          command: build
-          projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'            
       - task: CmdLine@2
         displayName: 'Build & Test'  
         inputs:
