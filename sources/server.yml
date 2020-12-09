@@ -96,10 +96,12 @@ stages:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal --collect "Code Coverage" -r $(srcDir)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           failOnStderr: true
       - task: CopyFiles@2
-        displayName: 'Copy coverage files'
+        displayName: 'Copy test & coverage reports'
         inputs:
           sourceFolder: '$(srcDir)\TestResults' # Optional
-          contents: '**\*.coverage*' 
+          contents: |
+            '*.trx'
+            '**\*.coverage*' 
           targetFolder: '$(Agent.TempDirectory)'
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
