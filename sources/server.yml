@@ -99,16 +99,10 @@ stages:
           failOnStderr: true
           projectName: 'rafsanulhasan'
       - task: CmdLine@2
-        displayName: 'Build & Test'  
+        displayName: 'Test'  
         inputs:
           script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -s $(srcDir)\.runsettings -r $(srcDir)\TestResults -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\ --no-restore --no-build'      
           failOnStderr: true
-      - task: SonarCloudAnalyze@1
-        displayName: 'Analyze'
-      - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report'
-        inputs:
-          pollingTimeoutSec: '300'
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
@@ -176,6 +170,12 @@ stages:
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
           failOnStderr: true
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze'
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
+        inputs:
+          pollingTimeoutSec: '300'
       - task: DotNetCoreCLI@2
         displayName: 'Install DNT tool'        
         condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
