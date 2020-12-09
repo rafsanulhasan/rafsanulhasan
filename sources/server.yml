@@ -104,48 +104,6 @@ stages:
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
           failOnStderr: true
-      - task: SonarCloudAnalyze@1
-        displayName: 'Analyze'
-      - task: SonarCloudPublish@1
-        displayName: 'Publish Analysis Report'
-        inputs:
-          pollingTimeoutSec: '300'
-      - task: CopyFiles@2
-        displayName: 'Copy dll files'
-        inputs:
-          sourceFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0' # Optional
-          contents: '*.dll' 
-          targetFolder: '$(testDir)/$(testProjectName)/bin/$(buildConfiguration)/net5.0/ref'
-          cleanTargetFolder: true # Optional
-          overWrite: true # Optional
-          failOnStderr: true
-      - task: CopyFiles@2
-        displayName: 'Copy json files'
-        inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          contents: '*.json' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          cleanTargetFolder: true # Optional
-          overWrite: true # Optional
-          failOnStderr: true
-      - task: VSTest@2
-        displayName: 'Test (VS)'    
-        inputs:
-          testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
-          testAssemblyVer2: | # Required when testSelector == TestAssemblies
-            **\*tests.dll
-            !**\*TestAdapter.dll
-            !**\obj\** 
-          vsTestVersion: 'latest' # Optional. Options: latest, 16.0, 15.0, 14.0, toolsInstaller
-          runSettingsFile: 'sources\.runsettings' # Optional
-          codeCoverageEnabled: true # Optional
-          dontDistribute: False # Optional
-          testRunTitle: 'Test Server App' # Optional
-          platform: '$(buildPlatform)' # Optional
-          configuration: '$(buildConfiguration)' # Optional
-          publishRunAttachments: true # Optional
-          failOnMinTestsNotRun: true # Optional
-          minimumExpectedTests: '1' # Optional
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
@@ -179,18 +137,12 @@ stages:
           runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
           createBuildIssues: true # Optional  
-      - task: PublishTestResults@2
-        displayName: 'Publish Test Report'
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze'
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
         inputs:
-          testResultsFormat: 'xUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-          testResultsFiles: '**/*.trx' 
-          searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-          mergeTestResults: true # Optional
-          failTaskOnFailedTests: true # Optional
-          testRunTitle: 'Test Server App' # Optional
-          buildPlatform: $(buildPlatform) # Optional
-          buildConfiguration: $(buildConfiguration) # Optional
-          publishRunAttachments: true # Optional
+          pollingTimeoutSec: '300'
       - task: CmdLine@2
         displayName: 'Install DNT'        
         condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
