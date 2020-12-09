@@ -96,7 +96,7 @@ stages:
           command: test
           projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj' 
           arguments: '-c $(buildConfiguration) -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
-          publishTestResults: true # Optional
+          publishTestResults: false # Optional
           testRunTitle: 'Test Server App'# Optional
           failOnStderr: true      
       - task: CopyFiles@2
