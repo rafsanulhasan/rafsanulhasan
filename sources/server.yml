@@ -100,7 +100,7 @@ stages:
         displayName: 'Test (CLI)'
         inputs:
           command: test
-          projects: '$(testDir)/$(serverProjectName).Tests.csproj'
+          projects: '$(testDir)/$(testProjectName)/$(serverProjectName).Tests.csproj'
           arguments: '-c $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(Agent.TempDirectory)\TestResults\'
           testRunTitle: 'Test Server App'
           publishTestResults: true
