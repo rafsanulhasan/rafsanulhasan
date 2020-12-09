@@ -13,7 +13,6 @@
 		<TargetFramework>net5.0</TargetFramework>
 		<SolutionDirectory>.</SolutionDirectory>
 		<CollectSourceInformation>False</CollectSourceInformation>
-		<ResultsDirectory>D:\a\1\s\TestResults</ResultsDirectory>
 	</RunConfiguration>
 
 	<DataCollectionRunSettings>

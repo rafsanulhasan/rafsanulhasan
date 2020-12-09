@@ -96,28 +96,20 @@ stages:
           command: build
           projects: '**/*Tests/*Tests.csproj'
           arguments: '--configuration $(buildConfiguration)'            
-      - task: DotNetCoreCLI@2
-        displayName: 'Test (CLI)'
+      - task: CmdLine@2
+        displayName: 'Build & Test'  
         inputs:
-          command: test
-          projects: '$(testDir)/$(testProjectName)/$(serverProjectName).Tests.csproj'
-          arguments: '-c $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\ -s $(srcDir)\.runsettings'
-          testRunTitle: 'Test Server App'
-          publishTestResults: true
+          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal --collect "Code Coverage" -r $(srcDir)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          failOnStderr: true
       - task: CopyFiles@2
         displayName: 'Copy coverage files'
         inputs:
-          sourceFolder: '$(Agent.TempDirectory)' # Optional
+          sourceFolder: '$(srcDir)\TestResults' # Optional
           contents: '**\*.coverage*' 
-          targetFolder: '$(testDir)/$(testProjectName)/TestResults'
+          targetFolder: '$(testDir)\$(testProjectName)\TestResults'
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
           failOnStderr: true
-      #- task: CmdLine@2
-        #displayName: 'Test (CLI)'  
-        #inputs:
-          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
-          #failOnStderr: true
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
       - task: SonarCloudPublish@1
