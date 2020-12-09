@@ -106,7 +106,7 @@ stages:
         inputs:
           sourceFolder: '$(srcDir)\TestResults' # Optional
           contents: '**\*.coverage*' 
-          targetFolder: '$(testDir)\$(testProjectName)\TestResults'
+          targetFolder: '$(Agent.TempDirectory)'
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
           failOnStderr: true
