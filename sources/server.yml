@@ -90,22 +90,15 @@ stages:
           scannerMode: 'MSBuild'
           projectKey: 'rafsanulhasan-dev-key'
           projectName: 'rafsanulhasan'
-      - task: CmdLine@2
+      - task: DotNetCoreCLI@2
         displayName: 'Build & Test'  
         inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal --collect "Code Coverage" -r $(srcDir)\TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
-          failOnStderr: true
-      - task: CopyFiles@2
-        displayName: 'Copy test & coverage reports'
-        inputs:
-          sourceFolder: '$(srcDir)\TestResults' # Optional
-          contents: |
-            '*.trx'
-            '**\*.coverage*' 
-          targetFolder: '$(Agent.TempDirectory)'
-          cleanTargetFolder: false # Optional
-          overWrite: true # Optional
-          failOnStderr: true
+          command: test
+          projects: | 
+            '$(appDir)\Web\SPA\Server\$(serverProjectName).csproj'
+            '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj'
+          arguments: '-c $(buildConfiguration) --collect "Code Coverage" -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed'
+          publishTestResults: true
       - task: BuildQualityChecks@7
         displayName: 'Check build quality'
         inputs:
