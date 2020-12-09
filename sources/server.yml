@@ -101,9 +101,20 @@ stages:
         inputs:
           command: test
           projects: '$(testDir)/$(testProjectName)/$(serverProjectName).Tests.csproj'
-          arguments: '-c $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          arguments: '-c $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\ -s $(srcDir)\.runsettings'
           testRunTitle: 'Test Server App'
           publishTestResults: true
+      - task: CopyFiles@2
+        displayName: 'Copy coverage files'
+        inputs:
+          sourceFolder: '$(Agent.TempDirectory)' # Optional
+          contents: | 
+            '*.coverage' 
+            '*.trx'
+          targetFolder: '$(testDir)/$(testProjectName)/TestResults'
+          cleanTargetFolder: false # Optional
+          overWrite: true # Optional
+          failOnStderr: true
       #- task: CmdLine@2
         #displayName: 'Test (CLI)'  
         #inputs:
