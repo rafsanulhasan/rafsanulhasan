@@ -145,7 +145,7 @@ stages:
           coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
           coveragePrecision: '2' # Optional
           buildConfiguration: '$(buildConfiguration)' # Optional
-          buildPlatform: '$(buildPlatform)' # Optional
+          #buildPlatform: '$(buildPlatform)' # Optional
           ##explicitFilter: false # Optional
           # ===== Baseline Inputs =====
           includePartiallySucceeded: false # Optional
