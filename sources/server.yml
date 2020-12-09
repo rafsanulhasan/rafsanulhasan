@@ -112,7 +112,7 @@ stages:
       - task: PublishCodeCoverageResults@1
         inputs:
           #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
-          summaryFileLocation: '$(testDir)\$(testProjectName)\TestResults\coverage.opencover.xml'
+          summaryFileLocation: '$(Agent.TemDirectory)\TestResults\coverage.opencover.xml'
           #pathToSources: # Optional
           #reportDirectory: # Optional
           additionalCodeCoverageFiles: '$(testDir)\$(testProjectName)\TestResults\*.coverage*' # Optional
