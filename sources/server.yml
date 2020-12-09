@@ -95,12 +95,28 @@ stages:
         inputs:
           command: build
           projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'      
-      - task: CmdLine@2
-        displayName: 'Test (CLI)'  
+          arguments: '--configuration $(buildConfiguration)'            
+      - task: DotNetCoreCLI@2
+        displayName: 'Test (CLI)'
         inputs:
-          script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal --collect "Code Coverage" /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
-          failOnStderr: true   
+          command: test
+          projects: '$(testDir)/$(serverProjectName).Tests.csproj'
+          arguments: '-c $(buildConfiguration)'
+          testRunTitle: 'Test Server App'
+          publishTestResults: true
+      #- task: CmdLine@2
+        #displayName: 'Test (CLI)'  
+        #inputs:
+          #script: 'dotnet test $(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj -c $(buildConfiguration) -l trx;verbosity=detailed -l console;verbosity=detailed -s $(srcDir)\.runsettings -v minimal --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          #failOnStderr: true   
+      - task: PublishCodeCoverageResults@1
+        inputs:
+          #codeCoverageTool: 'JaCoCo' # Options: cobertura, jaCoCo
+          summaryFileLocation: '$(testDir)\$(testProjectName)\TestResults\coverage.opencover.xml'
+          #pathToSources: # Optional
+          #reportDirectory: # Optional
+          additionalCodeCoverageFiles: '$(testDir)\$(testProjectName)\TestResults\*.coverage*' # Optional
+          failIfCoverageEmpty: true # Optional
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze'
       - task: SonarCloudPublish@1
