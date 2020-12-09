@@ -98,19 +98,10 @@ stages:
           arguments: '-c $(buildConfiguration) --collect "Code Coverage" -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           publishTestResults: true
       - task: CopyFiles@2
-        displayName: 'Copy test reports'
+        displayName: 'Copy reports'
         inputs:
           sourceFolder: '$(Agent.TempDirectory)' # Optional
-          contents: '*.trx' 
-          targetFolder: '$(srcDir)\TestResults'
-          cleanTargetFolder: false # Optional
-          overWrite: true # Optional
-          failOnStderr: true
-      - task: CopyFiles@2
-        displayName: 'Copy coverage reports'
-        inputs:
-          sourceFolder: '$(Agent.TempDirectory)' # Optional
-          contents: '**\*.coverage*' 
+          contents: '**' 
           targetFolder: '$(srcDir)\TestResults'
           cleanTargetFolder: false # Optional
           overWrite: true # Optional
