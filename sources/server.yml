@@ -107,7 +107,7 @@ stages:
       - task: CopyFiles@2
         displayName: 'Copy coverage files'
         inputs:
-          sourceFolder: '$(Agent.TempDirectory)' # Optional
+          sourceFolder: '$(Agent.TempDirectory)\**' # Optional
           contents: '*.coverage*' 
           targetFolder: '$(testDir)/$(testProjectName)/TestResults'
           cleanTargetFolder: false # Optional
