@@ -8,4 +8,5 @@ bin
 obj
 TestResults
 *.user
+*.opencover.xml
 
