@@ -110,14 +110,20 @@ stages:
           failOnStderr: true
       - task: SonarCloudAnalyze@1
         displayName: 'Analyze (SonarQube)'      
+      - task: DeleteFiles@1
+        displayName: 'Clean temp directory'
+        inputs:
+          SourceFolder: '$(Agent.TempDirectory)' # Optional
+          Contents: '*.*' 
+          failOnStderr: true     
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
           sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
           contents: '*.*' 
           targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          cleanTargetFolder: true # Optional
-          overWrite: true # Optional
+          cleanTargetFolder: false # Optional
+          overWrite: false # Optional
           failOnStderr: true
       - task: VSTest@2
         displayName: 'Test'    
@@ -131,7 +137,7 @@ stages:
           runSettingsFile: 'sources\.runsettings' # Optional
           codeCoverageEnabled: true # Optional
           dontDistribute: False # Optional
-          testRunTitle: ServerAppTest # Optional
+          testRunTitle: 'Test Server App with VS' # Optional
           platform: '$(buildPlatform)' # Optional
           configuration: '$(buildConfiguration)' # Optional
           publishRunAttachments: true # Optional
