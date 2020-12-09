@@ -109,13 +109,7 @@ stages:
           overWrite: true # Optional
           failOnStderr: true
       - task: SonarCloudAnalyze@1
-        displayName: 'Analyze (SonarQube)'      
-      - task: DeleteFiles@1
-        displayName: 'Clean temp directory'
-        inputs:
-          SourceFolder: '$(Agent.TempDirectory)' # Optional
-          Contents: '*.*' 
-          failOnStderr: true     
+        displayName: 'Analyze (SonarQube)'  
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
@@ -256,35 +250,54 @@ stages:
         #displayName: 'Install NuGet Tools'
         #inputs:
           #checkLatest: true
+      #- task: DotNetCoreCLI@2
+        #displayName: 'Build project'
+        #inputs:
+          #command: 'build'
+          #projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          #arguments: '--configuration $(buildConfiguration)'
+          #feedsToUse: 'select'
+          #versioningScheme: 'off'
       ## needed if running on linux ##
+      - task: SonarCloudPrepare@1
+        displayName: 'Prepare Sonar Analysis'
+        inputs:
+          SonarCloud: 'SonarCloud'
+          organization: 'rafsanulhasan'
+          scannerMode: 'MSBuild'
+          projectKey: 'rafsanulhasan-dev-key'
+          projectName: 'rafsanulhasan'
       - task: DotNetCoreCLI@2
-        displayName: 'Build'
+        displayName: 'Build & Test'  
         inputs:
-          command: build
-          projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'
+          command: test
+          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj' 
+          arguments: '-c $(buildConfiguration) -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          publishTestResults: false # Optional
+          testRunTitle: 'Test Server App'# Optional
+          failOnStderr: true      
       - task: CopyFiles@2
-        displayName: 'Copy dll files'
+        displayName: 'Copy Reports'
         inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          contents: '*.dll' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          cleanTargetFolder: true # Optional
+          sourceFolder: '$(Agent.TempDirectory)' # Optional
+          contents: '**' 
+          targetFolder: '$(srcDir)\TestResults'
+          cleanTargetFolder: false # Optional
           overWrite: true # Optional
-          preserveTimestamp: true # Optional
           failOnStderr: true
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze (SonarQube)'  
       - task: CopyFiles@2
-        displayName: 'Copy json files'
+        displayName: 'Copy bin files'
         inputs:
           sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          contents: '*.json' 
+          contents: '*.*' 
           targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          cleanTargetFolder: true # Optional
-          overWrite: true # Optional
-          preserveTimestamp: true # Optional
+          cleanTargetFolder: false # Optional
+          overWrite: false # Optional
           failOnStderr: true
       - task: VSTest@2
-        displayName: 'Test with VS'    
+        displayName: 'Test'    
         inputs:
           testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
           testAssemblyVer2: | # Required when testSelector == TestAssemblies
@@ -295,44 +308,82 @@ stages:
           runSettingsFile: 'sources\.runsettings' # Optional
           codeCoverageEnabled: true # Optional
           dontDistribute: False # Optional
-          testRunTitle: ServerAppTest # Optional
+          testRunTitle: 'Test Server App with VS' # Optional
           platform: '$(buildPlatform)' # Optional
           configuration: '$(buildConfiguration)' # Optional
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
-          minimumExpectedTests: '5' # Optional
+          minimumExpectedTests: '1' # Optional   
       - task: BuildQualityChecks@7
-        displayName: 'Check build quality'
+        displayName: 'Analyze'
         inputs:
           # ===== Warnings Policy Inputs =====
           checkWarnings: true # Optional
           warningFailOption: fixed # Optional; Valid values: build, fixed
           warningThreshold: '5' # Optional
           showStatistics: true # Optional
+          allowWarningVariance: false # Optional
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
           treat0of0as100: false # Optional
-          coverageThreshold: '50' # Optional
+          coverageThreshold: '1' # Optional
           forceCoverageImprovement: false # Optional
-          coverageUpperThreshold: '70' # Optional
-          ignoreDecreaseAboveUpperThreshold: true # Optional
-          useUncoveredElements: false # Optional
-          allowCoverageVariance: true # Optional
-          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageUpperThreshold: '2' # Optional
+          #ignoreDecreaseAboveUpperThreshold: true # Optional
+          #useUncoveredElements: false # Optional
+          #allowCoverageVariance: false # Optional
+          #coverageVariance: '2' # Required if allowCoverageVariance = true
           coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
-          coveragePrecision: '4' # Optional
+          coveragePrecision: '2' # Optional
           buildConfiguration: '$(buildConfiguration)' # Optional
           buildPlatform: '$(buildPlatform)' # Optional
-          #explicitFilter: false # Optional
+          ##explicitFilter: false # Optional
           # ===== Baseline Inputs =====
-          includePartiallySucceeded: true # Optional
+          includePartiallySucceeded: false # Optional
           # ===== Reporting Inputs =====
-          runTitle: Beta Quality Gates # Optional
+          runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional
+          createBuildIssues: true # Optional  
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
+        inputs:
+          pollingTimeoutSec: '300'      
+      - task: DotNetCoreCLI@2
+        displayName: 'Install DNT tool'        
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          command: custom
+          custom: tool
+          arguments: 'install -g dnt'
+      - task: CmdLine@2
+        displayName: 'Install DNT'        
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: CmdLine@2
+        displayName: 'Update project version revesion for preview'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          script: 'dnt bump-versions preview "alpha(Version.Revision.Alpha)"'
+          failOnStderr: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          zipAfterPublish: true  
+          modifyOutputPath: true
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish artifact'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          targetPath: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'server-app'
 
   - job: PublishAndDeploy
     displayName: 'Publish & Deploy'
@@ -398,37 +449,54 @@ stages:
         #displayName: 'Install NuGet Tools'
         #inputs:
           #checkLatest: true
+      #- task: DotNetCoreCLI@2
+        #displayName: 'Build project'
+        #inputs:
+          #command: 'build'
+          #projects: '$(serverProjectDir)/$(serverProjectName).csproj'
+          #arguments: '--configuration $(buildConfiguration)'
+          #feedsToUse: 'select'
+          #versioningScheme: 'off'
       ## needed if running on linux ##
+      - task: SonarCloudPrepare@1
+        displayName: 'Prepare Sonar Analysis'
+        inputs:
+          SonarCloud: 'SonarCloud'
+          organization: 'rafsanulhasan'
+          scannerMode: 'MSBuild'
+          projectKey: 'rafsanulhasan-dev-key'
+          projectName: 'rafsanulhasan'
       - task: DotNetCoreCLI@2
-        displayName: 'Build'
+        displayName: 'Build & Test'  
         inputs:
-          command: build
-          projects: '**/*Tests/*Tests.csproj'
-          arguments: '--configuration $(buildConfiguration)'
+          command: test
+          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj' 
+          arguments: '-c $(buildConfiguration) -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          publishTestResults: false # Optional
+          testRunTitle: 'Test Server App'# Optional
+          failOnStderr: true      
       - task: CopyFiles@2
-        displayName: 'Copy dll files'
+        displayName: 'Copy Reports'
+        inputs:
+          sourceFolder: '$(Agent.TempDirectory)' # Optional
+          contents: '**' 
+          targetFolder: '$(srcDir)\TestResults'
+          cleanTargetFolder: false # Optional
+          overWrite: true # Optional
+          failOnStderr: true
+      - task: SonarCloudAnalyze@1
+        displayName: 'Analyze (SonarQube)'  
+      - task: CopyFiles@2
+        displayName: 'Copy bin files'
         inputs:
           sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          contents: '*.dll' 
+          contents: '*.*' 
           targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          #cleanTargetFolder: false # Optional
-          #overWrite: false # Optional
-          #flattenFolders: false # Optional
-          #preserveTimestamp: false # Optional
-          #failOnStderr: true
-      - task: CopyFiles@2
-        displayName: 'Copy json files'
-        inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
-          contents: '*.json' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
-          #cleanTargetFolder: false # Optional
-          #overWrite: false # Optional
-          #flattenFolders: false # Optional
-          #preserveTimestamp: false # Optional
-          #failOnStderr: true
+          cleanTargetFolder: false # Optional
+          overWrite: false # Optional
+          failOnStderr: true
       - task: VSTest@2
-        displayName: 'Test with VS'    
+        displayName: 'Test'    
         inputs:
           testSelector: 'testAssemblies' # Options: testAssemblies, testPlan, testRun
           testAssemblyVer2: | # Required when testSelector == TestAssemblies
@@ -439,44 +507,82 @@ stages:
           runSettingsFile: 'sources\.runsettings' # Optional
           codeCoverageEnabled: true # Optional
           dontDistribute: False # Optional
-          testRunTitle: ServerAppTest # Optional
+          testRunTitle: 'Test Server App with VS' # Optional
           platform: '$(buildPlatform)' # Optional
           configuration: '$(buildConfiguration)' # Optional
           publishRunAttachments: true # Optional
           failOnMinTestsNotRun: true # Optional
-          minimumExpectedTests: '10' # Optional
+          minimumExpectedTests: '1' # Optional   
       - task: BuildQualityChecks@7
-        displayName: 'Check build quality'
+        displayName: 'Analyze'
         inputs:
           # ===== Warnings Policy Inputs =====
           checkWarnings: true # Optional
           warningFailOption: fixed # Optional; Valid values: build, fixed
           warningThreshold: '5' # Optional
           showStatistics: true # Optional
+          allowWarningVariance: false # Optional
           # ===== Code Coverage Policy Inputs =====
           checkCoverage: true # Optional
           coverageFailOption: fixed # Optional; Valid values: build, fixed
           coverageType: blocks # Optional; Valid values: blocks, lines, branches, custom
           #customCoverageType: # Required if coverageType = custom
           treat0of0as100: false # Optional
-          coverageThreshold: '70' # Optional
+          coverageThreshold: '1' # Optional
           forceCoverageImprovement: false # Optional
-          coverageUpperThreshold: '90' # Optional
-          ignoreDecreaseAboveUpperThreshold: true # Optional
-          useUncoveredElements: false # Optional
-          allowCoverageVariance: true # Optional
-          coverageVariance: '2' # Required if allowCoverageVariance = true
+          coverageUpperThreshold: '2' # Optional
+          #ignoreDecreaseAboveUpperThreshold: true # Optional
+          #useUncoveredElements: false # Optional
+          #allowCoverageVariance: false # Optional
+          #coverageVariance: '2' # Required if allowCoverageVariance = true
           coverageDeltaType: percentage # Optional; Valid values: absolute, percentage
-          coveragePrecision: '4' # Optional
+          coveragePrecision: '2' # Optional
           buildConfiguration: '$(buildConfiguration)' # Optional
           buildPlatform: '$(buildPlatform)' # Optional
-          #explicitFilter: false # Optional
+          ##explicitFilter: false # Optional
           # ===== Baseline Inputs =====
-          includePartiallySucceeded: true # Optional
+          includePartiallySucceeded: false # Optional
           # ===== Reporting Inputs =====
-          runTitle: Production Quality Gates # Optional
+          runTitle: Alpha Quality Gates # Optional
           # ===== Advanced Inputs =====
-          createBuildIssues: true # Optional
+          createBuildIssues: true # Optional  
+      - task: SonarCloudPublish@1
+        displayName: 'Publish Analysis Report'
+        inputs:
+          pollingTimeoutSec: '300'      
+      - task: DotNetCoreCLI@2
+        displayName: 'Install DNT tool'        
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          command: custom
+          custom: tool
+          arguments: 'install -g dnt'
+      - task: CmdLine@2
+        displayName: 'Install DNT'        
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          script: 'npm i -g dotnettools'
+      - task: CmdLine@2
+        displayName: 'Update project version revesion for preview'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          script: 'dnt bump-versions preview "alpha(Version.Revision.Alpha)"'
+          failOnStderr: true
+      - task: DotNetCoreCLI@2
+        displayName: 'Publish'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          command: publish
+          publishWebProjects: false
+          arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory) $(serverProjectDir)/$(serverProjectName).csproj'
+          zipAfterPublish: true  
+          modifyOutputPath: true
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish artifact'  
+        condition: or(eq(variables['isCI'], 'true'), eq(variables['isBatchedCI'], 'true'))
+        inputs:
+          targetPath: '$(Build.ArtifactStagingDirectory)'
+          artifactName: 'server-app'
 
   - job: PublishAndDeploy
     displayName: 'Publish & Deploy'
