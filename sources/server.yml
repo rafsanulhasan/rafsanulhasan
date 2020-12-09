@@ -94,9 +94,7 @@ stages:
         displayName: 'Build & Test'  
         inputs:
           command: test
-          projects: | 
-            '$(appDir)\Web\SPA\Server\$(serverProjectName).csproj'
-            '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj'
+          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj'
           arguments: '-c $(buildConfiguration) --collect "Code Coverage" -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed'
           publishTestResults: true
       - task: BuildQualityChecks@7
