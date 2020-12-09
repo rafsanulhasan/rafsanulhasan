@@ -101,7 +101,7 @@ stages:
         inputs:
           command: test
           projects: '$(testDir)/$(testProjectName)/$(serverProjectName).Tests.csproj'
-          arguments: '-c $(buildConfiguration) --collect /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
+          arguments: '-c $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           testRunTitle: 'Test Server App'
           publishTestResults: true
       #- task: CmdLine@2
