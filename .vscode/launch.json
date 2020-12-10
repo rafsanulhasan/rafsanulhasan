@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "dotnet",
             "args": ["run"],
-            "cwd": "${workspaceFolder}/sources/applications/web/spa/server/"
+            "cwd": "${workspaceFolder}/sources/Applications/Web/SPA/Server/"
         }
     ]
 }
