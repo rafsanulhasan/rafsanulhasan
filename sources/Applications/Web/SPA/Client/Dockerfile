@@ -9,36 +9,15 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /mkcert
 RUN apt update -y && \
     apt-get update -y && \
-    apt install libnss3-tools wget openssl -y && \    
-    #wget https://github.com/FiloSottile/mkcert/archive/v1.4.2.tar.gz && \
-    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.2/mkcert-v1.4.2-linux-arm && \
-    #tar xzvf ./v1.4.2.tar.gz && \
-    #cd mkcert-1.4.2/ && \
+    apt install libnss3-tools wget openssl -y && \
+    #wget https://github.com/FiloSottile/mkcert/archive/v1.4.3.tar.gz && \
+    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-arm && \
+    #tar xzvf ./v1.4.3.tar.gz && \
+    #cd mkcert-1.4.3/ && \
     #go build && \
     #mkdir /mkcert && \
     #cp bin/mkcert /mkcert
-    mv mkcert-v1.4.2-linux-arm mkcert 
-WORKDIR /usr/bin
-COPY --from=build /mkcert/mkcert .
-WORKDIR /certificates
-RUN chmod 777 mkcert && \
-    mkcert --install && \
-    mkcert -key-file key.pem -cert-file cert.pem localhost && \
-    openssl pkcs12 -export -out cert.pfx -inkey key.pem -in cert.pem 
-#-password pass:${SSLPassword}
-
-WORKDIR /mkcert
-RUN apt update -y && \
-    apt-get update -y && \
-    apt install libnss3-tools wget -y && \
-    #wget https://github.com/FiloSottile/mkcert/archive/v1.4.2.tar.gz && \
-    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.2/mkcert-v1.4.2-linux-arm && \
-    #tar xzvf ./v1.4.2.tar.gz && \
-    #cd mkcert-1.4.2/ && \
-    #go build && \
-    #mkdir /mkcert && \
-    #cp bin/mkcert /mkcert
-    mv mkcert-v1.4.2-linux-arm mkcert &&
+    mv mkcert-v1.4.3-linux-arm mkcert 
 WORKDIR /src
 COPY ["Applications/Web/SPA/Client/RH.Apps.Web.SPA.csproj", "Applications/Web/SPA/Client/"]
 RUN dotnet restore "Applications/Web/SPA/Client/RH.Apps.Web.SPA.csproj"
@@ -57,9 +36,9 @@ RUN dotnet publish "RH.Apps.Web.SPA.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /usr/bin
 COPY --from=build /mkcert/mkcert .
-RUN chmod 777 mkcert && \ 
+RUN chmod 777 mkcert && \
     #mkcert --install && \
-    mkcert -key-file /certificates/key.pem -cert-file /certificates/cert.pem localhost
+    mkcert -key-file /key.pem -cert-file /cert.pem localhost
 WORKDIR /usr/share/nginx/html
 COPY --from=publish /app/publish/wwwroot .
 COPY ["Applications/Web/SPA/Client/nginx/default.conf", "/etc/nginx/conf.d/"]
