@@ -9,16 +9,16 @@ WORKDIR /mkcert
 RUN apt update -y && \
     apt-get update -y && \
     apt install libnss3-tools wget openssl -y && \    
-    #wget https://github.com/FiloSottile/mkcert/archive/v1.4.2.tar.gz && \
-    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.2/mkcert-v1.4.2-linux-arm && \
-    #tar xzvf ./v1.4.2.tar.gz && \
-    #cd mkcert-1.4.2/ && \
+    #wget https://github.com/FiloSottile/mkcert/archive/v1.4.3.tar.gz && \
+    wget https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-arm && \
+    #tar xzvf ./v1.4.3.tar.gz && \
+    #cd mkcert-1.4.3/ && \
     #go build && \
     #mkdir /mkcert && \
     #cp bin/mkcert /mkcert
-    mv mkcert-v1.4.2-linux-arm mkcert 
+    mv mkcert-v1.4.3-linux-arm mkcert 
 WORKDIR /usr/bin
-COPY mkcert .
+COPY /mkcert/mkcert .
 WORKDIR /certificates
 RUN chmod 777 mkcert && \
     #mkcert --install && \

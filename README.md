@@ -1,3 +1,13 @@
+# Blazor Server App
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-white.svg)](https://sonarcloud.io/dashboard?id=rafsanulhasan-dev-key) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=rafsanulhasan-dev-key)](https://sonarcloud.io/dashboard?id=rafsanulhasan-dev-key)
+
+| **dev** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=dev)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=dev)	|   
+|-	|-	|
+| **staging** 	|  [![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
+| **master**  	|[![Build Status](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_apis/build/status/server-app?branchName=staging)](https://dev.azure.com/rhrafsan/rafsanulhasan.xyz/_build/latest?definitionId=2&branchName=staging) 	|
+
+-------------------
+
 ### Hi there 👋                                                                                                                        
 
 My name is Rafsanul Hasan and here is a little information about my technical skills and expertise:                                     [<img align="right" width="400" src="https://github-readme-stats.vercel.app/api?username=rafsanulhasan&&show_icons=true&theme=tokyonight&count_private=true" alt="Rafsan's Github Stats"/>](https://github.com/rafsanulhasan) 
@@ -6,7 +16,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
 - 🌱 I’m currently learning ...                                                       
     - Kubernetes (CKA) 
     - Microservices and Enterprise Architecture
-    - Data Science and analytics Python 
+    - Data Science and analytics using Python 
     - Azure Solution Architect Certification Path                     [<img align="right" src="https://github-readme-stats.vercel.app/api/top-langs/?username=rafsanulhasan&layout=compact&hide=html&langs_count=7" alt="Rafsan's most used Languages" />](https://github.com/rafsanulhasan)
 - 👯 I’m looking to collaborate on ... A project based on ERM and E-Commercethat I'm currently working on for my small startup
 - 🤔 I’m looking for help with ... Domain Driven Design, Event Driven Architecture, Design Patterns - Gang of Four  
@@ -27,7 +37,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
     ![](https://img.shields.io/badge/NuGet-Package_Managers-blue?style=dlat-square&logo=nuget) ![](https://img.shields.io/badge/Packet-Package_Managers-blue?style=packet) ![](https://img.shields.io/badge/Node_Package_Manager_(npm)-Package_Managers-blue?style=flat-square&logo=npm&logoColor=white)
      
 - 📫 How to reach me: ... ![](https://img.shields.io/badge/Email-rafsanulhasan%40outlook.com-blue?style=social&logo=microsoft-outlook) ![Connect_LinkedIn](https://img.shields.io/badge/Connect-rafsanulhasan-blue?style=social&logo=LinkedIn) ![Twitter Follow](https://img.shields.io/twitter/follow/rafsanulhasan?style=social)
-- 😄 Pronouns: ... Full-Stack .NET Developer, Sytem Analyst, Coder, Agile Practitioner, Scrum Developer, DevOps 
+- 😄 Pronouns: ... Full-Stack .NET Developer, System Analyst, Coder, Agile Practitioner, Scrum Developer, DevOps 
 - ⚡ Fun fact: ... I'm half finish
 
 # Skills
@@ -283,7 +293,7 @@ My name is Rafsanul Hasan and here is a little information about my technical sk
             "name": "GCP"
             "services": [
                 "Databases: NoSQL (Firebase realtime database)"                
-            ]
+            ]  
         }
     ]
   }

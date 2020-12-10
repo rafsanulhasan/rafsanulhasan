@@ -1,0 +1,117 @@
+﻿@inherits TestComponentBase
+
+@attribute [ExcludeFromCodeCoverage]
+
+@*
+	This is a special Blazor component, which contains razor tests.
+
+	These tests are written in a mix of C# and Razor syntax.
+
+	The first test is a snapshot test, that will automatically perform a semantic
+	comparison of the rendered output of TestInput with that of ExpectedOutput.
+
+	The second is a Fixture test, where you can declare the component under test
+	and additional fragments that can be used in the "act" and "assertion" phases
+	of the test, which runs in the related test method(s).
+
+	Learn more at https://bunit.egilhansen.com/docs/
+*@
+
+<SnapshotTest Description="Home Page Test">
+	<TestInput>
+		<RH.Apps.Web.SPA.Lite.Pages.Index />
+	</TestInput>
+	<ExpectedOutput>
+		<h1>Hello, world!</h1>
+
+		<span>Welcome to your new app. testing</span>
+
+		<div class="alert alert-secondary mt-4" role="alert">
+			<span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+			<strong>How is Blazor working for you?</strong>
+
+			<span class="text-nowrap">
+				Please take our
+				<a target="_blank" class="font-weight-bold" href="https://go.microsoft.com/fwlink/?linkid=2137813">brief survey</a>
+			</span>
+			and tell us what you think.
+		</div>
+	</ExpectedOutput>
+</SnapshotTest>
+
+<Fixture Description="Hello World test" Test="HelloWorldTest">
+	<ComponentUnderTest>
+		<RH.Apps.Web.SPA.Lite.Pages.Index />
+	</ComponentUnderTest>
+	<Fragment>
+		<h1>Hello, world!</h1>
+	</Fragment>
+</Fixture>
+
+<Fixture Description="Welcome Message test" Test="WelcomeMessageTest">
+	<ComponentUnderTest>
+		<RH.Apps.Web.SPA.Lite.Pages.Index />
+	</ComponentUnderTest>
+	<Fragment>
+		<span>Welcome to your new app. testing</span>
+	</Fragment>
+</Fixture>
+
+<Fixture Description="Survey prompt test" Test="SurveyPromptTest">
+	<ComponentUnderTest>
+		<RH.Apps.Web.SPA.Lite.Pages.Index />
+	</ComponentUnderTest>
+	<Fragment>
+		<div class="alert alert-secondary mt-4" role="alert">
+			<span class="oi oi-pencil mr-2" aria-hidden="true"></span>
+			<strong>How is Blazor working for you?</strong>
+
+			<span class="text-nowrap">
+				Please take our
+				<a target="_blank" class="font-weight-bold" href="https://go.microsoft.com/fwlink/?linkid=2137813">brief survey</a>
+			</span>
+			and tell us what you think.
+		</div>
+	</Fragment>
+</Fixture>
+
+@code
+{
+	public void HelloWorldTest(Fixture fixture)
+	{
+		// Arrange
+		var cut = fixture.GetComponentUnderTest<RH.Apps.Web.SPA.Lite.Pages.Index>();
+
+		// Act - click button to increment counter
+
+
+		// Assert that the counter was incremented
+		var expected = fixture.GetFragment();
+		cut.Find("h1").MarkupMatches(expected);
+	}
+
+	public void WelcomeMessageTest(Fixture fixture)
+	{
+		// Arrange
+		var cut = fixture.GetComponentUnderTest<RH.Apps.Web.SPA.Lite.Pages.Index>();
+
+		// Act - click button to increment counter
+
+
+		// Assert that the counter was incremented
+		var expected = fixture.GetFragment();
+		cut.Find("span").MarkupMatches(expected);
+	}
+	public void SurveyPromptTest(Fixture fixture)
+	{
+		// Arrange
+		var cut = fixture.GetComponentUnderTest<RH.Apps.Web.SPA.Lite.Pages.Index>();
+
+		// Act - click button to increment counter
+
+
+		// Assert that the counter was incremented
+		var expected = fixture.GetFragment();
+		cut.Find("div[role='alert']").MarkupMatches(expected);
+	}
+}

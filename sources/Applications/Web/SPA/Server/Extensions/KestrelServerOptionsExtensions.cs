@@ -16,17 +16,25 @@ namespace RH.Apps.Web.SPA.Lite.Extensions
 	{
 		public static void ConfigureEndpoints(this KestrelServerOptions options)
 		{
+			if (options is null)
+			{
+				return;
+			}
+
 			var configuration = options.ApplicationServices.GetRequiredService<IConfiguration>();
 			var environment = options.ApplicationServices.GetRequiredService<IHostEnvironment>();
 
 			var endpoints = configuration.GetSection("HttpServer:Endpoints")
 			    .GetChildren()
-			    .ToDictionary(section => section.Key, section =>
-			    {
-				    var endpoint = new EndpointConfiguration();
-				    section.Bind(endpoint);
-				    return endpoint;
-			    });
+			    .ToDictionary(
+			    		section => section.Key,
+			    		section =>
+			    		{
+			    			var endpoint = new EndpointConfiguration();
+			    			section.Bind(endpoint);
+			    			return endpoint;
+			    		}
+				);
 
 			foreach (var endpoint in endpoints)
 			{
@@ -50,33 +58,35 @@ namespace RH.Apps.Web.SPA.Lite.Extensions
 
 				foreach (var address in ipAddresses)
 				{
-					options.Listen(address, port,
-					    listenOptions =>
-					    {
-						    if (config.Scheme == "https")
-						    {
-							    var certificate = LoadCertificate(config);
-							    listenOptions.UseHttps(certificate);
-						    }
-					    });
+					options.Listen(
+						address,
+						port,
+						listenOptions =>
+						{
+							if (config.Scheme == "https")
+							{
+								var certificate = LoadCertificate(config);
+								listenOptions.UseHttps(certificate);
+							}
+						});
 				}
 			}
 		}
 
 		private static X509Certificate2 LoadCertificate(EndpointConfiguration config)
 		{
-			if (config.StoreName != null && config.StoreLocation != null)
+			if (config.StoreName is not null && config.StoreLocation is not null)
 			{
 				using (var store = new X509Store(
-						config.StoreName,
-						Enum.Parse<StoreLocation>(config.StoreLocation))
+					config!.StoreName,
+					Enum.Parse<StoreLocation>(config.StoreLocation))
 				)
 				{
 					store.Open(OpenFlags.ReadOnly);
 					var certificate = store.Certificates.Find(
-					    X509FindType.FindBySubjectName,
-					    config.Host,
-					    validOnly: true // !environment.IsDevelopment()
+						X509FindType.FindBySubjectName,
+						config.Host,
+						validOnly: true // !environment.IsDevelopment()
 					);
 
 					return certificate.Count == 0
@@ -85,7 +95,7 @@ namespace RH.Apps.Web.SPA.Lite.Extensions
 				}
 			}
 
-			return config.FilePath != null && config.Password != null
+			return config.FilePath is not null && config.Password is not null
 			    ? new X509Certificate2(config.FilePath, config.Password)
 			    : throw new InvalidOperationException("No valid certificate configuration found for the current endpoint.");
 		}

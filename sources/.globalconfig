@@ -1,0 +1,5 @@
+﻿is_global = true
+
+dotnet_style_qualification_for_method = false:warning
+dotnet_diagnostic.CA1000.severity = warning
+dotnet_diagnostic.CA1001.severity = warning
