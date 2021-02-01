@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+
+@inject IConfiguration Configuration
+
+<div class="page">
+	<div class="sidebar">
+		<NavMenu />
+	</div>
+
+	<div class="main">
+		<div class="top-row px-4 auth">
+			@if (Runtime == "Client") 
+			{
+				<ClientLoginDisplay></ClientLoginDisplay>
+			}
+			else if (Runtime == "Server")
+			{
+				<ServerLoginDisplay />
+			}
+			<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+		</div>
+
+		<div class="content px-4">
+			@Body
+		</div>
+	</div>
+</div>
+
+@code
+{
+	public string Runtime { get; private set;  }
+	protected override void OnInitialized() 
+	{
+		Runtime = Configuration.GetSection("Runtime").Get<string>();
+	}
+}
