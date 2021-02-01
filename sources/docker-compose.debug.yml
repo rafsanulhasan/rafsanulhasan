@@ -18,12 +18,12 @@ services:
       context: .
       dockerfile: Applications/Web/SPA/Client/Dockerfile.debug
     extra_hosts:
-      - "devskillwebserver:10.0.75.1"
+      - "devskillwebserver:172.16.1.2"
     ports:
       - "54381:54381"
       - "44331:44311"
-      - "10.0.75.1:54381:54381"
-      - "10.0.75.1:44331:44311"
+      - "172.16.1.2:54381:54381"
+      - "172.16.1.2:44331:44311"
     volumes:
       - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
       #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
@@ -46,12 +46,12 @@ services:
       context: .
       dockerfile: Applications/Web/SPA/Client/Dockerfile.debug
     extra_hosts:
-      - "devskillauthserver:10.0.75.1"
+      - "devskillauthserver:172.16.1.2"
     ports:
       - "54381:54381"
       - "44332:44312"
-      - "10.0.75.1:54382:54382"
-      - "10.0.75.1:44332:44312"
+      - "172.16.1.2:54382:54382"
+      - "172.16.1.2:44332:44312"
     volumes:
       - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
       #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
