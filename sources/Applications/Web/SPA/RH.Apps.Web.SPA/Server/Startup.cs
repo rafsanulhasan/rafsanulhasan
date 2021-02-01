@@ -82,14 +82,14 @@ namespace RH.Apps.Web.SPA.Server
 			{
 				services.AddServerSideBlazor();
 				var signalR = services.AddSignalR();
-				if (_hostEnvironment.IsProduction())
-					signalR.AddAzureSignalR();
-				else
-					services
-						.AddReverseProxy()
-						.LoadFromConfig(
-							Configuration.GetSection("ReverseProxy")
-						);
+				//if (_hostEnvironment.IsProduction())
+				//	signalR.AddAzureSignalR();
+				//else
+				//	services
+				//		.AddReverseProxy()
+				//		.LoadFromConfig(
+				//			Configuration.GetSection("ReverseProxy")
+				//		);
 			}
 		}
 
@@ -106,10 +106,10 @@ namespace RH.Apps.Web.SPA.Server
 			{
 				app.UseExceptionHandler("/Error");
 				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
+				//app.UseHsts();
 			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();
 			app.UseBlazorFrameworkFiles();
 			app.UseStaticFiles();
 
@@ -121,8 +121,8 @@ namespace RH.Apps.Web.SPA.Server
 
 			app.UseEndpoints(endpoints =>
 			{
-				if (!_hostEnvironment.IsProduction())
-					endpoints.MapReverseProxy();
+				//if (!_hostEnvironment.IsProduction())
+				//	endpoints.MapReverseProxy();
 				endpoints.MapRazorPages();
 				endpoints.MapControllers();
 				endpoints.MapFallbackToPage("/_Host");
