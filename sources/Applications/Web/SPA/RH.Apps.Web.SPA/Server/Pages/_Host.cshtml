@@ -63,13 +63,17 @@
 	<environment include="Development">
 	@if (runtime == "Client")
 	{		
-		<script src="_framework/blazor.webassembly.js"></script>
 		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
+		<script src="_framework/blazor.webassembly.js"></script>
 	}	 
 	</environment>
 
 	<environment include="Staging,Production">
-	
+	@if (runtime == "Client")
+	{	
+		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
+		<script src="_framework/blazor.webassembly.js"></script>	
+	}
 	</environment>
 
 	<environment include="Development,Staging,Production">
