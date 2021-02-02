@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 
 using Bunit;
 
-using RH.Apps.Web.SPA.Lite.Pages;
+using RH.Apps.Web.SPA.Client.Pages;
 
 using Xunit;
 

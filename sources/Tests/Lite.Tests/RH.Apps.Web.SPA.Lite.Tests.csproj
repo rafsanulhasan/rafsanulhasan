@@ -33,7 +33,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="5.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="2.2.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="8.15.0.24505">
@@ -53,6 +53,12 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Applications\Web\SPA\RH.Apps.Web.SPA\Client\RH.Apps.Web.SPA.Client.csproj" />
+	  <ProjectReference Include="..\..\Applications\Web\SPA\RH.Apps.Web.SPA\Server\RH.Apps.Web.SPA.Server.csproj" />
+	  <ProjectReference Include="..\..\Applications\Web\SPA\RH.Apps.Web.SPA\Shared\RH.Apps.Web.SPA.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
