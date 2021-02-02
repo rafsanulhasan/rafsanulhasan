@@ -3,7 +3,6 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -12,7 +11,7 @@ namespace RH.Apps.Web.SPA.Server
 {
 	public class Startup
 	{
-		private readonly string _runtime;
+		private string _runtime;
 		private readonly IHostEnvironment _hostEnvironment;
 		public IConfiguration Configuration { get; }
 
@@ -30,8 +29,8 @@ namespace RH.Apps.Web.SPA.Server
 		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var connectionString = Configuration.GetConnectionString("DefaultConnection");
-			var assembly = typeof(Startup).Assembly;
+			//var connectionString = Configuration.GetConnectionString("DefaultConnection");
+			//var assembly = typeof(Startup).Assembly;
 			//services
 			//	.AddDbContextPool<ApplicationDbContext>(options =>
 			//	{
@@ -80,7 +79,7 @@ namespace RH.Apps.Web.SPA.Server
 			if (runtime == "Server")
 			{
 				services.AddServerSideBlazor();
-				var signalR = services.AddSignalR();
+				//var signalR = services.AddSignalR();
 				//if (_hostEnvironment.IsProduction())
 				//	signalR.AddAzureSignalR();
 				//else
