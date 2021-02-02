@@ -6,11 +6,6 @@ using Microsoft.Extensions.Options;
 
 using RH.Apps.Web.SPA.Server.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace RH.Apps.Web.SPA.Server.Data
 {
 	public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>

@@ -1,17 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using RH.Apps.Web.SPA.Shared;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace RH.Apps.Web.SPA.Server.Controllers
 {
-	[Authorize]
+	//[Authorize]
 	[ApiController]
 	[Route("[controller]")]
 	public class WeatherForecastController : ControllerBase
@@ -23,10 +21,8 @@ namespace RH.Apps.Web.SPA.Server.Controllers
 
 		private readonly ILogger<WeatherForecastController> _logger;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger)
-		{
-			_logger = logger;
-		}
+		public WeatherForecastController(ILogger<WeatherForecastController> logger) 
+			=> _logger = logger;
 
 		[HttpGet]
 		public IEnumerable<WeatherForecast> Get()
