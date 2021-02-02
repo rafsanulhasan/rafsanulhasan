@@ -20,7 +20,7 @@
 			"commandName": "Executable",
 			"launchBrowser": true,
 			"executablePath": "dotnet",
-			"commandLineArgs": "watch run",
+			"commandLineArgs": "watch run --urls=https://localhost:7003;http://localhost:8003",
 			"workingDirectory": ".",
 			"environmentVariables": {
 				"ASPNETCORE_ENVIRONMENT": "Development"
