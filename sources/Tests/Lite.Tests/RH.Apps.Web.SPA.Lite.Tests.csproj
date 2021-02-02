@@ -55,8 +55,4 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\..\Applications\Web\SPA\Server\RH.Apps.Web.SPA.Lite.csproj" />
-	</ItemGroup>
-
 </Project>
