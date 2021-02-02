@@ -72,18 +72,18 @@
 	@if (runtime == "Client")
 	{	
 		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
-		<script src="_framework/blazor.webassembly.js"></script>	
+		<script src="_framework/blazor.webassembly.js" autostart="false"></script>	
 	}
 	</environment>
 
 	<environment include="Development,Staging,Production">
 	@if (runtime == "Client")
 	{	
-		<script src="scripts/decode.js"></script>
+		@*<script src="scripts/decode.js"></script>*@
 		<script>
 			Blazor.start({
 				loadBootResource: function (type, name, defaultUri, integrity) {
-					if (type !== 'dotnetjs' && type !== 'dotnetwasm' && type !== 'timezonedata') {
+					@*if (type !== 'dotnetjs' && type !== 'dotnetwasm' && type !== 'timezonedata') {
 						return (async function () {
 							const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
 							if (!response.ok) {
@@ -100,13 +100,18 @@
 								{ headers: { 'content-type': contentType } }
 							);
 						});
-					}
+					}*@
 					@*switch (type) {
 						case 'dotnetjs':
 						case 'dotnetwasm':
 						case 'timezonedata':
 						return `https://my-awesome-cdn.com/blazorwebassembly/5.0.102/${name}`;
 					}*@
+					return fetch(defaultUri, { 
+					   cache: 'no-cache',
+					   integrity: integrity,
+					   headers: { 'MyCustomHeader': 'My custom value' }
+					});
 				}
 			})();
 		</script>
