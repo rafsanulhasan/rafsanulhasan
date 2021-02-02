@@ -37,27 +37,27 @@ namespace RH.Apps.Web.SPA.Server
 			services
 				.AddDbContextPool<ApplicationDbContext>(options =>
 				{
-					if (!_hostEnvironment.IsProduction())
-						options.UseSqlServer(
-							connectionString,
-							builder =>
-							{
-								builder.MigrationsAssembly(assembly.FullName);
-								builder.MigrationsHistoryTable("Migrations", "dbo");
-								builder.EnableRetryOnFailure(5);
-							}
-						);
-					else
-						options.UseMySql(
-							Configuration.GetConnectionString("DefaultConnection"),
-							serverVersion: ServerVersion.AutoDetect(connectionString),
-							builder =>
-							{
-								builder.MigrationsAssembly(typeof(Startup).FullName);
-								builder.MigrationsHistoryTable("Migrations", "dbo");
-								builder.EnableRetryOnFailure(5);
-							}
-						);
+					//if (!_hostEnvironment.IsProduction())
+					options.UseSqlServer(
+						connectionString,
+						builder =>
+						{
+							builder.MigrationsAssembly(assembly.FullName);
+							builder.MigrationsHistoryTable("Migrations", "dbo");
+							builder.EnableRetryOnFailure(5);
+						}
+					);
+					//else
+					//	options.UseMySql(
+					//		Configuration.GetConnectionString("DefaultConnection"),
+					//		serverVersion: ServerVersion.AutoDetect(connectionString),
+					//		builder =>
+					//		{
+					//			builder.MigrationsAssembly(typeof(Startup).FullName);
+					//			builder.MigrationsHistoryTable("Migrations", "dbo");
+					//			builder.EnableRetryOnFailure(5);
+					//		}
+					//	);
 				});
 
 			services.AddDatabaseDeveloperPageExceptionFilter();
