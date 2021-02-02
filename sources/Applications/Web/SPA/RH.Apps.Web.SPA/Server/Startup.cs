@@ -112,8 +112,7 @@ namespace RH.Apps.Web.SPA.Server
 			}
 
 			//app.UseHttpsRedirection();
-			if (_runtime.Equals("Client", StringComparison.OrdinalIgnoreCase))
-				app.UseBlazorFrameworkFiles();
+			app.UseBlazorFrameworkFiles();
 			app.UseStaticFiles();
 
 			app.UseRouting();
