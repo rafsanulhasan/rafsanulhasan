@@ -23,6 +23,7 @@
 
 	<environment include="Development">
 		<link href="libraries/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />		
+		<link href="styles/app.css" rel="stylesheet" />
 		@if (runtime == "Client")
 		{
 		<link href="RH.Apps.Web.SPA.Client.styles.css" rel="stylesheet" />
@@ -30,9 +31,10 @@
 	</environment>
 	<environment include="Staging,Production">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha256-T/zFmO5s/0aSwc6ics2KLxlfbewyRz6UNw1s3Ppf5gE=" rel="stylesheet" crossorigin="anonymous">
+		<link href="styles/app.min.css" rel="stylesheet" />
 	</environment>
 	<environment include="Development,Staging,Production">		
-		<link href="styles/app.css" rel="stylesheet" />
+		
 		@if (runtime == "Client")
 		{
 		<link href="manifest.json" rel="manifest" />
@@ -62,6 +64,7 @@
 	@if (runtime == "Client")
 	{		
 		<script src="scripts/decode.js"></script>
+		<script src="_framework/blazor.webassembly.js"></script>				
 	}	 
 	</environment>
 
@@ -69,6 +72,7 @@
 	@if (runtime == "Client")
 	{	
 		<script src="scripts/decode.min.js"></script>
+		<script src="_content/RH.Apps.Web.Spa.Client/_framework/blazor.webassembly.js"></script>
 	}
 	</environment>
 
@@ -76,7 +80,7 @@
 	@if (runtime == "Client")
 	{	
 		@*<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>*@
-		<script src="_framework/blazor.webassembly.js"></script>				
+		
 	}
 	else if (runtime == "Server")
 	{
