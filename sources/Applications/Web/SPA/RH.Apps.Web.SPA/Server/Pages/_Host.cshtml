@@ -2,11 +2,13 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Hosting
 @using Microsoft.AspNetCore.Components
 @using Microsoft.AspNetCore.Components.Web
 @using RH.Apps.Web.SPA.Client
 
 @inject IConfiguration Configuration
+@inject IHostEnvironment HostEnvironment
 
 @{
      var runtime = Configuration.GetSection("Runtime").Get<string>();
@@ -50,9 +52,31 @@
     
     @if (runtime == "Client") 
     {
+    <script src="decode.min.js"></script>
     <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+         @if (HostEnvironment.IsProduction()) 
+         {
+              <script>
+              Blazor.start({
+                   loadBootResource: function (type, name, defaultUri, integrity) {
+                     if (type !== 'dotnetjs' && location.hostname !== 'localhost') {
+                       return (async function () {
+                         const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
+                         if (!response.ok) {
+                           throw new Error(response.statusText);
+                         }
+                         const originalResponseBuffer = await response.arrayBuffer();
+                         const originalResponseArray = new Int8Array(originalResponseBuffer);
+                         const decompressedResponseArray = BrotliDecode(originalResponseArray);
+                         const contentType = type === 
+                           'dotnetwasm' ? 'application/wasm' : 'application/octet-stream';
+                         return new Response(decompressedResponseArray, 
+                           { headers: { 'content-type': contentType } });
+               })();
+               </script>
+          }
     }
     else if (runtime == "Server") 
     {
