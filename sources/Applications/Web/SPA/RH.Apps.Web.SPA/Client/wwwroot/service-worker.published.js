@@ -21,7 +21,7 @@ async function onInstall(event) {
         .map(asset => new Request(asset.url, { integrity: asset.hash }));
 
     // Also cache authentication configuration
-    assetsRequests.push(new Request('_configuration/RH.Apps.Web.SPA.Client'));
+    //assetsRequests.push(new Request('_configuration/RH.Apps.Web.SPA.Client'));
 
     await caches.open(cacheName).then(cache => cache.addAll(assetsRequests));
 }
