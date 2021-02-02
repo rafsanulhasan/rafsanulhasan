@@ -34,45 +34,45 @@ namespace RH.Apps.Web.SPA.Server
 		{
 			var connectionString = Configuration.GetConnectionString("DefaultConnection");
 			var assembly = typeof(Startup).Assembly;
-			services
-				.AddDbContextPool<ApplicationDbContext>(options =>
-				{
-					//if (!_hostEnvironment.IsProduction())
-					options.UseSqlServer(
-						connectionString,
-						builder =>
-						{
-							builder.MigrationsAssembly(assembly.FullName);
-							builder.MigrationsHistoryTable("Migrations", "dbo");
-							builder.EnableRetryOnFailure(5);
-						}
-					);
-					//else
-					//	options.UseMySql(
-					//		Configuration.GetConnectionString("DefaultConnection"),
-					//		serverVersion: ServerVersion.AutoDetect(connectionString),
-					//		builder =>
-					//		{
-					//			builder.MigrationsAssembly(typeof(Startup).FullName);
-					//			builder.MigrationsHistoryTable("Migrations", "dbo");
-					//			builder.EnableRetryOnFailure(5);
-					//		}
-					//	);
-				});
+			//services
+			//	.AddDbContextPool<ApplicationDbContext>(options =>
+			//	{
+			//		//if (!_hostEnvironment.IsProduction())
+			//		options.UseSqlServer(
+			//			connectionString,
+			//			builder =>
+			//			{
+			//				builder.MigrationsAssembly(assembly.FullName);
+			//				builder.MigrationsHistoryTable("Migrations", "dbo");
+			//				builder.EnableRetryOnFailure(5);
+			//			}
+			//		);
+			//		//else
+			//		//	options.UseMySql(
+			//		//		Configuration.GetConnectionString("DefaultConnection"),
+			//		//		serverVersion: ServerVersion.AutoDetect(connectionString),
+			//		//		builder =>
+			//		//		{
+			//		//			builder.MigrationsAssembly(typeof(Startup).FullName);
+			//		//			builder.MigrationsHistoryTable("Migrations", "dbo");
+			//		//			builder.EnableRetryOnFailure(5);
+			//		//		}
+			//		//	);
+			//	});
 
-			services.AddDatabaseDeveloperPageExceptionFilter();
+			//services.AddDatabaseDeveloperPageExceptionFilter();
 
-			services
-				.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-				.AddEntityFrameworkStores<ApplicationDbContext>();
+			//services
+			//	.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+			//	.AddEntityFrameworkStores<ApplicationDbContext>();
 
-			services
-				.AddIdentityServer()
-				.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+			//services
+			//	.AddIdentityServer()
+			//	.AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-			services
-				.AddAuthentication()
-				.AddIdentityServerJwt();
+			//services
+			//	.AddAuthentication()
+			//	.AddIdentityServerJwt();
 
 			services.AddRazorPages();
 			services.AddControllersWithViews();
