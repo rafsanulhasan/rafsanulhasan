@@ -80,41 +80,7 @@
 	@if (runtime == "Client")
 	{	
 		@*<script src="scripts/decode.js"></script>*@
-		<script>
-			Blazor.start({
-				loadBootResource: function (type, name, defaultUri, integrity) {
-					@*if (type !== 'dotnetjs' && type !== 'dotnetwasm' && type !== 'timezonedata') {
-						return (async function () {
-							const response = await fetch(defaultUri + '.br', { cache: 'no-cache' });
-							if (!response.ok) {
-								throw new Error(response.statusText);
-							}
-							const originalResponseBuffer = await response.arrayBuffer();
-							const originalResponseArray = new Int8Array(originalResponseBuffer);
-							const decompressedResponseArray = BrotliDecode(originalResponseArray);
-							const contentType = type === 'dotnetwasm'
-										   ? 'application/wasm'
-										   : 'application/octet-stream';
-							return new Response(
-								decompressedResponseArray,
-								{ headers: { 'content-type': contentType } }
-							);
-						});
-					}*@
-					@*switch (type) {
-						case 'dotnetjs':
-						case 'dotnetwasm':
-						case 'timezonedata':
-						return `https://my-awesome-cdn.com/blazorwebassembly/5.0.102/${name}`;
-					}*@
-					return fetch(defaultUri, { 
-					   cache: 'no-cache',
-					   integrity: integrity,
-					   headers: { 'MyCustomHeader': 'My custom value' }
-					});
-				}
-			})();
-		</script>
+		
 	}
 	else if (runtime == "Server")
 	{
