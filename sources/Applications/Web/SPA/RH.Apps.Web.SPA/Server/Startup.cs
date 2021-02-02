@@ -1,5 +1,3 @@
-using System;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -11,7 +9,7 @@ namespace RH.Apps.Web.SPA.Server
 {
 	public class Startup
 	{
-		private string _runtime;
+		private readonly string _runtime;
 		private readonly IHostEnvironment _hostEnvironment;
 		public IConfiguration Configuration { get; }
 
@@ -74,9 +72,7 @@ namespace RH.Apps.Web.SPA.Server
 			services.AddRazorPages();
 			services.AddControllersWithViews();
 
-			var runtime = Configuration.GetSection("Runtime").Get<string>();
-
-			if (runtime == "Server")
+			if (_runtime == "Server")
 			{
 				services.AddServerSideBlazor();
 				//var signalR = services.AddSignalR();
@@ -112,7 +108,10 @@ namespace RH.Apps.Web.SPA.Server
 			}
 
 			//app.UseHttpsRedirection();
-			app.UseBlazorFrameworkFiles();
+			if (_runtime == "Client")
+			{
+				app.UseBlazorFrameworkFiles();
+			}
 			app.UseStaticFiles();
 
 			app.UseRouting();

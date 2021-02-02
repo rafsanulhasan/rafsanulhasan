@@ -3,8 +3,6 @@
 
 @using Microsoft.Extensions.Configuration
 @using Microsoft.Extensions.Hosting
-@using Microsoft.AspNetCore.Components
-@using Microsoft.AspNetCore.Components.Web
 @using RH.Apps.Web.SPA.Client
 
 @inject IConfiguration Configuration
@@ -48,11 +46,11 @@
 
 	@if (runtime == "Client")
 	{
-	<component id="app" type="@typeof(App)" render-mode="WebAssembly" />
+	<component id="app" type="@typeof(App)" render-mode="WebAssemblyPrerendered" />
 	}
 	else if (runtime == "Server")
 	{
-	<component type="@typeof(App)" render-mode="ServerPrerendered" />
+	<component id="app" type="@typeof(App)" render-mode="ServerPrerendered" />
 	<div id="blazor-error-ui">
 		An unhandled error has occurred.
 		<a href="" class="reload">Reload</a>
@@ -63,28 +61,26 @@
 	<environment include="Development">
 	@if (runtime == "Client")
 	{		
-		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
-		<script src="_framework/blazor.webassembly.js"></script>
+		<script src="scripts/decode.js"></script>
 	}	 
 	</environment>
 
 	<environment include="Staging,Production">
 	@if (runtime == "Client")
 	{	
-		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
-		<script src="_framework/blazor.webassembly.js" autostart="false"></script>	
+		<script src="scripts/decode.min.js"></script>
 	}
 	</environment>
 
 	<environment include="Development,Staging,Production">
 	@if (runtime == "Client")
 	{	
-		@*<script src="scripts/decode.js"></script>*@
-		
+		@*<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>*@
+		<script src="_framework/blazor.webassembly.js"></script>				
 	}
 	else if (runtime == "Server")
 	{
-	<script src="_framework/blazor.server.js"></script>
+		<script src="_framework/blazor.server.js"></script>
 	}
 	</environment>
 
