@@ -63,7 +63,7 @@
 	<environment include="Development">
 	@if (runtime == "Client")
 	{		
-		<script src="scripts/decode.js"></script>
+		@*<script src="scripts/decode.js"></script>*@
 		<script src="_framework/blazor.webassembly.js"></script>				
 	}	 
 	</environment>
@@ -71,8 +71,10 @@
 	<environment include="Staging,Production">
 	@if (runtime == "Client")
 	{	
-		<script src="scripts/decode.min.js"></script>
-		<script src="_content/RH.Apps.Web.Spa.Client/_framework/blazor.webassembly.js"></script>
+		@*<script src="scripts/decode.min.js"></script>*@
+		<script src="_framework/blazor.webassembly.js"></script>
+		<script src="_content/RH.Apps.Web.SPA.Client/blazor.webassembly.js"></script>
+		<script src="_content/RH.Apps.Web.SPA.Client/_framework/blazor.webassembly.js"></script>
 	}
 	</environment>
 
