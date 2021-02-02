@@ -9,10 +9,24 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="wwwroot\**" />
-	  <Content Remove="wwwroot\**" />
-	  <EmbeddedResource Remove="wwwroot\**" />
-	  <None Remove="wwwroot\**" />
+	  <Content Remove="bundleconfig.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="wwwroot\styles\app.min.css" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="bundleconfig.json" />
+	  <None Include="Properties\serviceDependencies.local.json.user" />
+	  <None Include="wwwroot\libraries\bootstrap\dist\css\bootstrap.css.map" />
+	  <None Include="wwwroot\libraries\bootstrap\dist\css\bootstrap.min.css.map" />
+	  <None Include="wwwroot\libraries\bootstrap\dist\js\bootstrap.js" />
+	  <None Include="wwwroot\libraries\bootstrap\dist\js\bootstrap.js.map" />
+	  <None Include="wwwroot\libraries\bootstrap\dist\js\bootstrap.min.js" />
+	  <None Include="wwwroot\libraries\bootstrap\dist\js\bootstrap.min.js.map" />
+	  <None Include="wwwroot\libraries\open-iconic\font\fonts\open-iconic.svg" />
+	  <None Include="wwwroot\scripts\decode.js" />
 	</ItemGroup>
 
 	<ItemGroup>
