@@ -1,6 +1,5 @@
 using System;
 
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -9,13 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using RH.Apps.Web.SPA.Server.Data;
-using RH.Apps.Web.SPA.Server.Models;
-
 namespace RH.Apps.Web.SPA.Server
 {
 	public class Startup
 	{
+		private readonly string _runtime;
 		private readonly IHostEnvironment _hostEnvironment;
 		public IConfiguration Configuration { get; }
 
@@ -26,6 +23,7 @@ namespace RH.Apps.Web.SPA.Server
 		{
 			Configuration = configuration;
 			_hostEnvironment = hostEnvironment;
+			_runtime = Configuration.GetValue<string>("Runtime");
 		}
 
 		// This method gets called by the runtime. Use this method to add services to the container.
@@ -115,14 +113,15 @@ namespace RH.Apps.Web.SPA.Server
 			}
 
 			//app.UseHttpsRedirection();
-			app.UseBlazorFrameworkFiles();
+			if (_runtime.Equals("Client", StringComparison.OrdinalIgnoreCase))
+				app.UseBlazorFrameworkFiles();
 			app.UseStaticFiles();
 
 			app.UseRouting();
 
-			app.UseIdentityServer();
-			app.UseAuthentication();
-			app.UseAuthorization();
+			//app.UseIdentityServer();
+			//app.UseAuthentication();
+			//app.UseAuthorization();
 
 			app.UseEndpoints(endpoints =>
 			{
