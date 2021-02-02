@@ -62,24 +62,20 @@
 
 	<environment include="Development">
 	@if (runtime == "Client")
-	{
-		<script src="scripts/decode.js"></script>
+	{		
+		<script src="_framework/blazor.webassembly.js"></script>
+		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
 	}	 
 	</environment>
 
 	<environment include="Staging,Production">
-	@if (runtime == "Client")
-	{
-		<script src="scripts/decode.min.js"></script>
-	}
+	
 	</environment>
 
 	<environment include="Development,Staging,Production">
 	@if (runtime == "Client")
-	{
-		<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
-		<script src="_framework/blazor.webassembly.js"></script>
-		
+	{	
+		<script src="scripts/decode.js"></script>
 		<script>
 			Blazor.start({
 				loadBootResource: function (type, name, defaultUri, integrity) {
@@ -107,7 +103,7 @@
 						case 'timezonedata':
 						return `https://my-awesome-cdn.com/blazorwebassembly/5.0.102/${name}`;
 					}
-				})
+				}
 			})();
 		</script>
 	}
