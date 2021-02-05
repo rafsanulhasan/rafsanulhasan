@@ -1,0 +1,58 @@
+{
+	"iisSettings": {
+		"windowsAuthentication": false,
+		"anonymousAuthentication": true,
+		"iisExpress": {
+			"applicationUrl": "http://localhost:25104",
+			"sslPort": 44336
+		}
+	},
+	"profiles": {
+		"IIS Express": {
+			"commandName": "IISExpress",
+			"launchBrowser": true,
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		"RH Lite (Watch)": {
+			"commandName": "Executable",
+			"executablePath": "dotnet",
+			"commandLineArgs": "watch run --urls=https://localhost:7007;http://localhost:8007",
+			"dotnetRunMessages": "true",
+			"workingDirectory": ".",
+			"launchBrowser": false,
+			"applicationUrl": "https://localhost:7007;http://localhost:8007",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		"Dev": {
+			"commandName": "Project",
+			"dotnetRunMessages": "true",
+			"launchBrowser": false,
+			"applicationUrl": "https://localhost:7006;http://localhost:8006",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Development"
+			}
+		},
+		"Staging": {
+			"commandName": "Project",
+			"dotnetRunMessages": "true",
+			"launchBrowser": false,
+			"applicationUrl": "https://localhost:7005;http://localhost:8005",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production"
+			}
+		},
+		"Prod": {
+			"commandName": "Project",
+			"dotnetRunMessages": "true",
+			"launchBrowser": false,
+			"applicationUrl": "https://localhost:7004;http://localhost:8004",
+			"environmentVariables": {
+				"ASPNETCORE_ENVIRONMENT": "Production"
+			}
+		}
+	}
+}

@@ -1,0 +1,67 @@
+﻿@page "/"
+@namespace RH.Apps.Web.SPA.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@using System
+@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Hosting
+@using RH.Apps.Web.SPA.Client
+@using Microsoft.JSInterop
+
+@inject IConfiguration Configuration
+@inject IHostEnvironment HostEnvironment
+@inject IServiceProvider ServiceProvider
+@inject IJSRuntime JS
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>Rafsanul Hasan</title>
+	<base href="/" />
+
+	<environment include="Development">
+		<link href="_content/RH.Apps.Web.SPA.Shared.Components/libraries/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />		
+		<link href="_content/RH.Apps.Web.SPA.Shared.Components/styles/app.css" rel="stylesheet" />
+	</environment>
+	<environment include="Staging,Production">
+		<link href="_content/RH.Apps.Web.SPA.Shared.Components/libraries/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="_content/RH.Apps.Web.SPA.Shared.Components/styles/app.min.css" rel="stylesheet" />
+	</environment>
+
+	<link href="manifest.json" rel="manifest" />
+	<link href="RH.Apps.Web.SPA.Client.styles.css" rel="stylesheet" />
+	<link href="_content/RH.Apps.Web.SPA.Shared.Components/assets/icons/icon-512.png" rel="apple-touch-icon" sizes="512x512" />
+</head>
+
+<body>
+	<component id="app" type="@typeof(App)" render-mode="WebAssemblyPrerendered" />
+	
+	<div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+     </div>
+
+	@*<script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>*@
+	<script src="_framework/blazor.webassembly.js" type="text/javascript"></script>		
+	<script>navigator.serviceWorker.register('service-worker.js');</script>
+
+	<environment include="Development" exclude="Staging,Production">	
+	@*<script src="scripts/decode.js"></script>*@		
+	</environment>
+
+	<environment include="Staging,Production">
+	@*<script src="scripts/decode.min.js"></script>*@
+	</environment>
+
+</body>
+
+</html>

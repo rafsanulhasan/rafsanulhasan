@@ -1,0 +1,90 @@
+﻿@using Microsoft.Extensions.Configuration
+
+@inject IConfiguration Configuration
+@inject IRuntimeService RuntimeService
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+@implements IDisposable
+
+<div class="top-row pl-4 navbar navbar-dark">
+	<a class="navbar-brand" href="">Rafsanul Hasan</a>
+	@if (_runtime == BlazorRuntimes.WebAssembly)
+     {
+	<strong class="navbar-brand"> PWA</strong>
+	} 
+     else
+     {
+	<strong class="navbar-brand"> Lite</strong>
+	}
+	<button class="navbar-toggler" @onclick="ToggleNavMenu">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+	<ul class="nav flex-column">
+		<li class="nav-item px-3">
+			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+				<span class="oi oi-home" aria-hidden="true"></span> Home
+			</NavLink>
+		</li>
+		<li class="nav-item px-3">
+			<NavLink class="nav-link" href="counter">
+				<span class="oi oi-plus" aria-hidden="true"></span> Counter
+			</NavLink>
+		</li>
+		<li class="nav-item px-3">
+			<NavLink class="nav-link" href="fetchdata">
+				<span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+			</NavLink>
+		</li>
+		<li class="nav-item px-3">
+			<NavLink class="nav-link" @onclick="@(()=>Nav.NavigateTo(_switchUri))">
+				<span class="oi oi-list-rich" aria-hidden="true"></span> Switch to @(_runtime == BlazorRuntimes.WebAssembly ? "Lite" : "PWA")
+			</NavLink>
+		</li>
+	</ul>
+</div>
+
+@code {
+	private bool collapseNavMenu = true;
+   private BlazorRuntimes _runtime;
+   private string _switchUri;
+
+   private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+   private void ToggleNavMenu()
+   {
+	  collapseNavMenu = !collapseNavMenu;
+   }
+
+   private void HandleLocationChanged(string location) 
+   {
+	  _switchUri = Configuration.GetSection("AppSettings").Get<AppSettings>().SwitchUri;
+	  var paths = location.Split("/");
+	  var path = paths.Length > 2
+	           ? string.Join("/", paths.Skip(3).Take(paths.Length - 3))
+			 : "";
+	  _switchUri = $"{_switchUri}/{path}";	 
+   }
+
+   private void LocationChanged(object sender, LocationChangedEventArgs e) 
+   {
+	  _runtime = RuntimeService.GetRuntime();
+       HandleLocationChanged(e.Location);
+   }
+
+   protected override void OnInitialized()
+   {
+	  _runtime = RuntimeService.GetRuntime();
+       HandleLocationChanged(Nav.Uri);
+	  
+       Nav.LocationChanged += LocationChanged;
+   }
+
+   public void Dispose() 
+   {
+       Nav.LocationChanged -= LocationChanged;
+   }
+}

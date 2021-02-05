@@ -11,7 +11,7 @@
           - SSLPassword=rafsanssl2020
         build:
           context: .
-          dockerfile: Applications/Web/SPA/Client/Dockerfile.debug
+          dockerfile: Applications/Web/SPA/PWA/Server/Dockerfile.debug
         extra_hosts:
           - "RHWASM:172.16.1.2"
         ports:

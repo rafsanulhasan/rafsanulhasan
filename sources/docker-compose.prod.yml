@@ -1,60 +1,63 @@
-version: '3.4'
+    version: '3.4'
 
-services:
-  rafsandb:
-    image: mcr.microsoft.com/mssql/server:2017-latest 
-  rafsanwebapp-client:
-    image: rafsanulhasan/rafsanulhasanapp/clientwebapp:latest
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Password="Dragon404"
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/DevSkill.Web.pfx
-      - ASPNETCORE_URLS=http://+:54381;https://+:44311;http://0.0.0.0:54381;https://0.0.0.0:44311;http://120.50.14.60:8000;https://120.50.14.60:9000;http://120.50.14.61:8000;https://120.50.14.61:9000
-      - ASPNETCORE_HTTPS_PORT=44331
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=${DefaultConnection:-Server=120.50.14.60;Database=DevSkillV2;User Id=sa;Password=Dragon404; Persist Security Info=true; MultipleActiveResultSet=true}
-      #- NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
-      - NODE_ENV=Development
-    build:
-      context: .
-      dockerfile: Applications/DevSkill.Web/Dockerfile.debug
-    extra_hosts:
-      - "devskillwebserver:10.0.75.1"
-    ports:
-      - "54381:54381"
-      - "44331:44311"
-      - "10.0.75.1:54381:54381"
-      - "10.0.75.1:44331:44311"
-    volumes:
-      - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
-      #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
-      - ${APPDATA}/Local/mkcert:/root/.local/share/mkcert/:rw
-      #- ${USERPROFILE}\.nuget\packages:/root/.nuget/packages:ro
-      #- ${ProgramFiles}\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
+    services:
+      #rafsandb:
+        #image: mcr.microsoft.com/mssql/server:2017-latest 
+      rafsanwebapp-client:
+        image: rafsanulhasan-clientwebapp:vs
+        environment:
+           - ASPNETCORE_ENVIRONMENT=Staging
+           - ASPNETCORE_Kestrel__Certificates__Default__Password="Dragon404"
+           - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/DevSkill.Web.pfx
+           - ASPNETCORE_URLS=http://+:54381;https://+:44311;http://0.0.0.0:54381;https://0.0.0.0:44311;http://120.50.14.60:8000;https://120.50.14.60:9000;http://120.50.14.61:8000;https://120.50.14.61:9000
+           - ASPNETCORE_HTTPS_PORT=44331
+           - ASPNETCORE_ConnectionStrings__DefaultConnection=${DefaultConnection:-Server=120.50.14.60;Database=DevSkillV2;User Id=sa;Password=Dragon404; Persist Security Info=true; MultipleActiveResultSet=true}
+           #- NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
+           - NODE_ENV=Development
+        build:
+          context: .
+          dockerfile: Applications/Web/SPA/PWA/Server/Dockerfile.debug
+        extra_hosts:
+          - "www.rafsanulhasan.xyz:172.16.1.2"
+        ports:
+          - "5400:80"
+          - "5500:443"
+        volumes:
+          - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
+          #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
+          - ${APPDATA}/Roaming/mkcert:/root/.local/share/mkcert/:rw
+          - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages:ro
+          - ${ProgramFiles}/dotnet/sdk/NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
 
-  rafsanwebapp-server:
-    image: rafsanulhasan/rafsanulhasanapp/serverwebappandapi:latest
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_Kestrel__Certificates__Default__Password="Dragon404"
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/DevSkill.Services.Membership.pfx
-      - ASPNETCORE_URLS=http://+:54382;https://+:44312;http://0.0.0.0:54382;https://0.0.0.0:44312;http://120.50.14.60:8001;https://120.50.14.60:9001;http://120.50.14.61:8001;https://120.50.14.61:9001
-      - ASPNETCORE_HTTPS_PORT=44332
-      - ASPNETCORE_ConnectionStrings__DefaultConnection=${DefaultConnection:-Server=120.50.14.60;Database=DevSkillV2;User Id=sa;Password=Dragon404; Persist Security Info=true; MultipleActiveResultSet=true}
-      #- NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
-      - NODE_ENV=Development
-    build:
-      context: .
-      dockerfile: Services/DevSkill.Services.Membership/Dockerfile.debug
-    extra_hosts:
-      - "devskillauthserver:10.0.75.1"
-    ports:
-      - "54381:54381"
-      - "44332:44312"
-      - "10.0.75.1:54382:54382"
-      - "10.0.75.1:44332:44312"
-    volumes:
-      - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
-      #- ${APPDATA}/Roaming/ASP.NET/Https:/root/.aspnet/https/:ro
-      - ${APPDATA}/Local/mkcert:/root/.local/share/mkcert/:rw
-      #- ${USERPROFILE}\.nuget\packages:/root/.nuget/packages:ro
-      #- ${ProgramFiles}\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
+      rafsanwebapp-server:
+        image: rafsanulhasan-serverwebappandapi:vs
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          #- ASPNETCORE_Kestrel__Certificates__Default__Password="Dragon404"
+          #- ASPNETCORE_Kestrel__Certificates__Default__Path=/app/DevSkill.Services.Membership.pfx
+          - ASPNETCORE_URLS=http://+:80;https://+:443;
+          - ASPNETCORE_HTTPS_PORT=443
+          #- ASPNETCORE_ConnectionStrings__DefaultConnection=${DefaultConnection:-Server=120.50.14.60;Database=DevSkillV2;User Id=sa;Password=Dragon404; Persist Security Info=true; MultipleActiveResultSet=true}
+          - NUGET_FALLBACK_PACKAGES=/root/.nuget/fallbackpackages;/root/.nuget/fallbackpackages2
+          - ASPNETCORE_HTTPServer__EndPoints__Http__Host=localhost
+          - ASPNETCORE_HTTPServer__EndPoints__Http__Port=80
+          - ASPNETCORE_HTTPServer__EndPoints__Http__Scheme=http
+          - ASPNETCORE_HTTPServer__EndPoints__Https__Host=localhost
+          - ASPNETCORE_HTTPServer__EndPoints__Https__Port=443
+          - ASPNETCORE_HTTPServer__EndPoints__Https__Scheme=http
+          - ASPNETCORE_HTTPServer__EndPoints__Https__FilePath=/root/.aspnet/https/RH.Apps.Web.SPA.Lite.pfx
+          - SSLPassword=rafsanssl2020
+        build:
+          context: .
+          dockerfile: Applications/Web/SPA/Lite/Dockerfile.debug
+        extra_hosts:
+          - "lite.rafsanulhasan.xyz:172.16.1.2"
+        ports:
+          - "5401:80"
+          - "5501:443"
+        volumes:
+          - ${APPDATA}/Roaming/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
+          - ${APPDATA}/Roamin4g/ASP.NET/Https:/root/.aspnet/https/:ro
+          #- ${APPDATA}/Roaming/mkcert:/root/.local/share/mkcert/:rw
+          - ${USERPROFILE}/.nuget/packages:/root/.nuget/packages:ro
+          - ${ProgramFiles}/dotnet/sdk/NuGetFallbackFolder:/root/.nuget/fallbackpackages2:ro
