@@ -6,7 +6,7 @@ using RH.Apps.Web.SPA.Client.Pages;
 
 using Xunit;
 
-namespace RH.Apps.Web.SPA.Lite.Tests
+namespace RH.Apps.Web.SPA.Tests
 {
 	[ExcludeFromCodeCoverage]
 	/// <summary>
