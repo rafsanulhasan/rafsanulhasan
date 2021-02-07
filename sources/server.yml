@@ -113,9 +113,9 @@ stages:
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          sourceFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0' # Optional
           contents: '*.*' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          targetFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0\ref'
           cleanTargetFolder: false # Optional
           overWrite: false # Optional
           failOnStderr: true
@@ -290,9 +290,9 @@ stages:
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          sourceFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0' # Optional
           contents: '*.*' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          targetFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0\ref'
           cleanTargetFolder: false # Optional
           overWrite: false # Optional
           failOnStderr: true
@@ -467,9 +467,9 @@ stages:
       - task: CopyFiles@2
         displayName: 'Copy bin files'
         inputs:
-          sourceFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0' # Optional
+          sourceFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0' # Optional
           contents: '*.*' 
-          targetFolder: '$(testDir)\$(testProjectName)\bin\$(buildConfiguration)\net5.0\ref'
+          targetFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0\ref'
           cleanTargetFolder: false # Optional
           overWrite: false # Optional
           failOnStderr: true
