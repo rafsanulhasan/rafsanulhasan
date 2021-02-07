@@ -15,12 +15,7 @@ namespace RH.Apps.Web.SPA.Client
 		public static async Task Main(string[] args)
 		{
 			var builder = WebAssemblyHostBuilder.CreateDefault(args);
-			//builder.RootComponents.Add<App>("#app");
-
-			builder.Services
-				.AddHttpClient("RH.Apps.Web.SPA.ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-				//.AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>()
-				;
+			//builder.RootComponents.Add<App>("#app");			
 
 			// Supply HttpClient instances that include access tokens when making requests to the server project
 			builder.Services.AddSingleton<IRuntimeService, AppSettingsService>();
