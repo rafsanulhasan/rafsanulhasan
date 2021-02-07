@@ -27,11 +27,11 @@ variables:
   srcDir: '$(System.DefaultWorkingDirectory)\sources'
   appDir: '$(srcDir)\Applications'
   solution: '$(srcDir)/*.sln'
-  projects: '$(appDir)/Web/SPA/Server/RH.Apps.Web.SPA.Lite.csproj'
-  serverProjectDir: '$(appDir)/Web/SPA/Server'
+  projects: '$(appDir)/Web/SPA/Lite/RH.Apps.Web.SPA.Lite.csproj'
+  serverProjectDir: '$(appDir)/Web/SPA/Lite'
   serverProjectName: 'RH.Apps.Web.SPA.Lite'
-  clientProjectDir: '$(appDir)/Web/SPA/Client'
-  clientProjectName: 'RH.Apps.Web.SPA'
+  clientProjectDir: '$(appDir)/Web/SPA/PWA/Server'
+  clientProjectName: 'RH.Apps.Web.SPA.Server'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   isPR: $[eq(variables['Build.Reason'], 'PullRequest')]
@@ -49,8 +49,8 @@ variables:
   Version.Revision.Preview: $[counter(variables.Version.Revision.Preview)]
   Version.Revision.Prod: $[counter(variables.Version.Revision.Prod)]
   vmImageName: 'windows-latest'
-  testDir: '$(srcDir)\Tests'
-  testProjectName: 'Lite.Tests'
+  testDir: '$(srcDir)\Tests\UnitTests'
+  testProjectName: 'RH.Apps.Web.SPA'
 
 stages:
 - stage: dev
@@ -94,7 +94,7 @@ stages:
         displayName: 'Build & Test'  
         inputs:
           command: test
-          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj' 
+          projects: '$(testDir)\$(testProjectName).Tests.csproj' 
           arguments: '-c $(buildConfiguration) -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           publishTestResults: false # Optional
           testRunTitle: 'Test Server App'# Optional
@@ -271,7 +271,7 @@ stages:
         displayName: 'Build & Test'  
         inputs:
           command: test
-          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj' 
+          projects: '$(testDir)\$(testProjectName).Tests.csproj' 
           arguments: '-c $(buildConfiguration) -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           publishTestResults: false # Optional
           testRunTitle: 'Test Server App'# Optional
@@ -448,7 +448,7 @@ stages:
         displayName: 'Build & Test'  
         inputs:
           command: test
-          projects: '$(testDir)\$(testProjectName)\$(serverProjectName).Tests.csproj' 
+          projects: '$(testDir)\$(testProjectName).Tests.csproj' 
           arguments: '-c $(buildConfiguration) -s $(srcDir)\.runsettings -l trx;verbosity=detailed -l console;verbosity=detailed -v minimal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=$(testDir)\$(testProjectName)\TestResults\'
           publishTestResults: false # Optional
           testRunTitle: 'Test Server App'# Optional
