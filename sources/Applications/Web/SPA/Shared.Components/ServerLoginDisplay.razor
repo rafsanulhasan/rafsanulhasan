@@ -13,9 +13,11 @@
     </NotAuthorized>
 </AuthorizeView>*@
 
-@code{
-    private async Task BeginSignOut(MouseEventArgs args)
-    {
-        Navigation.NavigateTo("authentication/logout");
-    }
+@code
+{
+   private async Task BeginSignOut(MouseEventArgs args)
+   {
+	  await Task.CompletedTask;
+	  Navigation.NavigateTo("authentication/logout");
+   }
 }

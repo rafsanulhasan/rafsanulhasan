@@ -3,10 +3,12 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<LangVersion>9.0</LangVersion>
-		<RazorLangVerson>3.0</RazorLangVerson>
+		<RazorLangVersion>5.0</RazorLangVersion>
+		<Nullable>enable</Nullable>
 		<UserSecretsId>RH.Apps.Web.SPA.Server-BA9474FC-D54A-4C20-BC3E-02CC7640C9AA</UserSecretsId>
-		<SupportRazorPages>true</SupportRazorPages>
 		<CodeAnalysisRuleSet>..\..\..\..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
+		<AnalysisLevel>5.0</AnalysisLevel>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
 	</PropertyGroup>
 
 	<ItemGroup>

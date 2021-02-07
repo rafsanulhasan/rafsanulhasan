@@ -2,6 +2,6 @@
 {
 	public class AppSettings
 	{
-		public string SwitchUri { get; set; }
+		public string SwitchUri { get; set; } = string.Empty;
 	}
 }

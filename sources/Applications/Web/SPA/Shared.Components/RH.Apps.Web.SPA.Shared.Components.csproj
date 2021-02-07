@@ -1,20 +1,33 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<RazorLangVersion>5.0</RazorLangVersion>
+		<Nullable>enable</Nullable>
+		<CodeAnalysisRuleSet>..\..\..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
+		<OutputType>Library</OutputType>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
+		<AnalysisLevel>5.0</AnalysisLevel>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\..\..\.sonarlint\rafsanulhasan-dev-key\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PWA\Shared\RH.Apps.Web.SPA.Shared.csproj" />
-  </ItemGroup>
-  
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Analyzers" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="5.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Razor" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+	</ItemGroup>
 
-
+	<ItemGroup>
+		<ProjectReference Include="..\PWA\Shared\RH.Apps.Web.SPA.Shared.csproj" />
+	</ItemGroup>
 </Project>

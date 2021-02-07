@@ -2,7 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+	  <LangVersion>9.0</LangVersion>
+	  <RazorLangVersion>5.0</RazorLangVersion>
+	  <Nullable>enable</Nullable>
+    <CodeAnalysisRuleSet>..\..\..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <AnalysisLevel>5.0</AnalysisLevel>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\..\..\.sonarlint\rafsanulhasan-dev-key\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PWA\Shared\RH.Apps.Web.SPA.Shared.csproj" />

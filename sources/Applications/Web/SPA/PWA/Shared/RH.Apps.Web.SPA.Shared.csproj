@@ -1,15 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <CodeAnalysisRuleSet>..\..\..\..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<CodeAnalysisRuleSet>..\..\..\..\..\.sonarlint\rafsanulhasan-dev-keycsharp.ruleset</CodeAnalysisRuleSet>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
+		<AnalysisLevel>5.0</AnalysisLevel>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\..\..\..\.sonarlint\rafsanulhasan-dev-key\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<AdditionalFiles Include="..\..\..\..\..\.sonarlint\rafsanulhasan-dev-key\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <SupportedPlatform Include="browser" />
-  </ItemGroup>
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+	</ItemGroup>
 </Project>

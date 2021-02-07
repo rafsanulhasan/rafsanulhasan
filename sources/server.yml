@@ -471,7 +471,7 @@ stages:
           contents: '*.*' 
           targetFolder: '$(testDir)\bin\$(buildConfiguration)\net5.0\ref'
           cleanTargetFolder: false # Optional
-          overWrite: false # Optional
+          overWrite: true # Optional
           failOnStderr: true
       - task: VSTest@2
         displayName: 'Test'    

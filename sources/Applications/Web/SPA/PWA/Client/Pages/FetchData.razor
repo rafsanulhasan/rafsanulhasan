@@ -1,5 +1,4 @@
 ﻿@page "/fetchdata"
-@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using RH.Apps.Web.SPA.Shared
 @*@attribute [Authorize]*@
@@ -24,23 +23,14 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
         </tbody>
     </table>
 }
 
 @code {
-    private WeatherForecast[] forecasts;
+    private WeatherForecast[] forecasts = new WeatherForecast[0];
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         try
         {
@@ -51,5 +41,4 @@ else
             exception.Redirect();
         }
     }
-
 }
